@@ -1,0 +1,1142 @@
+namedtuple: tuplas con campos nombrados y acceso por atributo
+
+Las tuplas son una estructura de datos inmutable en Python que nos permite almacenar colecciones ordenadas de elementos. Sin embargo, cuando trabajamos con tuplas que representan entidades con múltiples atributos, acceder a los elementos por índice puede resultar poco intuitivo y propenso a errores.
+
+# Usando una tupla tradicional para representar un punto
+punto = (10, 20)
+x = punto[0]  # Acceso por índice
+y = punto[1]  # ¿Qué representa el índice 1? No es obvio
+
+El módulo collections de Python ofrece una solución elegante a este problema mediante namedtuple, una fábrica de subclases de tuplas que permite acceder a los elementos tanto por índice como por nombre.
+Creando namedtuples
+
+Para crear una namedtuple, necesitamos importar la clase desde el módulo collections y definir un nuevo tipo:
+
+from collections import namedtuple
+
+# Sintaxis básica: namedtuple(nombre_tipo, [lista_de_campos])
+Punto = namedtuple('Punto', ['x', 'y'])
+
+# Creamos una instancia
+p = Punto(10, 20)
+
+También podemos definir los campos como una cadena separada por espacios o comas:
+
+# Usando una cadena con espacios
+Persona = namedtuple('Persona', 'nombre edad profesion')
+
+# Usando una cadena con comas
+Direccion = namedtuple('Direccion', 'calle,numero,ciudad,codigo_postal')
+
+Accediendo a los elementos
+
+La principal ventaja de namedtuple es que podemos acceder a los elementos de dos formas:
+
+from collections import namedtuple
+
+Punto = namedtuple('Punto', ['x', 'y'])
+p = Punto(10, 20)
+
+# Acceso por nombre (como atributo)
+print(p.x)  # 10
+print(p.y)  # 20
+
+# Acceso por índice (como tupla normal)
+print(p[0])  # 10
+print(p[1])  # 20
+
+# Desempaquetado como tupla normal
+x, y = p
+print(x, y)  # 10 20
+
+Esta dualidad hace que las namedtuples sean muy versátiles, combinando la eficiencia de las tuplas con la claridad del acceso por nombre.
+Métodos y atributos especiales
+
+Las namedtuples heredan todos los métodos de las tuplas y añaden algunos propios:
+
+from collections import namedtuple
+
+Empleado = namedtuple('Empleado', 'nombre departamento salario')
+e = Empleado('Ana', 'Desarrollo', 45000)
+
+# Convertir a diccionario
+print(e._asdict())  # {'nombre': 'Ana', 'departamento': 'Desarrollo', 'salario': 45000}
+
+# Ver los nombres de los campos
+print(e._fields)  # ('nombre', 'departamento', 'salario')
+
+# Crear una nueva instancia reemplazando valores
+e2 = e._replace(salario=50000)
+print(e2)  # Empleado(nombre='Ana', departamento='Desarrollo', salario=50000)
+
+Valores por defecto
+
+En versiones recientes de Python, podemos asignar valores por defecto a los campos:
+
+from collections import namedtuple
+
+# Usando defaults para asignar valores predeterminados
+Configuracion = namedtuple('Configuracion', ['host', 'puerto', 'usuario', 'timeout'])
+config_default = Configuracion._make(['localhost', 8080, 'admin', 30])
+
+# En Python 3.7+ podemos usar defaults directamente
+Configuracion = namedtuple('Configuracion', 'host puerto usuario timeout', defaults=['localhost', 8080, 'admin', 30])
+config = Configuracion()
+print(config)  # Configuracion(host='localhost', puerto=8080, usuario='admin', timeout=30)
+
+# También podemos sobrescribir algunos valores
+config_custom = Configuracion(puerto=9090, timeout=60)
+print(config_custom)  # Configuracion(host='localhost', puerto=9090, usuario='admin', timeout=60)
+
+Casos de uso prácticos
+
+Las namedtuples son ideales para representar registros o estructuras de datos inmutables con campos fijos:
+
+from collections import namedtuple
+import datetime
+
+# Representando datos estructurados
+Transaccion = namedtuple('Transaccion', 'id fecha monto descripcion')
+
+# Creando instancias
+t1 = Transaccion(1, datetime.date(2023, 5, 15), 150.75, "Compra de libros")
+t2 = Transaccion(2, datetime.date(2023, 5, 16), 49.99, "Suscripción mensual")
+
+# Procesando datos de manera clara
+def calcular_total(transacciones):
+    return sum(t.monto for t in transacciones)
+
+total = calcular_total([t1, t2])
+print(f"Total gastado: {total}")  # Total gastado: 200.74
+
+Ventajas sobre diccionarios y clases
+
+Las namedtuples ofrecen varias ventajas en comparación con otras estructuras:
+
+    Más eficientes en memoria que los diccionarios para datos fijos
+    Inmutables, lo que las hace seguras para usar como claves en diccionarios
+    Más concisas que definir clases completas para estructuras de datos simples
+    Autocontenidas, con representación de cadena clara y métodos útiles
+
+from collections import namedtuple
+
+# Comparación con un diccionario
+punto_dict = {'x': 10, 'y': 20}
+print(punto_dict['x'])  # Requiere sintaxis de diccionario
+
+# Comparación con namedtuple
+Punto = namedtuple('Punto', ['x', 'y'])
+punto = Punto(10, 20)
+print(punto.x)  # Sintaxis más clara y concisa
+
+Limitaciones
+
+A pesar de sus ventajas, las namedtuples tienen algunas limitaciones:
+
+    Son inmutables, por lo que no se pueden modificar después de creadas (aunque esto también puede ser una ventaja)
+    No permiten añadir métodos personalizados como las clases normales
+    No tienen validación de tipos incorporada (aunque esto se puede solucionar con typing.NamedTuple)
+
+Integración con typing para anotaciones de tipo
+
+Para proyectos donde la seguridad de tipos es importante, Python ofrece una versión mejorada en el módulo typing:
+
+from typing import NamedTuple
+
+class Punto(NamedTuple):
+    x: int
+    y: int
+    etiqueta: str = "Sin etiqueta"  # Valor por defecto
+    
+p = Punto(10, 20)
+print(p)  # Punto(x=10, y=20, etiqueta='Sin etiqueta')
+
+# Con anotaciones de tipo, el IDE puede ofrecer mejor autocompletado
+# y detectar errores de tipo en tiempo de desarrollo
+
+Las namedtuples son una herramienta versátil que combina la eficiencia de las tuplas con la claridad del acceso por nombre, lo que las convierte en una excelente opción para representar datos estructurados inmutables en Python.
+defaultdict y Counter: diccionarios especializados para valores por defecto y conteo
+
+Los diccionarios son estructuras de datos fundamentales en Python que permiten almacenar pares clave-valor. Sin embargo, en ciertos escenarios de programación, los diccionarios estándar pueden resultar limitados. El módulo collections ofrece variantes especializadas que resuelven problemas comunes: defaultdict para manejar valores por defecto y Counter para realizar conteos eficientes.
+defaultdict: diccionarios con valores predeterminados
+
+Cuando trabajamos con diccionarios normales e intentamos acceder a una clave inexistente, Python lanza un error KeyError:
+
+diccionario = {}
+# print(diccionario["clave_inexistente"])  # KeyError: 'clave_inexistente'
+
+Para evitar este error, normalmente verificamos si la clave existe antes de acceder a ella o usamos el método .get():
+
+# Verificación previa
+if "clave" in diccionario:
+    valor = diccionario["clave"]
+else:
+    valor = 0
+    
+# Usando .get()
+valor = diccionario.get("clave", 0)
+
+La clase defaultdict simplifica este proceso al permitir especificar un valor predeterminado para claves inexistentes:
+
+from collections import defaultdict
+
+# Creamos un defaultdict con valor predeterminado 0
+contador = defaultdict(int)
+
+# Podemos acceder a claves inexistentes sin errores
+print(contador["a"])  # 0 (valor por defecto para int)
+
+# Incrementamos contadores fácilmente
+contador["a"] += 1
+contador["b"] += 1
+contador["a"] += 1
+
+print(contador)  # defaultdict(<class 'int'>, {'a': 2, 'b': 1})
+
+El argumento que pasamos al constructor de defaultdict es una función factoría que se llama cuando se intenta acceder a una clave inexistente. Esta función debe devolver el valor predeterminado.
+Funciones factoría comunes
+
+Podemos usar diferentes funciones factoría según nuestras necesidades:
+
+from collections import defaultdict
+
+# Con int: valores predeterminados 0
+contadores = defaultdict(int)
+
+# Con list: listas vacías como valor predeterminado
+agrupacion = defaultdict(list)
+agrupacion["frutas"].append("manzana")
+agrupacion["frutas"].append("pera")
+agrupacion["verduras"].append("zanahoria")
+
+print(agrupacion)  
+# defaultdict(<class 'list'>, {'frutas': ['manzana', 'pera'], 'verduras': ['zanahoria']})
+
+# Con set: conjuntos vacíos
+tags = defaultdict(set)
+tags["python"].add("programación")
+tags["python"].add("lenguaje")
+tags["python"].add("programación")  # Los duplicados se eliminan automáticamente
+
+print(tags)  
+# defaultdict(<class 'set'>, {'python': {'programación', 'lenguaje'}})
+
+Funciones factoría personalizadas
+
+También podemos definir nuestras propias funciones factoría:
+
+from collections import defaultdict
+
+# Función que devuelve un valor predeterminado personalizado
+def valor_predeterminado():
+    return "No disponible"
+
+datos = defaultdict(valor_predeterminado)
+print(datos["nombre"])  # "No disponible"
+
+# También podemos usar funciones lambda
+config = defaultdict(lambda: {"activo": False, "prioridad": "baja"})
+print(config["servidor"])  # {'activo': False, 'prioridad': 'baja'}
+
+Casos de uso prácticos para defaultdict
+
+El defaultdict es especialmente útil para:
+
+    Agrupar elementos por una característica común:
+
+from collections import defaultdict
+
+# Agrupar personas por ciudad
+personas = [
+    ("Ana", "Madrid"),
+    ("Carlos", "Barcelona"),
+    ("Luis", "Madrid"),
+    ("Elena", "Valencia"),
+    ("Miguel", "Barcelona")
+]
+
+por_ciudad = defaultdict(list)
+for nombre, ciudad in personas:
+    por_ciudad[ciudad].append(nombre)
+
+print(por_ciudad)
+# defaultdict(<class 'list'>, {'Madrid': ['Ana', 'Luis'], 'Barcelona': ['Carlos', 'Miguel'], 'Valencia': ['Elena']})
+
+    Contar ocurrencias (aunque para esto Counter es más adecuado):
+
+from collections import defaultdict
+
+texto = "mississippi"
+frecuencia = defaultdict(int)
+
+for letra in texto:
+    frecuencia[letra] += 1
+    
+print(frecuencia)
+# defaultdict(<class 'int'>, {'m': 1, 'i': 4, 's': 4, 'p': 2})
+
+    Construir estructuras de datos anidadas:
+
+from collections import defaultdict
+
+# Árbol de categorías y subcategorías
+taxonomia = defaultdict(lambda: defaultdict(list))
+
+taxonomia["animales"]["mamíferos"].append("perro")
+taxonomia["animales"]["mamíferos"].append("gato")
+taxonomia["animales"]["reptiles"].append("lagarto")
+taxonomia["plantas"]["árboles"].append("roble")
+
+print(taxonomia["animales"]["mamíferos"])  # ['perro', 'gato']
+print(taxonomia["plantas"]["flores"])  # [] (lista vacía creada automáticamente)
+
+Counter: especializado en conteos
+
+La clase Counter es un diccionario especializado para contar objetos hashables. Es una herramienta extremadamente útil para tareas de conteo y análisis de frecuencias:
+
+from collections import Counter
+
+# Crear un Counter a partir de una secuencia
+texto = "mississippi"
+conteo = Counter(texto)
+
+print(conteo)  # Counter({'i': 4, 's': 4, 'p': 2, 'm': 1})
+
+Métodos específicos de Counter
+
+Counter proporciona métodos especializados para operaciones de conteo:
+
+from collections import Counter
+
+palabras = ["gato", "perro", "pájaro", "gato", "perro", "gato", "ratón"]
+conteo = Counter(palabras)
+
+# Elementos más comunes
+print(conteo.most_common(2))  # [('gato', 3), ('perro', 2)]
+
+# Todos los elementos ordenados por frecuencia
+print(conteo.most_common())  # [('gato', 3), ('perro', 2), ('pájaro', 1), ('ratón', 1)]
+
+# Obtener una lista de todos los elementos (repetidos según su conteo)
+print(list(conteo.elements()))  
+# ['gato', 'gato', 'gato', 'perro', 'perro', 'pájaro', 'ratón']
+
+Operaciones matemáticas con Counter
+
+Una característica poderosa de Counter es que soporta operaciones matemáticas:
+
+from collections import Counter
+
+c1 = Counter(a=3, b=1, c=2)
+c2 = Counter(a=1, b=2, d=3)
+
+# Suma (unión con suma de conteos)
+print(c1 + c2)  # Counter({'a': 4, 'd': 3, 'b': 3, 'c': 2})
+
+# Resta (mantiene solo conteos positivos)
+print(c1 - c2)  # Counter({'a': 2, 'c': 2})
+
+# Intersección (mínimo de conteos)
+print(c1 & c2)  # Counter({'a': 1, 'b': 1})
+
+# Unión (máximo de conteos)
+print(c1 | c2)  # Counter({'a': 3, 'd': 3, 'c': 2, 'b': 2})
+
+Casos de uso prácticos para Counter
+
+Counter es ideal para:
+
+    Análisis de texto y procesamiento de lenguaje natural:
+
+from collections import Counter
+import re
+
+texto = """Python es un lenguaje de programación interpretado cuya filosofía 
+hace hincapié en la legibilidad de su código. Es un lenguaje multiparadigma."""
+
+# Convertir a minúsculas y dividir en palabras
+palabras = re.findall(r'\w+', texto.lower())
+frecuencia = Counter(palabras)
+
+print(frecuencia.most_common(5))
+# [('es', 2), ('un', 2), ('lenguaje', 2), ('python', 1), ('de', 1)]
+
+    Encontrar elementos duplicados en una colección:
+
+from collections import Counter
+
+numeros = [1, 2, 3, 1, 4, 2, 5, 6, 1]
+conteo = Counter(numeros)
+
+# Elementos que aparecen más de una vez
+duplicados = [item for item, count in conteo.items() if count > 1]
+print(duplicados)  # [1, 2]
+
+    Comparar colecciones para encontrar similitudes y diferencias:
+
+from collections import Counter
+
+lista1 = ["manzana", "naranja", "plátano", "manzana", "pera"]
+lista2 = ["manzana", "manzana", "naranja", "kiwi", "piña"]
+
+c1 = Counter(lista1)
+c2 = Counter(lista2)
+
+# Elementos comunes (con su frecuencia mínima)
+print(c1 & c2)  # Counter({'manzana': 2, 'naranja': 1})
+
+# Elementos únicos en lista1 (no en lista2 o con mayor frecuencia)
+print(c1 - c2)  # Counter({'plátano': 1, 'pera': 1})
+
+Combinando defaultdict y Counter
+
+En algunos casos, podemos combinar ambas estructuras para soluciones más sofisticadas:
+
+from collections import defaultdict, Counter
+
+# Análisis de texto por párrafos
+texto = [
+    "Python es un lenguaje de programación. Python es versátil.",
+    "Los diccionarios son estructuras de datos en Python.",
+    "Python tiene una sintaxis clara y legible."
+]
+
+# Contar palabras por párrafo
+analisis = defaultdict(Counter)
+
+for i, parrafo in enumerate(texto):
+    palabras = parrafo.lower().replace(".", "").split()
+    analisis[f"parrafo_{i+1}"] = Counter(palabras)
+
+# Verificar frecuencia de "python" en cada párrafo
+for parrafo, contador in analisis.items():
+    print(f"{parrafo}: 'python' aparece {contador['python']} veces")
+
+# Combinar todos los contadores
+total = sum(analisis.values(), Counter())
+print("Palabras más comunes en total:", total.most_common(3))
+
+Rendimiento y eficiencia
+
+Tanto defaultdict como Counter están optimizados para sus casos de uso específicos:
+
+    defaultdict evita comprobaciones repetitivas de existencia de claves, lo que mejora el rendimiento en operaciones frecuentes de inserción y acceso.
+    Counter implementa algoritmos eficientes para conteo y operaciones matemáticas sobre frecuencias.
+
+import time
+from collections import defaultdict, Counter
+
+# Comparación de rendimiento para conteo
+lista = ["a"] * 1000000 + ["b"] * 500000 + ["c"] * 250000
+
+# Usando diccionario normal
+inicio = time.time()
+conteo_dict = {}
+for item in lista:
+    if item in conteo_dict:
+        conteo_dict[item] += 1
+    else:
+        conteo_dict[item] = 1
+tiempo_dict = time.time() - inicio
+
+# Usando defaultdict
+inicio = time.time()
+conteo_default = defaultdict(int)
+for item in lista:
+    conteo_default[item] += 1
+tiempo_default = time.time() - inicio
+
+# Usando Counter
+inicio = time.time()
+conteo_counter = Counter(lista)
+tiempo_counter = time.time() - inicio
+
+print(f"Diccionario normal: {tiempo_dict:.4f}s")
+print(f"defaultdict: {tiempo_default:.4f}s")
+print(f"Counter: {tiempo_counter:.4f}s")
+
+Estas estructuras especializadas del módulo collections son herramientas valiosas que simplifican tareas comunes de programación, mejoran la legibilidad del código y ofrecen un rendimiento optimizado para sus casos de uso específicos.
+deque: colas de doble extremo optimizadas
+
+Las estructuras de datos tradicionales como listas en Python son versátiles, pero no siempre ofrecen el mejor rendimiento para operaciones específicas. Cuando necesitamos añadir o eliminar elementos frecuentemente tanto al principio como al final de una colección, las listas pueden resultar ineficientes.
+
+# Con listas normales, insertar al principio es costoso (O(n))
+mi_lista = [1, 2, 3]
+mi_lista.insert(0, 0)  # Desplaza todos los elementos
+
+El módulo collections proporciona la clase deque (pronunciado "deck"), una implementación optimizada de colas de doble extremo (double-ended queue) que permite operaciones eficientes en ambos extremos.
+Creación y operaciones básicas
+
+Para utilizar deque, primero debemos importarlo del módulo collections:
+
+from collections import deque
+
+# Crear una deque vacía
+d = deque()
+
+# Crear una deque con elementos iniciales
+numeros = deque([1, 2, 3, 4, 5])
+texto = deque("Python")
+print(numeros)  # deque([1, 2, 3, 4, 5])
+print(texto)    # deque(['P', 'y', 't', 'h', 'o', 'n'])
+
+Las operaciones básicas de una deque son similares a las de una lista:
+
+d = deque([1, 2, 3])
+
+# Añadir elementos al final (como append en listas)
+d.append(4)
+print(d)  # deque([1, 2, 3, 4])
+
+# Añadir elementos al principio (operación eficiente)
+d.appendleft(0)
+print(d)  # deque([0, 1, 2, 3, 4])
+
+# Eliminar y devolver el último elemento
+ultimo = d.pop()
+print(ultimo)  # 4
+print(d)       # deque([0, 1, 2, 3])
+
+# Eliminar y devolver el primer elemento
+primero = d.popleft()
+print(primero)  # 0
+print(d)        # deque([1, 2, 3])
+
+Ventajas de rendimiento
+
+La principal ventaja de deque sobre las listas es su rendimiento para operaciones en ambos extremos:
+
+    Las operaciones append() y pop() en listas tienen complejidad O(1) (tiempo constante)
+    Las operaciones insert(0, x) y pop(0) en listas tienen complejidad O(n) (tiempo lineal)
+    Todas las operaciones en extremos de deque (append, appendleft, pop, popleft) tienen complejidad O(1)
+
+import time
+from collections import deque
+
+# Comparación de rendimiento: insertar al principio
+n = 100000
+
+# Con lista
+inicio = time.time()
+lista = []
+for i in range(n):
+    lista.insert(0, i)  # O(n) - cada vez más lento
+tiempo_lista = time.time() - inicio
+
+# Con deque
+inicio = time.time()
+d = deque()
+for i in range(n):
+    d.appendleft(i)  # O(1) - tiempo constante
+tiempo_deque = time.time() - inicio
+
+print(f"Tiempo con lista: {tiempo_lista:.4f} segundos")
+print(f"Tiempo con deque: {tiempo_deque:.4f} segundos")
+print(f"deque es aproximadamente {tiempo_lista/tiempo_deque:.1f}x más rápido")
+
+Métodos adicionales
+
+Además de las operaciones básicas, deque ofrece métodos específicos:
+
+from collections import deque
+
+d = deque([1, 2, 3, 4, 5])
+
+# Extender con múltiples elementos
+d.extend([6, 7, 8])
+print(d)  # deque([1, 2, 3, 4, 5, 6, 7, 8])
+
+# Extender por la izquierda
+d.extendleft([0, -1, -2])  # Nota: se añaden en orden inverso
+print(d)  # deque([-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8])
+
+# Rotar elementos (desplazar a la derecha)
+d.rotate(2)
+print(d)  # deque([7, 8, -2, -1, 0, 1, 2, 3, 4, 5, 6])
+
+# Rotar elementos a la izquierda (con número negativo)
+d.rotate(-3)
+print(d)  # deque([-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, -2])
+
+# Eliminar la primera ocurrencia de un valor
+d.remove(5)
+print(d)  # deque([-1, 0, 1, 2, 3, 4, 6, 7, 8, -2])
+
+# Contar ocurrencias
+print(d.count(1))  # 1
+
+# Limpiar la deque
+d.clear()
+print(d)  # deque([])
+
+Limitando el tamaño máximo
+
+Una característica útil de deque es la posibilidad de establecer un tamaño máximo. Cuando se alcanza este límite y se añade un nuevo elemento, se elimina automáticamente el elemento del extremo opuesto:
+
+from collections import deque
+
+# Crear una deque con tamaño máximo
+historial = deque(maxlen=3)
+
+# Al añadir elementos más allá del límite, se eliminan los más antiguos
+historial.append("página 1")
+historial.append("página 2")
+historial.append("página 3")
+print(historial)  # deque(['página 1', 'página 2', 'página 3'], maxlen=3)
+
+historial.append("página 4")
+print(historial)  # deque(['página 2', 'página 3', 'página 4'], maxlen=3)
+
+# El tamaño máximo no puede modificarse después de la creación
+print(historial.maxlen)  # 3
+
+Esta característica es especialmente útil para implementar buffers circulares, historiales con tamaño limitado o ventanas deslizantes.
+Casos de uso prácticos
+1. Historial de navegación
+
+from collections import deque
+
+class Navegador:
+    def __init__(self, max_historial=10):
+        self.historial = deque(maxlen=max_historial)
+        self.pagina_actual = None
+        
+    def navegar(self, url):
+        if self.pagina_actual:
+            self.historial.append(self.pagina_actual)
+        self.pagina_actual = url
+        print(f"Navegando a: {url}")
+        
+    def retroceder(self):
+        if not self.historial:
+            print("No hay páginas anteriores")
+            return
+        
+        self.pagina_actual, anterior = self.historial.pop(), self.pagina_actual
+        print(f"Volviendo a: {self.pagina_actual}")
+        
+# Ejemplo de uso
+navegador = Navegador()
+navegador.navegar("google.com")
+navegador.navegar("wikipedia.org")
+navegador.navegar("python.org")
+navegador.retroceder()  # Vuelve a wikipedia.org
+
+2. Algoritmo de ventana deslizante
+
+from collections import deque
+
+def promedio_movil(datos, tamano_ventana=3):
+    """Calcula el promedio móvil de una serie de datos."""
+    resultados = []
+    ventana = deque(maxlen=tamano_ventana)
+    
+    for valor in datos:
+        ventana.append(valor)
+        if len(ventana) == tamano_ventana:
+            resultados.append(sum(ventana) / tamano_ventana)
+            
+    return resultados
+
+# Ejemplo: suavizado de datos de temperatura
+temperaturas = [22, 23, 25, 24, 22, 21, 20, 19, 21]
+promedios = promedio_movil(temperaturas, 3)
+print(promedios)  # [23.33, 24.0, 23.67, 22.33, 21.0, 20.0, 20.0]
+
+3. Implementación de una cola FIFO (First In, First Out)
+
+from collections import deque
+
+class Cola:
+    def __init__(self):
+        self.elementos = deque()
+        
+    def encolar(self, elemento):
+        self.elementos.append(elemento)
+        
+    def desencolar(self):
+        if not self.elementos:
+            raise IndexError("La cola está vacía")
+        return self.elementos.popleft()
+        
+    def esta_vacia(self):
+        return len(self.elementos) == 0
+        
+    def tamano(self):
+        return len(self.elementos)
+        
+# Ejemplo: sistema de procesamiento de tareas
+cola_tareas = Cola()
+cola_tareas.encolar("Tarea 1")
+cola_tareas.encolar("Tarea 2")
+cola_tareas.encolar("Tarea 3")
+
+while not cola_tareas.esta_vacia():
+    tarea = cola_tareas.desencolar()
+    print(f"Procesando: {tarea}")
+
+4. Implementación de algoritmos de búsqueda en anchura (BFS)
+
+from collections import deque
+
+def bfs(grafo, inicio):
+    """Búsqueda en anchura en un grafo."""
+    visitados = set([inicio])
+    cola = deque([inicio])
+    resultado = []
+    
+    while cola:
+        nodo = cola.popleft()
+        resultado.append(nodo)
+        
+        # Explorar vecinos no visitados
+        for vecino in grafo[nodo]:
+            if vecino not in visitados:
+                visitados.add(vecino)
+                cola.append(vecino)
+                
+    return resultado
+
+# Ejemplo: grafo representado como diccionario de adyacencia
+grafo = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+recorrido = bfs(grafo, 'A')
+print(recorrido)  # ['A', 'B', 'C', 'D', 'E', 'F']
+
+Comparación con otras estructuras
+
+La elección entre deque y otras estructuras depende del caso de uso:
+
+    Listas: Buenas para acceso aleatorio por índice, pero ineficientes para insertar/eliminar al principio.
+    deque: Excelente para operaciones en ambos extremos, pero menos eficiente para acceso aleatorio.
+    queue.Queue: Diseñada para comunicación entre hilos con bloqueo incorporado.
+    asyncio.Queue: Para programación asíncrona.
+
+from collections import deque
+
+# Acceso aleatorio: las listas son mejores
+lista = [1, 2, 3, 4, 5]
+print(lista[2])  # Acceso directo: 3
+
+d = deque([1, 2, 3, 4, 5])
+# No hay acceso directo eficiente, hay que convertir a lista
+print(list(d)[2])  # 3 (pero menos eficiente)
+
+Consideraciones de memoria
+
+Las deque están implementadas como listas doblemente enlazadas de bloques, lo que les permite crecer eficientemente en ambas direcciones. Sin embargo, esto implica una pequeña sobrecarga de memoria en comparación con las listas:
+
+import sys
+from collections import deque
+
+# Comparación de uso de memoria
+lista = list(range(1000))
+d = deque(range(1000))
+
+print(f"Memoria de lista: {sys.getsizeof(lista)} bytes")
+print(f"Memoria de deque: {sys.getsizeof(d)} bytes")
+
+Integración con otras herramientas
+
+Las deque se integran bien con otras funcionalidades de Python:
+
+from collections import deque
+import itertools
+
+# Usar con itertools para procesar datos en lotes
+def procesar_en_lotes(iterable, tamano_lote=3):
+    """Procesa un iterable en lotes de tamaño fijo."""
+    it = iter(iterable)
+    lote = deque(itertools.islice(it, tamano_lote), maxlen=tamano_lote)
+    
+    while lote:
+        yield list(lote)
+        lote.extend(itertools.islice(it, tamano_lote))
+        
+# Ejemplo: procesar una lista de números en lotes
+numeros = range(1, 11)
+for lote in procesar_en_lotes(numeros, 4):
+    print(f"Procesando lote: {lote}")
+
+La estructura deque es una herramienta fundamental en el arsenal de cualquier programador Python, especialmente cuando se necesita manipular colecciones por ambos extremos con alta eficiencia. Su implementación optimizada la hace ideal para algoritmos que requieren operaciones frecuentes de inserción y eliminación en los extremos de una secuencia.
+OrderedDict y ChainMap: diccionarios con orden preservado y diccionarios encadenados
+
+El módulo collections de Python ofrece variantes especializadas de diccionarios que resuelven problemas específicos que los diccionarios estándar no abordan de manera óptima. En esta sección exploraremos dos de estas estructuras: OrderedDict, que mantiene el orden de inserción de las claves, y ChainMap, que permite combinar múltiples diccionarios en una sola vista.
+OrderedDict: diccionarios con orden preservado
+
+Tradicionalmente, los diccionarios en Python no garantizaban un orden específico para sus elementos. Aunque desde Python 3.7 los diccionarios estándar mantienen el orden de inserción, OrderedDict sigue siendo relevante por sus características adicionales y comportamiento consistente.
+
+from collections import OrderedDict
+
+# Creación de un OrderedDict
+usuarios = OrderedDict()
+usuarios["001"] = {"nombre": "Ana", "rol": "admin"}
+usuarios["002"] = {"nombre": "Carlos", "rol": "editor"}
+usuarios["003"] = {"nombre": "Elena", "rol": "usuario"}
+
+# Iteración en orden de inserción
+for id_usuario, datos in usuarios.items():
+    print(f"ID: {id_usuario}, Nombre: {datos['nombre']}")
+
+Diferencias con diccionarios estándar
+
+Aunque los diccionarios regulares ahora mantienen el orden de inserción, OrderedDict ofrece algunas ventajas específicas:
+
+from collections import OrderedDict
+
+# Comparación de igualdad sensible al orden
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 2, "a": 1}
+
+odict1 = OrderedDict([("a", 1), ("b", 2)])
+odict2 = OrderedDict([("b", 2), ("a", 1)])
+
+# Los diccionarios regulares solo comparan contenido
+print(dict1 == dict2)  # True
+
+# OrderedDict compara contenido Y orden
+print(odict1 == odict2)  # False
+
+Métodos específicos de OrderedDict
+
+OrderedDict proporciona métodos adicionales que no están disponibles en los diccionarios estándar:
+
+from collections import OrderedDict
+
+historial = OrderedDict()
+historial["pagina1"] = "Inicio"
+historial["pagina2"] = "Productos"
+historial["pagina3"] = "Contacto"
+
+# Mover una clave existente al final
+historial.move_to_end("pagina1")
+print(list(historial.keys()))  # ['pagina2', 'pagina3', 'pagina1']
+
+# Mover una clave al principio (con last=False)
+historial.move_to_end("pagina3", last=False)
+print(list(historial.keys()))  # ['pagina3', 'pagina2', 'pagina1']
+
+# Obtener y eliminar el último elemento (como una pila)
+clave, valor = historial.popitem()
+print(f"Eliminado: {clave} -> {valor}")  # Eliminado: pagina1 -> Contacto
+
+# Obtener y eliminar el primer elemento (con last=False)
+clave, valor = historial.popitem(last=False)
+print(f"Eliminado: {clave} -> {valor}")  # Eliminado: pagina3 -> Contacto
+
+Casos de uso prácticos para OrderedDict
+
+OrderedDict es especialmente útil en escenarios donde el orden de inserción es importante:
+
+    Caché LRU (Least Recently Used): mantener elementos en orden de uso
+
+from collections import OrderedDict
+
+class CacheLRU:
+    def __init__(self, capacidad):
+        self.capacidad = capacidad
+        self.cache = OrderedDict()
+        
+    def get(self, clave):
+        if clave not in self.cache:
+            return -1
+        
+        # Mover el elemento accedido al final (más reciente)
+        self.cache.move_to_end(clave)
+        return self.cache[clave]
+        
+    def put(self, clave, valor):
+        # Si la clave ya existe, actualizar y mover al final
+        if clave in self.cache:
+            self.cache[clave] = valor
+            self.cache.move_to_end(clave)
+            return
+            
+        # Si el caché está lleno, eliminar el elemento menos usado
+        if len(self.cache) >= self.capacidad:
+            self.cache.popitem(last=False)
+            
+        # Añadir el nuevo elemento
+        self.cache[clave] = valor
+
+# Ejemplo de uso
+cache = CacheLRU(3)
+cache.put("A", 1)
+cache.put("B", 2)
+cache.put("C", 3)
+print(cache.get("A"))  # 1 (y se mueve al final)
+cache.put("D", 4)  # Elimina B (el menos usado)
+print(cache.get("B"))  # -1 (no existe)
+print(list(cache.cache.keys()))  # ['C', 'A', 'D']
+
+    Preservar el orden de configuración:
+
+from collections import OrderedDict
+import json
+
+# Configuración con orden específico
+config = OrderedDict()
+config["app_name"] = "MiAplicación"
+config["version"] = "1.0.0"
+config["debug"] = True
+config["api_keys"] = {
+    "servicio1": "abc123",
+    "servicio2": "xyz789"
+}
+config["log_level"] = "INFO"
+
+# Guardar en JSON preservando el orden
+with open("config.json", "w") as f:
+    json.dump(config, f, indent=2)
+
+# El archivo JSON resultante mantendrá el mismo orden de las claves
+
+ChainMap: combinación de múltiples diccionarios
+
+ChainMap es una estructura que permite agrupar múltiples diccionarios en una sola vista, creando una cadena de búsqueda. Cuando se busca una clave, ChainMap la busca en cada diccionario en el orden en que fueron añadidos.
+
+from collections import ChainMap
+
+# Configuración por defecto
+defaults = {"color": "azul", "tamaño": "mediano", "formato": "pdf"}
+
+# Preferencias de usuario (sobrescriben los valores por defecto)
+preferencias = {"color": "rojo"}
+
+# Parámetros de la sesión actual (mayor prioridad)
+sesion = {"formato": "html"}
+
+# Combinar los diccionarios con prioridad de búsqueda
+# (se busca primero en sesion, luego en preferencias, finalmente en defaults)
+configuracion = ChainMap(sesion, preferencias, defaults)
+
+print(configuracion["color"])     # "rojo" (de preferencias)
+print(configuracion["tamaño"])    # "mediano" (de defaults)
+print(configuracion["formato"])   # "html" (de sesion)
+
+Acceso a los mapas subyacentes
+
+ChainMap permite acceder a los diccionarios individuales que lo componen:
+
+from collections import ChainMap
+
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 20, "c": 30}
+dict3 = {"d": 40}
+
+combined = ChainMap(dict1, dict2, dict3)
+
+# Acceder a los mapas individuales
+print(combined.maps)  # [{'a': 1, 'b': 2}, {'b': 20, 'c': 30}, {'d': 40}]
+
+# Modificar el primer mapa
+combined["a"] = 10
+print(dict1)  # {'a': 10, 'b': 2}
+
+# Las actualizaciones siempre afectan al primer mapa
+combined["c"] = 300  # Aunque 'c' existe en dict2, se añade a dict1
+print(dict1)  # {'a': 10, 'b': 2, 'c': 300}
+
+Métodos específicos de ChainMap
+
+ChainMap proporciona métodos para manipular la cadena de diccionarios:
+
+from collections import ChainMap
+
+base = {"uno": 1, "dos": 2}
+ajustes = {"dos": "DOS", "tres": 3}
+
+config = ChainMap(ajustes, base)
+print(config["dos"])  # "DOS"
+
+# Crear una nueva cadena con un nuevo mapa al principio
+temporal = {"cuatro": 4, "dos": 2.0}
+nueva_config = config.new_child(temporal)
+print(nueva_config["dos"])  # 2.0
+
+# Crear una nueva cadena sin el primer mapa
+config_base = config.parents
+print(config_base["dos"])  # 2 (del diccionario base)
+
+Casos de uso prácticos para ChainMap
+
+ChainMap es especialmente útil en escenarios donde se necesita una jerarquía de búsqueda:
+
+    Gestión de contextos de variables:
+
+from collections import ChainMap
+
+def buscar_variable(nombre, *ambitos):
+    """Busca una variable en múltiples ámbitos."""
+    return ChainMap(*ambitos).get(nombre, None)
+
+# Simulación de ámbitos en un lenguaje de programación
+ambito_global = {"PI": 3.14159, "MAX_VALOR": 1000}
+ambito_modulo = {"MAX_VALOR": 500, "TIMEOUT": 30}
+ambito_funcion = {"x": 10, "y": 20}
+
+# Buscar variables en orden: función -> módulo -> global
+print(buscar_variable("x", ambito_funcion, ambito_modulo, ambito_global))  # 10
+print(buscar_variable("MAX_VALOR", ambito_funcion, ambito_modulo, ambito_global))  # 500
+print(buscar_variable("PI", ambito_funcion, ambito_modulo, ambito_global))  # 3.14159
+print(buscar_variable("NO_EXISTE", ambito_funcion, ambito_modulo, ambito_global))  # None
+
+    Implementación de configuración en capas:
+
+from collections import ChainMap
+import os
+
+# Simulación de configuración en capas
+# 1. Valores por defecto (menor prioridad)
+defaults = {
+    "DEBUG": False,
+    "DATABASE_URL": "sqlite:///app.db",
+    "SECRET_KEY": "default_secret",
+    "TIMEOUT": 30
+}
+
+# 2. Configuración del archivo config.py
+archivo_config = {
+    "DATABASE_URL": "postgresql://user:pass@localhost/app",
+    "SECRET_KEY": "production_secret"
+}
+
+# 3. Variables de entorno (mayor prioridad)
+env_vars = {k: v for k, v in os.environ.items() if k in defaults}
+
+# Combinar configuraciones con prioridad
+config = ChainMap(env_vars, archivo_config, defaults)
+
+# Uso de la configuración
+print(f"Modo debug: {config['DEBUG']}")
+print(f"URL de base de datos: {config['DATABASE_URL']}")
+print(f"Tiempo de espera: {config['TIMEOUT']}s")
+
+    Combinación de resultados de búsqueda:
+
+from collections import ChainMap
+
+def buscar_producto(termino, *fuentes_datos):
+    """Busca un producto en múltiples fuentes de datos."""
+    resultados = ChainMap()
+    
+    for fuente in fuentes_datos:
+        # Simular búsqueda en cada fuente
+        encontrados = {k: v for k, v in fuente.items() 
+                      if termino.lower() in k.lower()}
+        
+        # Añadir resultados a la cadena
+        resultados = resultados.new_child(encontrados)
+    
+    return dict(resultados)  # Convertir a dict para eliminar duplicados
+
+# Fuentes de datos simuladas
+inventario_tienda = {
+    "Laptop HP": {"precio": 899, "stock": 5},
+    "Monitor LG": {"precio": 299, "stock": 10}
+}
+
+inventario_almacen = {
+    "Laptop Dell": {"precio": 1099, "stock": 3},
+    "Laptop HP Gaming": {"precio": 1299, "stock": 2}
+}
+
+inventario_proveedor = {
+    "Laptop Lenovo": {"precio": 799, "stock": 0},
+    "Laptop HP Pro": {"precio": 1199, "stock": 8}
+}
+
+# Buscar productos
+resultados = buscar_producto("laptop", 
+                            inventario_tienda, 
+                            inventario_almacen,
+                            inventario_proveedor)
+
+for producto, datos in resultados.items():
+    print(f"{producto}: ${datos['precio']} - Stock: {datos['stock']}")
+
+Comparación entre OrderedDict y ChainMap
+
+Aunque ambas estructuras extienden la funcionalidad de los diccionarios, tienen propósitos diferentes:
+
+    OrderedDict se centra en mantener un orden específico de elementos dentro de un único diccionario.
+    ChainMap se enfoca en combinar múltiples diccionarios en una vista unificada con prioridad de búsqueda.
+
+from collections import OrderedDict, ChainMap
+
+# OrderedDict para secuencia de operaciones
+historial_operaciones = OrderedDict()
+historial_operaciones["op1"] = "Crear usuario"
+historial_operaciones["op2"] = "Modificar permisos"
+historial_operaciones["op3"] = "Generar informe"
+
+# ChainMap para capas de configuración
+config_sistema = {"tema": "oscuro", "idioma": "es"}
+config_usuario = {"tema": "claro"}
+configuracion = ChainMap(config_usuario, config_sistema)
+
+print(f"Tema activo: {configuracion['tema']}")  # "claro" (de config_usuario)
+
+Rendimiento y consideraciones prácticas
+
+    OrderedDict tiene una pequeña sobrecarga de memoria comparado con los diccionarios estándar, pero ofrece operaciones específicas de orden.
+    ChainMap es más eficiente en memoria que combinar diccionarios con dict.update(), ya que no copia los datos.
+
+from collections import OrderedDict, ChainMap
+import sys
+
+# Comparación de tamaño en memoria
+dict_normal = dict((str(i), i) for i in range(1000))
+ordered_dict = OrderedDict((str(i), i) for i in range(1000))
+
+print(f"Diccionario normal: {sys.getsizeof(dict_normal)} bytes")
+print(f"OrderedDict: {sys.getsizeof(ordered_dict)} bytes")
+
+# Comparación de rendimiento para combinar diccionarios
+dict1 = {"a": 1, "b": 2}
+dict2 = {"c": 3, "d": 4}
+
+# Método 1: Copiar y actualizar (crea un nuevo diccionario)
+combined1 = dict(dict1)
+combined1.update(dict2)
+
+# Método 2: ChainMap (sin copiar datos)
+combined2 = ChainMap(dict1, dict2)
+
+# ChainMap es más eficiente en memoria pero puede ser más lento para búsquedas
+# en diccionarios grandes, ya que debe buscar en cada diccionario secuencialmente
+
+Cuándo usar cada estructura
+
+    Usa OrderedDict cuando:
+
+    Necesites mantener el orden exacto de inserción de elementos
+
+    Requieras operaciones sensibles al orden como move_to_end() o popitem()
+
+    Implementes estructuras como caché LRU o historiales
+
+    Usa ChainMap cuando:
+
+    Necesites combinar múltiples diccionarios sin fusionarlos
+
+    Requieras una jerarquía de búsqueda con prioridades claras
+
+    Implementes sistemas de configuración en capas o contextos anidados
+
+Estas estructuras especializadas del módulo collections complementan a los diccionarios estándar de Python, ofreciendo soluciones elegantes para problemas específicos que requieren mantener orden o combinar múltiples fuentes de datos en una vista unificada.
+Aprendizajes de esta lección
+
+    Comprender y utilizar namedtuple para crear tuplas con campos nombrados y acceso por atributo.
+    Aplicar defaultdict y Counter para manejar diccionarios con valores por defecto y realizar conteos eficientes.
+    Utilizar deque para implementar colas de doble extremo con operaciones eficientes en ambos extremos.
+    Diferenciar y emplear OrderedDict y ChainMap para diccionarios con orden preservado y combinaciones de múltiples diccionarios.
+    Reconocer casos prácticos y ventajas de cada estructura para optimizar el código y mejorar la legibilidad y rendimiento.
+

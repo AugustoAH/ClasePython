@@ -1,4 +1,4 @@
-Estructuras de datos: Listas
+                                                    Estructuras de datos: Listas
 
 ──▶ Creación, indexación y modificación de elementos en listas
 

@@ -1,4 +1,4 @@
-Python Tema 2: Tipos de datos y estructuras 
+                                            Python Tema 2: Tipos de datos y estructuras 
 
 En este segundo tema exploraremos uno de los fundamentos más importantes de Python: los tipos y estructuras de datos. 
 La forma en que Python maneja y organiza los datos es una de sus grandes fortalezas, ofreciendo estructuras versátiles y de fácil 

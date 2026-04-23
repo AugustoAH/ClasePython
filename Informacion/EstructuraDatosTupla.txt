@@ -1,4 +1,4 @@
-Estructuras de datos: Tuplas
+                                                    Estructuras de datos: Tuplas
 
 ──▶ Características de inmutabilidad y ventajas de rendimiento
 

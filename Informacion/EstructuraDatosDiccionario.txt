@@ -1,4 +1,4 @@
-Estructuras de datos: Diccionarios
+                                            Estructuras de datos: Diccionarios
 
 ──▶ Estructura clave-valor y uso de hashing en Python
 

@@ -1,0 +1,937 @@
+Estructuras de datos: Conjuntos
+
+Características de unicidad y operaciones matemáticas de conjuntos
+
+Los conjuntos (o sets en inglés) son una estructura de datos fundamental en Python que implementa el concepto matemático de conjunto. A diferencia de otras colecciones como listas o tuplas, los conjuntos en Python poseen características especiales que los hacen únicos y particularmente útiles para ciertas operaciones.
+
+La característica más distintiva de los conjuntos es la unicidad de elementos. Cuando trabajamos con conjuntos en Python, cada elemento puede aparecer una única vez, independientemente de cuántas veces intentemos añadirlo. Esta propiedad convierte a los conjuntos en herramientas ideales para eliminar duplicados de otras colecciones.
+Unicidad de elementos
+
+Los conjuntos en Python garantizan que cada elemento aparezca una sola vez. Esto significa que:
+
+    No pueden contener elementos duplicados
+    El orden de los elementos no está garantizado (son colecciones desordenadas)
+    Solo pueden contener elementos inmutables (números, cadenas, tuplas, etc.)
+
+Veamos un ejemplo sencillo:
+
+# Creando un conjunto con elementos duplicados
+numeros = {1, 2, 3, 2, 1, 4, 5, 4}
+print(numeros)  # Salida: {1, 2, 3, 4, 5}
+
+Como puedes observar, aunque intentamos crear un conjunto con elementos repetidos, Python automáticamente elimina los duplicados. Esta característica de unicidad es intrínseca a los conjuntos y no requiere ninguna operación adicional.
+Elementos hashables
+
+Para mantener la unicidad, los conjuntos en Python requieren que sus elementos sean hashables (que puedan ser convertidos a un valor hash único). Esto significa que:
+
+    Puedes incluir números, cadenas, tuplas y otros objetos inmutables
+    No puedes incluir listas, diccionarios u otros conjuntos directamente
+
+# Elementos válidos en un conjunto
+conjunto_valido = {1, "hola", (1, 2)}
+
+# Esto generaría un error: TypeError: unhashable type: 'list'
+# conjunto_invalido = {1, [2, 3], "hola"}
+
+Operaciones matemáticas con conjuntos
+
+Los conjuntos en Python implementan las operaciones matemáticas clásicas de la teoría de conjuntos, lo que los hace extremadamente útiles para cálculos y comparaciones entre colecciones de datos. Estas operaciones incluyen:
+Pertenencia
+
+Puedes verificar si un elemento pertenece a un conjunto utilizando los operadores in y not in:
+
+frutas = {"manzana", "naranja", "plátano"}
+print("manzana" in frutas)  # True
+print("pera" not in frutas)  # True
+
+Esta operación es muy eficiente en conjuntos (complejidad O(1) en promedio), a diferencia de las listas donde la búsqueda es O(n).
+Subconjuntos y superconjuntos
+
+Python permite verificar si un conjunto es subconjunto o superconjunto de otro:
+
+a = {1, 2, 3}
+b = {1, 2, 3, 4, 5}
+
+# Verificar si a es subconjunto de b
+print(a.issubset(b))  # True
+print(a <= b)         # True (operador alternativo)
+
+# Verificar si b es superconjunto de a
+print(b.issuperset(a))  # True
+print(b >= a)           # True (operador alternativo)
+
+# Subconjunto propio (a es subconjunto de b pero no son iguales)
+print(a < b)  # True
+
+Igualdad y desigualdad
+
+Dos conjuntos son iguales si contienen exactamente los mismos elementos, independientemente del orden:
+
+conjunto1 = {3, 1, 2}
+conjunto2 = {1, 2, 3}
+conjunto3 = {1, 2, 3, 4}
+
+print(conjunto1 == conjunto2)  # True
+print(conjunto1 != conjunto3)  # True
+
+Conjuntos disjuntos
+
+Dos conjuntos son disjuntos si no tienen elementos en común:
+
+a = {1, 2, 3}
+b = {4, 5, 6}
+c = {3, 4, 5}
+
+print(a.isdisjoint(b))  # True (no tienen elementos en común)
+print(a.isdisjoint(c))  # False (comparten el elemento 3)
+
+Cardinalidad de conjuntos
+
+La cardinalidad de un conjunto es el número de elementos que contiene. En Python, simplemente usamos la función len():
+
+colores = {"rojo", "verde", "azul", "amarillo"}
+print(len(colores))  # 4
+
+Propiedades matemáticas de los conjuntos
+
+Los conjuntos en Python cumplen con las propiedades matemáticas fundamentales:
+
+    Idempotencia: A ∪ A = A y A ∩ A = A
+    Conmutatividad: A ∪ B = B ∪ A y A ∩ B = B ∩ A
+    Asociatividad: (A ∪ B) ∪ C = A ∪ (B ∪ C) y (A ∩ B) ∩ C = A ∩ (B ∩ C)
+    Distributividad: A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
+
+Estas propiedades hacen que los conjuntos sean especialmente útiles en algoritmos que requieren manipulación de colecciones de datos sin duplicados.
+Conjuntos inmutables (frozenset)
+
+Python también ofrece una variante inmutable de los conjuntos llamada frozenset. Estos conjuntos no pueden ser modificados después de su creación, lo que los hace hashables y permite usarlos como elementos de otros conjuntos o como claves en diccionarios:
+
+# Creando un frozenset
+inmutable = frozenset([1, 2, 3])
+
+# Podemos usar frozensets como elementos de otros conjuntos
+conjunto_de_conjuntos = {frozenset([1, 2]), frozenset([3, 4])}
+print(conjunto_de_conjuntos)  # {frozenset({1, 2}), frozenset({3, 4})}
+
+Los frozenset mantienen todas las operaciones matemáticas de los conjuntos regulares, pero no permiten operaciones que modificarían su contenido.
+Eficiencia de las operaciones con conjuntos
+
+Una ventaja significativa de los conjuntos en Python es la eficiencia de sus operaciones. Las verificaciones de pertenencia, uniones, intersecciones y otras operaciones de conjuntos son generalmente mucho más rápidas que las implementaciones equivalentes con listas, especialmente para colecciones grandes.
+
+# Comparación de eficiencia (conceptual)
+lista_grande = list(range(10000))
+conjunto_grande = set(range(10000))
+
+# Verificación de pertenencia
+# En listas: O(n) - lineal
+# En conjuntos: O(1) - constante en promedio
+
+Esta eficiencia hace que los conjuntos sean la elección óptima cuando necesitamos realizar operaciones frecuentes de búsqueda, eliminación de duplicados o comparaciones entre colecciones.
+Creación y manipulación básica de conjuntos
+
+Los conjuntos en Python son colecciones desordenadas de elementos únicos que ofrecen una forma eficiente de almacenar datos sin duplicados. En esta sección, exploraremos las diferentes formas de crear conjuntos y las operaciones básicas para manipularlos.
+Creación de conjuntos
+
+Existen varias formas de crear conjuntos en Python:
+Usando llaves {}
+
+La forma más directa de crear un conjunto es mediante llaves, similar a la sintaxis de diccionarios pero sin pares clave-valor:
+
+# Conjunto de colores
+colores = {"rojo", "verde", "azul"}
+print(colores)  # Salida: {'verde', 'rojo', 'azul'} (orden no garantizado)
+
+Es importante destacar que para crear un conjunto vacío no podemos usar llaves vacías {} (esto crearía un diccionario vacío). En su lugar, debemos usar la función set():
+
+# Conjunto vacío (¡NO usar {} para esto!)
+conjunto_vacio = set()
+print(type(conjunto_vacio))  # <class 'set'>
+
+# Esto crearía un diccionario, no un conjunto:
+diccionario_vacio = {}
+print(type(diccionario_vacio))  # <class 'dict'>
+
+Usando la función set()
+
+La función set() permite crear conjuntos a partir de cualquier iterable (listas, tuplas, cadenas, etc.):
+
+# Crear conjunto a partir de una lista
+numeros_lista = [1, 2, 3, 2, 1, 4]
+numeros_conjunto = set(numeros_lista)
+print(numeros_conjunto)  # {1, 2, 3, 4}
+
+# Crear conjunto a partir de una cadena
+letras = set("mississippi")
+print(letras)  # {'m', 'i', 's', 'p'}
+
+Usando comprensión de conjuntos
+
+Similar a las comprensiones de listas, Python permite crear conjuntos mediante comprensión de conjuntos:
+
+# Conjunto de cuadrados de números del 0 al 5
+cuadrados = {x**2 for x in range(6)}
+print(cuadrados)  # {0, 1, 4, 9, 16, 25}
+
+# Conjunto de vocales en una frase
+frase = "Python es un lenguaje de programación"
+vocales = {letra for letra in frase.lower() if letra in 'aeiou'}
+print(vocales)  # {'e', 'o', 'a', 'i', 'u'}
+
+Manipulación básica de conjuntos
+
+Una vez creado un conjunto, podemos realizar diversas operaciones para manipular su contenido:
+Añadir elementos
+
+Para añadir un único elemento a un conjunto, usamos el método add():
+
+frutas = {"manzana", "naranja"}
+frutas.add("plátano")
+print(frutas)  # {'manzana', 'naranja', 'plátano'}
+
+# Añadir un elemento que ya existe no tiene efecto
+frutas.add("manzana")
+print(frutas)  # {'manzana', 'naranja', 'plátano'}
+
+Para añadir múltiples elementos de una vez, usamos el método update():
+
+frutas = {"manzana", "naranja"}
+frutas.update(["plátano", "kiwi", "mango"])
+print(frutas)  # {'manzana', 'naranja', 'plátano', 'kiwi', 'mango'}
+
+# También podemos actualizar con varios iterables a la vez
+frutas.update(("fresa", "cereza"), {"uva", "melón"})
+print(frutas)  # {'manzana', 'naranja', 'plátano', 'kiwi', 'mango', 'fresa', 'cereza', 'uva', 'melón'}
+
+Eliminar elementos
+
+Python ofrece varios métodos para eliminar elementos de un conjunto:
+
+    remove(): Elimina un elemento específico, pero lanza un error si no existe:
+
+numeros = {1, 2, 3, 4, 5}
+numeros.remove(3)
+print(numeros)  # {1, 2, 4, 5}
+
+# Esto lanzaría un KeyError
+# numeros.remove(10)
+
+    discard(): Elimina un elemento si existe, sin lanzar error si no está presente:
+
+numeros = {1, 2, 3, 4, 5}
+numeros.discard(3)
+print(numeros)  # {1, 2, 4, 5}
+
+# No genera error si el elemento no existe
+numeros.discard(10)
+print(numeros)  # {1, 2, 4, 5}
+
+    pop(): Elimina y devuelve un elemento arbitrario del conjunto:
+
+numeros = {1, 2, 3, 4, 5}
+elemento = numeros.pop()
+print(f"Elemento eliminado: {elemento}")
+print(f"Conjunto resultante: {numeros}")
+
+    clear(): Elimina todos los elementos del conjunto:
+
+numeros = {1, 2, 3, 4, 5}
+numeros.clear()
+print(numeros)  # set()
+
+Copiar conjuntos
+
+Para crear una copia independiente de un conjunto, podemos usar el método copy():
+
+original = {1, 2, 3}
+copia = original.copy()
+
+# Modificar la copia no afecta al original
+copia.add(4)
+print(original)  # {1, 2, 3}
+print(copia)     # {1, 2, 3, 4}
+
+También podemos usar la función set() para crear una copia:
+
+original = {1, 2, 3}
+copia = set(original)
+
+Iteración sobre conjuntos
+
+Podemos recorrer los elementos de un conjunto con un bucle for:
+
+colores = {"rojo", "verde", "azul"}
+for color in colores:
+    print(f"Color: {color}")
+
+Es importante recordar que, al ser los conjuntos colecciones desordenadas, el orden de iteración no está garantizado y puede variar entre ejecuciones.
+Conversión entre tipos de datos
+
+Los conjuntos se pueden convertir fácilmente a otros tipos de colecciones:
+
+# Conjunto a lista
+numeros = {1, 2, 3, 4, 5}
+lista_numeros = list(numeros)
+print(lista_numeros)  # [1, 2, 3, 4, 5] (el orden puede variar)
+
+# Conjunto a tupla
+tupla_numeros = tuple(numeros)
+print(tupla_numeros)  # (1, 2, 3, 4, 5) (el orden puede variar)
+
+Verificación de tamaño y contenido
+
+Para trabajar eficientemente con conjuntos, es útil conocer algunas operaciones básicas:
+Obtener el tamaño de un conjunto
+
+Usamos la función len() para conocer el número de elementos:
+
+animales = {"perro", "gato", "pájaro", "pez"}
+print(len(animales))  # 4
+
+Verificar si un elemento existe
+
+La forma más eficiente de verificar si un elemento está en un conjunto es usando el operador in:
+
+frutas = {"manzana", "naranja", "plátano"}
+
+# Verificar si un elemento existe
+print("manzana" in frutas)  # True
+print("pera" in frutas)     # False
+
+# Verificar si un elemento no existe
+print("uva" not in frutas)  # True
+
+Esta operación es extremadamente eficiente en conjuntos (tiempo constante en promedio), lo que los hace ideales para búsquedas rápidas en colecciones grandes.
+Conjuntos inmutables (frozenset)
+
+Si necesitamos un conjunto que no pueda ser modificado después de su creación, podemos usar frozenset:
+
+# Crear un frozenset
+inmutable = frozenset([1, 2, 3, 4])
+print(inmutable)  # frozenset({1, 2, 3, 4})
+
+# No podemos modificarlo
+# inmutable.add(5)  # Esto generaría un AttributeError
+
+Los frozenset son útiles cuando necesitamos usar conjuntos como claves de diccionarios o como elementos de otros conjuntos:
+
+# Usar frozensets como claves de diccionario
+grupos = {
+    frozenset(["Ana", "Carlos"]): "Grupo 1",
+    frozenset(["Luis", "María"]): "Grupo 2"
+}
+
+# Buscar un grupo
+print(grupos[frozenset(["Ana", "Carlos"])])  # "Grupo 1"
+
+Casos prácticos de uso
+
+Los conjuntos son particularmente útiles en ciertos escenarios:
+
+    Eliminar duplicados de una secuencia:
+
+# Eliminar duplicados de una lista manteniendo el orden
+def eliminar_duplicados(secuencia):
+    return list(dict.fromkeys(secuencia))
+
+lista_con_duplicados = [3, 1, 2, 3, 4, 1, 5]
+print(eliminar_duplicados(lista_con_duplicados))  # [3, 1, 2, 4, 5]
+
+    Filtrar elementos únicos entre colecciones:
+
+lista1 = [1, 2, 3, 4, 5]
+lista2 = [4, 5, 6, 7, 8]
+
+# Elementos únicos en lista1 (no presentes en lista2)
+unicos_lista1 = set(lista1) - set(lista2)
+print(unicos_lista1)  # {1, 2, 3}
+
+    Verificar si dos listas tienen elementos en común:
+
+def tienen_elementos_comunes(lista1, lista2):
+    return not set(lista1).isdisjoint(set(lista2))
+
+print(tienen_elementos_comunes([1, 2, 3], [3, 4, 5]))  # True
+print(tienen_elementos_comunes([1, 2, 3], [4, 5, 6]))  # False
+
+Estas operaciones básicas de creación y manipulación de conjuntos proporcionan una base sólida para trabajar con esta estructura de datos en Python, permitiéndonos aprovechar su eficiencia y características únicas.
+Operaciones de conjuntos: unión, intersección, diferencia y diferencia simétrica
+
+Los conjuntos en Python no solo permiten almacenar elementos únicos, sino que también implementan las operaciones matemáticas fundamentales de la teoría de conjuntos. Estas operaciones nos permiten combinar y comparar conjuntos de formas poderosas y eficientes, facilitando la manipulación de datos en muchos escenarios prácticos.
+Unión de conjuntos
+
+La unión de dos conjuntos A y B es un nuevo conjunto que contiene todos los elementos que están en A, en B, o en ambos. En Python, podemos realizar esta operación de dos maneras:
+
+    Usando el método union()
+    Usando el operador | (pipe)
+
+# Definimos dos conjuntos
+estudiantes_python = {"Ana", "Carlos", "Elena", "David"}
+estudiantes_java = {"Elena", "David", "Fernando", "Gabriela"}
+
+# Unión usando el método union()
+todos_estudiantes = estudiantes_python.union(estudiantes_java)
+print(todos_estudiantes)  # {'Ana', 'Carlos', 'Elena', 'David', 'Fernando', 'Gabriela'}
+
+# Unión usando el operador |
+todos_estudiantes = estudiantes_python | estudiantes_java
+print(todos_estudiantes)  # {'Ana', 'Carlos', 'Elena', 'David', 'Fernando', 'Gabriela'}
+
+La unión puede aplicarse a más de dos conjuntos a la vez:
+
+estudiantes_javascript = {"Héctor", "Irene", "Ana"}
+
+# Unión de tres conjuntos
+todos = estudiantes_python | estudiantes_java | estudiantes_javascript
+print(todos)  # {'Ana', 'Carlos', 'Elena', 'David', 'Fernando', 'Gabriela', 'Héctor', 'Irene'}
+
+# También funciona con el método union() pasando múltiples argumentos
+todos = estudiantes_python.union(estudiantes_java, estudiantes_javascript)
+
+Intersección de conjuntos
+
+La intersección de dos conjuntos A y B es un nuevo conjunto que contiene solo los elementos que están tanto en A como en B. En Python, podemos obtener la intersección de dos formas:
+
+    Usando el método intersection()
+    Usando el operador & (ampersand)
+
+# Usando los conjuntos anteriores
+# Estudiantes que toman ambos cursos (Python y Java)
+estudiantes_ambos = estudiantes_python.intersection(estudiantes_java)
+print(estudiantes_ambos)  # {'Elena', 'David'}
+
+# Usando el operador &
+estudiantes_ambos = estudiantes_python & estudiantes_java
+print(estudiantes_ambos)  # {'Elena', 'David'}
+
+Al igual que con la unión, podemos calcular la intersección de múltiples conjuntos:
+
+# Estudiantes que toman los tres cursos
+estudiantes_tres_cursos = estudiantes_python & estudiantes_java & estudiantes_javascript
+print(estudiantes_tres_cursos)  # set() (conjunto vacío si no hay estudiantes en los tres cursos)
+
+# Ejemplo con alguna coincidencia
+nuevo_conjunto = {"Ana", "Elena", "Carlos"}
+comunes = estudiantes_python & estudiantes_java & nuevo_conjunto
+print(comunes)  # {'Elena'}
+
+Diferencia de conjuntos
+
+La diferencia entre dos conjuntos A y B (A - B) es un nuevo conjunto que contiene los elementos que están en A pero no en B. Esta operación no es conmutativa, lo que significa que A - B no es igual a B - A. En Python, podemos calcular la diferencia de dos maneras:
+
+    Usando el método difference()
+    Usando el operador - (menos)
+
+# Estudiantes que solo toman Python (no Java)
+solo_python = estudiantes_python.difference(estudiantes_java)
+print(solo_python)  # {'Ana', 'Carlos'}
+
+# Usando el operador -
+solo_python = estudiantes_python - estudiantes_java
+print(solo_python)  # {'Ana', 'Carlos'}
+
+# Estudiantes que solo toman Java (no Python)
+solo_java = estudiantes_java - estudiantes_python
+print(solo_java)  # {'Fernando', 'Gabriela'}
+
+La diferencia también puede aplicarse a más de dos conjuntos, pero el orden importa:
+
+# Estudiantes que toman Python pero no Java ni JavaScript
+solo_python_exclusivo = estudiantes_python - estudiantes_java - estudiantes_javascript
+print(solo_python_exclusivo)  # {'Carlos'}
+
+# Equivalente usando el método difference()
+solo_python_exclusivo = estudiantes_python.difference(estudiantes_java, estudiantes_javascript)
+
+Diferencia simétrica
+
+La diferencia simétrica entre dos conjuntos A y B es un nuevo conjunto que contiene los elementos que están en A o en B, pero no en ambos simultáneamente. Es equivalente a (A - B) ∪ (B - A) o también a (A ∪ B) - (A ∩ B). En Python, podemos calcularla de dos formas:
+
+    Usando el método symmetric_difference()
+    Usando el operador ^ (caret)
+
+# Estudiantes que toman Python o Java, pero no ambos
+exclusivos = estudiantes_python.symmetric_difference(estudiantes_java)
+print(exclusivos)  # {'Ana', 'Carlos', 'Fernando', 'Gabriela'}
+
+# Usando el operador ^
+exclusivos = estudiantes_python ^ estudiantes_java
+print(exclusivos)  # {'Ana', 'Carlos', 'Fernando', 'Gabriela'}
+
+A diferencia de la operación de diferencia simple, la diferencia simétrica es conmutativa, lo que significa que A ^ B = B ^ A.
+
+# Comprobando la conmutatividad
+print(estudiantes_python ^ estudiantes_java)  # {'Ana', 'Carlos', 'Fernando', 'Gabriela'}
+print(estudiantes_java ^ estudiantes_python)  # {'Ana', 'Carlos', 'Fernando', 'Gabriela'}
+
+Para más de dos conjuntos, la diferencia simétrica se puede encadenar, pero el resultado dependerá del orden de las operaciones:
+
+# Diferencia simétrica de tres conjuntos
+resultado = estudiantes_python ^ estudiantes_java ^ estudiantes_javascript
+print(resultado)  # Depende del orden de evaluación
+
+Operaciones de actualización in-place
+
+Todas las operaciones anteriores tienen versiones que modifican el conjunto original en lugar de crear uno nuevo. Estas versiones "in-place" son más eficientes cuando no necesitamos preservar el conjunto original:
+
+# Unión in-place (update)
+grupo_a = {1, 2, 3}
+grupo_b = {3, 4, 5}
+grupo_a.update(grupo_b)  # Equivalente a grupo_a |= grupo_b
+print(grupo_a)  # {1, 2, 3, 4, 5}
+
+# Intersección in-place (intersection_update)
+grupo_a = {1, 2, 3, 4}
+grupo_b = {3, 4, 5, 6}
+grupo_a.intersection_update(grupo_b)  # Equivalente a grupo_a &= grupo_b
+print(grupo_a)  # {3, 4}
+
+# Diferencia in-place (difference_update)
+grupo_a = {1, 2, 3, 4}
+grupo_b = {3, 4, 5, 6}
+grupo_a.difference_update(grupo_b)  # Equivalente a grupo_a -= grupo_b
+print(grupo_a)  # {1, 2}
+
+# Diferencia simétrica in-place (symmetric_difference_update)
+grupo_a = {1, 2, 3, 4}
+grupo_b = {3, 4, 5, 6}
+grupo_a.symmetric_difference_update(grupo_b)  # Equivalente a grupo_a ^= grupo_b
+print(grupo_a)  # {1, 2, 5, 6}
+
+Combinación de operaciones
+
+Las operaciones de conjuntos pueden combinarse para realizar cálculos más complejos:
+
+# Estudiantes que toman Python o Java, pero no JavaScript
+resultado = (estudiantes_python | estudiantes_java) - estudiantes_javascript
+print(resultado)  # {'Carlos', 'David', 'Elena', 'Fernando', 'Gabriela'}
+
+# Estudiantes que toman Python y Java, o que toman JavaScript
+resultado = (estudiantes_python & estudiantes_java) | estudiantes_javascript
+print(resultado)  # {'David', 'Elena', 'Héctor', 'Irene', 'Ana'}
+
+Rendimiento de las operaciones
+
+Las operaciones de conjuntos en Python son altamente optimizadas y generalmente mucho más rápidas que implementaciones equivalentes con listas u otras estructuras de datos. Esto se debe a que los conjuntos utilizan tablas hash internamente, lo que permite operaciones de tiempo constante en promedio.
+
+# Ejemplo de rendimiento (conceptual)
+import time
+
+# Crear dos listas grandes con algunos elementos comunes
+lista_a = list(range(10000))
+lista_b = list(range(5000, 15000))
+
+# Método ineficiente con listas
+inicio = time.time()
+comunes_lista = [x for x in lista_a if x in lista_b]
+fin = time.time()
+print(f"Tiempo con listas: {fin - inicio:.6f} segundos")
+
+# Método eficiente con conjuntos
+inicio = time.time()
+comunes_conjunto = set(lista_a) & set(lista_b)
+fin = time.time()
+print(f"Tiempo con conjuntos: {fin - inicio:.6f} segundos")
+
+Casos de uso prácticos
+
+Las operaciones de conjuntos son extremadamente útiles en muchos escenarios del mundo real:
+
+    Análisis de datos: Encontrar elementos comunes o exclusivos entre diferentes conjuntos de datos.
+
+# Encontrar palabras únicas en dos textos
+texto1 = "Python es un lenguaje de programación versátil y potente"
+texto2 = "Python es fácil de aprender y muy legible"
+
+palabras1 = set(texto1.lower().split())
+palabras2 = set(texto2.lower().split())
+
+palabras_comunes = palabras1 & palabras2
+palabras_unicas_texto1 = palabras1 - palabras2
+palabras_unicas_texto2 = palabras2 - palabras1
+
+print(f"Palabras comunes: {palabras_comunes}")
+print(f"Palabras únicas del texto 1: {palabras_unicas_texto1}")
+print(f"Palabras únicas del texto 2: {palabras_unicas_texto2}")
+
+    Filtrado de datos: Eliminar o seleccionar elementos basados en criterios de pertenencia.
+
+# Filtrar una lista de números para incluir solo los que están en un conjunto permitido
+numeros = [1, 5, 10, 15, 20, 25, 30]
+permitidos = {5, 15, 25, 35, 45}
+
+# Números que están en la lista y también están permitidos
+resultado = [num for num in numeros if num in permitidos]
+print(resultado)  # [5, 15, 25]
+
+# Forma más eficiente usando conjuntos
+resultado = list(set(numeros) & permitidos)
+print(resultado)  # [5, 15, 25]
+
+    Detección de cambios: Identificar elementos añadidos, eliminados o modificados entre dos estados.
+
+# Detectar cambios entre dos versiones de datos
+estado_anterior = {"usuario1", "usuario2", "usuario3", "usuario4"}
+estado_actual = {"usuario1", "usuario3", "usuario5", "usuario6"}
+
+usuarios_eliminados = estado_anterior - estado_actual
+usuarios_nuevos = estado_actual - estado_anterior
+usuarios_sin_cambios = estado_anterior & estado_actual
+
+print(f"Usuarios eliminados: {usuarios_eliminados}")  # {'usuario2', 'usuario4'}
+print(f"Usuarios nuevos: {usuarios_nuevos}")  # {'usuario5', 'usuario6'}
+print(f"Usuarios sin cambios: {usuarios_sin_cambios}")  # {'usuario1', 'usuario3'}
+
+    Validación de datos: Verificar si un conjunto de datos cumple con ciertos criterios.
+
+# Verificar si un usuario tiene todos los permisos requeridos
+permisos_requeridos = {"leer", "escribir", "eliminar"}
+permisos_usuario = {"leer", "escribir", "modificar"}
+
+tiene_todos_permisos = permisos_requeridos.issubset(permisos_usuario)
+permisos_faltantes = permisos_requeridos - permisos_usuario
+
+print(f"¿Tiene todos los permisos? {tiene_todos_permisos}")  # False
+print(f"Permisos faltantes: {permisos_faltantes}")  # {'eliminar'}
+
+Estas operaciones de conjuntos proporcionan herramientas poderosas para manipular y analizar datos de manera eficiente, aprovechando las propiedades matemáticas de los conjuntos y la implementación optimizada de Python.
+Aplicaciones prácticas: eliminación de duplicados y pertenencia de elementos
+
+Los conjuntos en Python destacan por su eficiencia en dos escenarios particularmente comunes: la eliminación de duplicados y la verificación de pertenencia de elementos. Estas características los convierten en herramientas indispensables para muchas tareas de procesamiento de datos en aplicaciones reales.
+Eliminación de duplicados
+
+La capacidad de los conjuntos para mantener elementos únicos los convierte en la solución ideal para eliminar duplicados de cualquier colección iterable. Veamos diferentes enfoques y escenarios:
+Eliminación básica de duplicados
+
+La forma más sencilla de eliminar duplicados es convertir la colección a un conjunto y luego volver al tipo original si es necesario:
+
+# Eliminar duplicados de una lista
+numeros_con_duplicados = [3, 5, 2, 5, 1, 3, 7, 5]
+numeros_sin_duplicados = list(set(numeros_con_duplicados))
+print(numeros_sin_duplicados)  # [1, 2, 3, 5, 7] (el orden puede variar)
+
+Sin embargo, es importante notar que este método no preserva el orden original de los elementos, ya que los conjuntos son desordenados por naturaleza.
+Preservando el orden original
+
+Si necesitamos mantener el orden de aparición de los elementos, podemos usar un enfoque más elaborado:
+
+# Eliminar duplicados preservando el orden
+def eliminar_duplicados_ordenados(secuencia):
+    return list(dict.fromkeys(secuencia))
+
+lista_original = [3, 5, 2, 5, 1, 3, 7, 5]
+lista_sin_duplicados = eliminar_duplicados_ordenados(lista_original)
+print(lista_sin_duplicados)  # [3, 5, 2, 1, 7]
+
+Este método aprovecha el hecho de que los diccionarios en Python 3.7+ mantienen el orden de inserción de las claves. Al usar cada elemento como clave en un diccionario, automáticamente eliminamos duplicados mientras preservamos el orden.
+Eliminación de duplicados en cadenas
+
+Los conjuntos también son útiles para eliminar caracteres duplicados en cadenas:
+
+# Eliminar caracteres duplicados de una cadena
+texto = "mississippi"
+caracteres_unicos = ''.join(set(texto))
+print(caracteres_unicos)  # "misp" (orden no garantizado)
+
+# Preservando el orden
+def caracteres_unicos_ordenados(texto):
+    return ''.join(dict.fromkeys(texto))
+
+print(caracteres_unicos_ordenados(texto))  # "misp" (orden preservado)
+
+Eliminación de duplicados en archivos
+
+Un caso de uso común es eliminar líneas duplicadas de un archivo:
+
+# Eliminar líneas duplicadas de un archivo
+def eliminar_lineas_duplicadas(archivo_entrada, archivo_salida):
+    lineas_unicas = set()
+    
+    with open(archivo_entrada, 'r') as entrada:
+        for linea in entrada:
+            lineas_unicas.add(linea)
+    
+    with open(archivo_salida, 'w') as salida:
+        salida.writelines(lineas_unicas)
+
+# Uso:
+# eliminar_lineas_duplicadas('datos_con_duplicados.txt', 'datos_sin_duplicados.txt')
+
+Para preservar el orden, podríamos modificar el enfoque:
+
+def eliminar_lineas_duplicadas_ordenadas(archivo_entrada, archivo_salida):
+    lineas_vistas = set()
+    lineas_ordenadas = []
+    
+    with open(archivo_entrada, 'r') as entrada:
+        for linea in entrada:
+            if linea not in lineas_vistas:
+                lineas_vistas.add(linea)
+                lineas_ordenadas.append(linea)
+    
+    with open(archivo_salida, 'w') as salida:
+        salida.writelines(lineas_ordenadas)
+
+Eliminación de duplicados en objetos complejos
+
+Para eliminar duplicados en listas de objetos más complejos, como diccionarios o instancias de clases, necesitamos un enfoque diferente, ya que estos objetos no son hashables directamente:
+
+# Eliminar diccionarios duplicados basados en una clave específica
+personas = [
+    {"id": 1, "nombre": "Ana"},
+    {"id": 2, "nombre": "Carlos"},
+    {"id": 1, "nombre": "Ana"},  # Duplicado
+    {"id": 3, "nombre": "Elena"}
+]
+
+# Usando un conjunto para rastrear IDs vistos
+def eliminar_duplicados_por_clave(lista, clave):
+    valores_vistos = set()
+    resultado = []
+    
+    for item in lista:
+        valor = item[clave]
+        if valor not in valores_vistos:
+            valores_vistos.add(valor)
+            resultado.append(item)
+    
+    return resultado
+
+sin_duplicados = eliminar_duplicados_por_clave(personas, "id")
+print(sin_duplicados)  # [{"id": 1, "nombre": "Ana"}, {"id": 2, "nombre": "Carlos"}, {"id": 3, "nombre": "Elena"}]
+
+Verificación de pertenencia de elementos
+
+La verificación de pertenencia (in y not in) es extremadamente eficiente en conjuntos, con una complejidad de tiempo promedio O(1), a diferencia de las listas que tienen complejidad O(n). Esta eficiencia hace que los conjuntos sean ideales para muchas tareas de filtrado y validación.
+Filtrado eficiente de datos
+
+Podemos usar conjuntos para filtrar elementos de manera eficiente:
+
+# Filtrar palabras basadas en un conjunto de palabras prohibidas
+texto = "Este es un ejemplo de texto con algunas palabras que debemos filtrar"
+palabras = texto.lower().split()
+
+palabras_prohibidas = {"ejemplo", "filtrar", "debemos"}
+palabras_permitidas = [palabra for palabra in palabras if palabra not in palabras_prohibidas]
+
+print(" ".join(palabras_permitidas))  # "este es un de texto con algunas palabras que"
+
+La diferencia de rendimiento se vuelve significativa con colecciones grandes:
+
+import time
+
+# Crear una lista grande y un conjunto con los mismos elementos
+lista_grande = list(range(1000000))
+conjunto_grande = set(lista_grande)
+elemento_buscar = 999999
+
+# Búsqueda en lista
+inicio = time.time()
+resultado_lista = elemento_buscar in lista_grande
+tiempo_lista = time.time() - inicio
+
+# Búsqueda en conjunto
+inicio = time.time()
+resultado_conjunto = elemento_buscar in conjunto_grande
+tiempo_conjunto = time.time() - inicio
+
+print(f"Tiempo de búsqueda en lista: {tiempo_lista:.6f} segundos")
+print(f"Tiempo de búsqueda en conjunto: {tiempo_conjunto:.6f} segundos")
+print(f"El conjunto es aproximadamente {tiempo_lista/tiempo_conjunto:.0f} veces más rápido")
+
+Validación de datos
+
+Los conjuntos son excelentes para validar que los datos cumplan ciertos criterios:
+
+# Validar que un formulario contenga todos los campos requeridos
+campos_requeridos = {"nombre", "email", "telefono", "direccion"}
+datos_formulario = {
+    "nombre": "Ana García",
+    "email": "ana@ejemplo.com",
+    "telefono": "555-123-4567"
+}
+
+campos_faltantes = campos_requeridos - set(datos_formulario.keys())
+
+if campos_faltantes:
+    print(f"Error: Faltan los siguientes campos: {', '.join(campos_faltantes)}")
+else:
+    print("Formulario válido")
+
+Verificación de restricciones
+
+Podemos usar conjuntos para verificar si un conjunto de datos cumple con ciertas restricciones:
+
+# Verificar si un usuario tiene los permisos necesarios
+def verificar_acceso(permisos_usuario, accion):
+    permisos_requeridos = {
+        "leer_archivo": {"leer"},
+        "modificar_archivo": {"leer", "escribir"},
+        "eliminar_archivo": {"leer", "escribir", "eliminar"},
+        "administrar_usuarios": {"admin"}
+    }
+    
+    if accion not in permisos_requeridos:
+        return False, "Acción desconocida"
+    
+    permisos_necesarios = permisos_requeridos[accion]
+    if not permisos_necesarios.issubset(permisos_usuario):
+        permisos_faltantes = permisos_necesarios - permisos_usuario
+        return False, f"Permisos insuficientes. Falta: {', '.join(permisos_faltantes)}"
+    
+    return True, "Acceso permitido"
+
+# Ejemplo de uso
+permisos_ana = {"leer", "escribir"}
+puede_acceder, mensaje = verificar_acceso(permisos_ana, "modificar_archivo")
+print(mensaje)  # "Acceso permitido"
+
+puede_acceder, mensaje = verificar_acceso(permisos_ana, "eliminar_archivo")
+print(mensaje)  # "Permisos insuficientes. Falta: eliminar"
+
+Casos de uso en aplicaciones reales
+Análisis de texto y procesamiento de lenguaje natural
+
+Los conjuntos son fundamentales en el análisis de texto para tareas como encontrar palabras únicas o calcular similitudes:
+
+# Calcular la similitud de Jaccard entre dos textos
+def similitud_jaccard(texto1, texto2):
+    # Convertir textos a conjuntos de palabras
+    palabras1 = set(texto1.lower().split())
+    palabras2 = set(texto2.lower().split())
+    
+    # Calcular intersección y unión
+    interseccion = palabras1 & palabras2
+    union = palabras1 | palabras2
+    
+    # Calcular coeficiente de Jaccard
+    return len(interseccion) / len(union)
+
+texto_a = "Python es un lenguaje de programación versátil y fácil de aprender"
+texto_b = "Python es fácil de aprender y tiene una sintaxis clara"
+
+print(f"Similitud: {similitud_jaccard(texto_a, texto_b):.2f}")  # Aproximadamente 0.50
+
+Detección de anomalías y valores atípicos
+
+Los conjuntos pueden ayudar a identificar valores inusuales o inesperados en datos:
+
+# Detectar valores atípicos en datos de transacciones
+categorias_esperadas = {"alimentos", "transporte", "entretenimiento", "servicios", "salud"}
+
+transacciones = [
+    {"id": 1, "categoria": "alimentos", "monto": 45.50},
+    {"id": 2, "categoria": "transporte", "monto": 22.00},
+    {"id": 3, "categoria": "ropa", "monto": 89.99},  # Categoría no esperada
+    {"id": 4, "categoria": "juegos", "monto": 59.99},  # Categoría no esperada
+    {"id": 5, "categoria": "salud", "monto": 120.00}
+]
+
+categorias_anomalas = {t["categoria"] for t in transacciones} - categorias_esperadas
+transacciones_anomalas = [t for t in transacciones if t["categoria"] in categorias_anomalas]
+
+print(f"Categorías no esperadas: {categorias_anomalas}")
+print(f"Transacciones con categorías anómalas: {transacciones_anomalas}")
+
+Implementación de caché simple
+
+Los conjuntos pueden usarse para implementar mecanismos de caché básicos:
+
+# Caché simple usando conjuntos para rastrear claves vistas
+class CacheSimple:
+    def __init__(self, capacidad=100):
+        self.capacidad = capacidad
+        self.cache = {}
+        self.claves_usadas = set()
+    
+    def obtener(self, clave):
+        if clave in self.cache:
+            self.claves_usadas.add(clave)
+            return self.cache[clave]
+        return None
+    
+    def almacenar(self, clave, valor):
+        # Si alcanzamos la capacidad, eliminar elementos no usados recientemente
+        if len(self.cache) >= self.capacidad and clave not in self.cache:
+            claves_a_eliminar = set(self.cache.keys()) - self.claves_usadas
+            if not claves_a_eliminar:  # Si todas las claves se han usado
+                return False  # No podemos almacenar más elementos
+            
+            # Eliminar una clave no usada
+            clave_eliminar = next(iter(claves_a_eliminar))
+            del self.cache[clave_eliminar]
+        
+        self.cache[clave] = valor
+        self.claves_usadas.add(clave)
+        return True
+    
+    def reiniciar_uso(self):
+        self.claves_usadas = set()
+
+# Ejemplo de uso
+cache = CacheSimple(capacidad=3)
+cache.almacenar("usuario_1", {"nombre": "Ana", "edad": 28})
+cache.almacenar("usuario_2", {"nombre": "Carlos", "edad": 35})
+print(cache.obtener("usuario_1"))  # {"nombre": "Ana", "edad": 28}
+
+Implementación de un sistema de etiquetas
+
+Los conjuntos son ideales para sistemas de etiquetas o categorías:
+
+# Sistema simple de etiquetas para artículos
+articulos = [
+    {"id": 1, "titulo": "Introducción a Python", "etiquetas": {"python", "programación", "principiante"}},
+    {"id": 2, "titulo": "Estructuras de datos avanzadas", "etiquetas": {"python", "estructuras", "avanzado"}},
+    {"id": 3, "titulo": "Desarrollo web con Django", "etiquetas": {"python", "django", "web"}}
+]
+
+# Buscar artículos por etiquetas
+def buscar_por_etiquetas(articulos, etiquetas_buscar):
+    return [
+        articulo for articulo in articulos 
+        if etiquetas_buscar.issubset(articulo["etiquetas"])
+    ]
+
+# Artículos que tienen las etiquetas "python" y "avanzado"
+resultados = buscar_por_etiquetas(articulos, {"python", "avanzado"})
+for articulo in resultados:
+    print(f"{articulo['id']}: {articulo['titulo']}")
+
+Optimización de rendimiento con conjuntos
+
+En aplicaciones con grandes volúmenes de datos, los conjuntos pueden mejorar significativamente el rendimiento:
+
+# Encontrar elementos comunes entre múltiples listas grandes
+def elementos_comunes_listas(*listas):
+    if not listas:
+        return []
+    
+    # Convertir la primera lista a conjunto
+    comunes = set(listas[0])
+    
+    # Intersectar con cada lista restante
+    for lista in listas[1:]:
+        comunes &= set(lista)
+    
+    return list(comunes)
+
+# Ejemplo con listas grandes
+import random
+lista1 = random.sample(range(1000000), 10000)
+lista2 = random.sample(range(1000000), 10000)
+lista3 = random.sample(range(1000000), 10000)
+
+# Insertar algunos elementos comunes
+elementos_compartidos = [42, 7777, 123456]
+for elemento in elementos_compartidos:
+    lista1.append(elemento)
+    lista2.append(elemento)
+    lista3.append(elemento)
+
+# Encontrar elementos comunes
+resultado = elementos_comunes_listas(lista1, lista2, lista3)
+print(f"Elementos comunes: {resultado}")  # Debería incluir los elementos_compartidos
+
+Los conjuntos en Python son una herramienta fundamental para cualquier programador que necesite manipular datos de manera eficiente. Su capacidad para eliminar duplicados y verificar la pertenencia de elementos con un rendimiento óptimo los convierte en componentes esenciales para muchas aplicaciones prácticas, desde el procesamiento de texto hasta el análisis de datos y la implementación de sistemas de caché.
+Aprendizajes de esta lección
+
+Comprender la unicidad y características de los conjuntos en Python. Aprender a crear y manipular conjuntos y frozensets. Conocer y aplicar operaciones matemáticas con conjuntos: unión, intersección, diferencia y diferencia simétrica. Utilizar conjuntos para eliminar duplicados y verificar pertenencia de elementos de forma eficiente. Aplicar conjuntos en casos prácticos como análisis de datos, filtrado y validación.
