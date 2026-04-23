@@ -149,3 +149,5 @@ print(min(numeros))  # Salida: 1
 
 # Ejemplo de uso de max()
 print(max(numeros))  # Salida: 5    
+
+
