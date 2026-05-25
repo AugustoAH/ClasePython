@@ -86,4 +86,4 @@ def jugar_hanoi(n=3):
 if __name__ == "__main__":
     #Puedes cambiar este número para jugar con más o menos discos 
     # (recomiendo no más de 5 para mantenerlo manejable)
-    jugar_hanoi(3)
+    jugar_hanoi(5) # Iniciar el juego con 3 discos por defecto
