@@ -49,11 +49,41 @@ def jugar_hanoi(n=3):
 
         entrada = input("Ingrese su movimiento: ").strip().upper()
 
+        if entrada == 'Q':
+            print("Gracias por jugar a la Torre de Hanoi. ¡Hasta luego!")
+            return
+        partes = entrada.split() # Dividir la entrada en partes para obtener el origen y destino
+        if len(partes) != 2 or partes[0] not in torres or partes[1] not in torres:
+            print("Entrada inválida. Por favor, asegúrate de usar las letras A, B o C")
+            input("Presione Enter para continuar...")
+            continue
+        origen, destino = partes[0], partes[1]  # Obtener el poste de origen y destino
 
+        #validar el movimiento: El poste de origen no debe estar vacío y el disco a mover debe 
+        # ser más pequeño que el disco superior del poste de destino (si no está vacío)
+        if not torres[origen]:
+            print(f"El poste {origen} está vacío. No puedes mover un disco desde allí.")
+            input("Presione Enter para continuar...")
+            continue
+        disco_a_mover = torres[origen][-1]  # Obtener el disco superior del poste de origen
 
+        if torres[destino] and torres[destino][-1] < disco_a_mover:
+            print(f"No puedes colocar un disco más grande sobre uno más pequeño en el poste {destino}.")
+            input("Presione Enter para continuar...")
+            continue
+        
+        # Si el movimiento es válido, realizarlo: quitar el disco del poste de origen y 
+        # agregarlo al poste de destino
+        torres[origen].pop()  # Quitar el disco del poste de origen
+        torres[destino].append(disco_a_mover)  # Agregar el disco al poste de destino
+        movimientos += 1  # Incrementar el contador de movimientos
+
+    #Pantalla Final del Juego
+    dibujar_torres(torres, n)
+    print(f"¡Felicidades! Has completado la Torre de Hanoi en {movimientos} movimientos.")
+    input("Presione Enter para salir...")
 
 if __name__ == "__main__":
-    # Se llama a la función Jugar para iniciar el Programa
-    #jugar_hanoi() # Función que inicia el juego de la Torre de Hanoi
-
-    dibujar_torres({'A': [3, 2, 1], 'B': [], 'C': []}, 3)
+    #Puedes cambiar este número para jugar con más o menos discos 
+    # (recomiendo no más de 5 para mantenerlo manejable)
+    jugar_hanoi(3)
