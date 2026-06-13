@@ -1,5 +1,5 @@
-A = 7
-B = 7
+A = 5
+B = 4
 suma = 0
 
 print("\n")
