@@ -184,3 +184,1146 @@ def potencia(base, exponente):
     resultado = base ** exponente
     return resultado
 
+
+5. Módulo math: funciones trigonométricas, logarítmicas y constantes matemáticas
+
+El módulo math de Python proporciona acceso a funciones matemáticas fundamentales definidas por el estándar C. 
+Este módulo es parte de la biblioteca estándar de Python, por lo que no necesitas instalarlo separadamente.
+
+Para utilizar el módulo math, primero debes importarlo en tu programa:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.1 Constantes matemáticas
+
+El módulo math incluye algunas constantes matemáticas importantes que puedes utilizar en tus cálculos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+# Constantes matemáticas fundamentales
+print(f"Pi (π): {math.pi}")  # 3.141592653589793
+print(f"Euler (e): {math.e}")  # 2.718281828459045
+print(f"Tau (τ): {math.tau}")  # 6.283185307179586 (2π)
+print(f"Infinito: {math.inf}")  # Infinito positivo
+print(f"NaN (Not a Number): {math.nan}")  # Valor no numérico
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.2 Funciones trigonométricas
+
+Las funciones trigonométricas son esenciales para cálculos relacionados con ángulos y círculos. El módulo math proporciona las funciones 
+trigonométricas básicas y sus inversas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+# Ángulo en radianes (π/4 = 45 grados)
+angulo = math.pi / 4
+
+# Funciones trigonométricas básicas (trabajan con radianes)
+print(f"Seno de π/4: {math.sin(angulo)}")  # 0.7071067811865475
+print(f"Coseno de π/4: {math.cos(angulo)}")  # 0.7071067811865476
+print(f"Tangente de π/4: {math.tan(angulo)}")  # 0.9999999999999999
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Es importante recordar que estas funciones trabajan con ángulos en radianes, no en grados. Si necesitas convertir entre grados y radianes, 
+puedes usar estas funciones:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Conversión entre grados y radianes
+grados = 45
+radianes = math.radians(grados)
+print(f"{grados} grados = {radianes} radianes")  # 45 grados = 0.7853981633974483 radianes
+
+radianes = math.pi / 6
+grados = math.degrees(radianes)
+print(f"{radianes} radianes = {grados} grados")  # 0.5235987755982988 radianes = 30.0 grados
+- - - - - - - - - - - - - - - - - - - - - - -
+
+El módulo también incluye funciones trigonométricas inversas que te permiten obtener el ángulo a partir de una razón trigonométrica:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Funciones trigonométricas inversas
+valor = 0.5
+print(f"Arcoseno de 0.5: {math.asin(valor)} radianes")  # 0.5235987755982989 (π/6)
+print(f"Arcocoseno de 0.5: {math.acos(valor)} radianes")  # 1.0471975511965979 (π/3)
+print(f"Arcotangente de 1: {math.atan(1)} radianes")  # 0.7853981633974483 (π/4)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Una función trigonométrica especialmente útil es math.atan2(y, x), que calcula el ángulo entre el eje x positivo y el punto (x, y):
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Arcotangente de dos argumentos (útil para coordenadas cartesianas)
+y, x = 1, 1
+angulo = math.atan2(y, x)
+print(f"Ángulo desde el origen al punto (1,1): {angulo} radianes")  # 0.7853981633974483 (π/4)
+print(f"En grados: {math.degrees(angulo)} grados")  # 45.0 grados
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.3 Funciones hiperbólicas
+
+El módulo math también proporciona funciones hiperbólicas y sus inversas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Funciones hiperbólicas
+x = 1.0
+print(f"Seno hiperbólico de 1: {math.sinh(x)}")  # 1.1752011936438014
+print(f"Coseno hiperbólico de 1: {math.cosh(x)}")  # 1.5430806348152437
+print(f"Tangente hiperbólica de 1: {math.tanh(x)}")  # 0.7615941559557649
+
+# Funciones hiperbólicas inversas
+valor = 0.5
+print(f"Arcoseno hiperbólico de 0.5: {math.asinh(valor)}")  # 0.48121182505960347
+print(f"Arcocoseno hiperbólico de 1.5: {math.acosh(1.5)}")  # 0.9624236501192069
+print(f"Arcotangente hiperbólica de 0.5: {math.atanh(valor)}")  # 0.5493061443340548
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.4 Funciones logarítmicas y exponenciales
+
+Las funciones logarítmicas son fundamentales en muchos cálculos matemáticos y científicos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+# Logaritmos
+x = 10
+print(f"Logaritmo natural (base e) de {x}: {math.log(x)}")  # 2.302585092994046
+print(f"Logaritmo en base 10 de {x}: {math.log10(x)}")  # 1.0
+print(f"Logaritmo en base 2 de {x}: {math.log2(x)}")  # 3.321928094887362
+
+# Logaritmo en cualquier base
+base = 5
+print(f"Logaritmo de {x} en base {base}: {math.log(x, base)}")  # 1.4306765580733933
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Las funciones exponenciales complementan a las logarítmicas:
+
+# Funciones exponenciales
+x = 2
+print(f"e elevado a {x}: {math.exp(x)}")  # 7.38905609893065
+print(f"e elevado a {x} menos 1: {math.expm1(x)}")  # 6.38905609893065
+
+# Potencias
+base = 2
+exponente = 10
+print(f"{base} elevado a {exponente}: {math.pow(base, exponente)}")  # 1024.0
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.5 Funciones de redondeo
+
+El módulo math ofrece varias funciones de redondeo que son útiles en diferentes contextos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+# Funciones de redondeo
+x = 3.7
+print(f"Redondeo hacia abajo (floor) de {x}: {math.floor(x)}")  # 3
+print(f"Redondeo hacia arriba (ceil) de {x}: {math.ceil(x)}")  # 4
+print(f"Truncamiento de {x}: {math.trunc(x)}")  # 3 (elimina la parte decimal)
+
+# Redondeo a un número específico de decimales
+x = 3.14159
+print(f"Redondeo de {x} a 2 decimales: {round(x, 2)}")  # 3.14
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.6 Otras funciones matemáticas útiles
+
+El módulo math incluye muchas otras funciones matemáticas útiles:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+# Valor absoluto
+print(f"Valor absoluto de -5: {math.fabs(-5)}")  # 5.0
+
+# Factorial
+n = 5
+print(f"Factorial de {n}: {math.factorial(n)}")  # 120
+
+# Máximo común divisor (MCD)
+a, b = 24, 36
+print(f"MCD de {a} y {b}: {math.gcd(a, b)}")  # 12
+
+# Mínimo común múltiplo (MCM) - Disponible desde Python 3.9
+if hasattr(math, 'lcm'):  # Verificamos si está disponible
+    print(f"MCM de {a} y {b}: {math.lcm(a, b)}")  # 72
+
+# Raíz cuadrada
+x = 16
+print(f"Raíz cuadrada de {x}: {math.sqrt(x)}")  # 4.0
+
+# Distancia euclidiana
+x1, y1 = 0, 0
+x2, y2 = 3, 4
+distancia = math.dist((x1, y1), (x2, y2))  # Disponible desde Python 3.8
+print(f"Distancia entre puntos: {distancia}")  # 5.0
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+5.7 Ejemplo práctico: cálculo de la trayectoria de un proyectil
+
+Veamos un ejemplo que combina varias funciones del módulo math para calcular la trayectoria de un proyectil:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+def calcular_trayectoria(velocidad_inicial, angulo_grados, altura_inicial=0):
+    """Calcula la distancia máxima y altura máxima de un proyectil."""
+    # Convertir ángulo a radianes
+    angulo_rad = math.radians(angulo_grados)
+    
+    # Constantes
+    g = 9.8  # Aceleración debido a la gravedad (m/s²)
+    
+    # Componentes de la velocidad
+    v0x = velocidad_inicial * math.cos(angulo_rad)
+    v0y = velocidad_inicial * math.sin(angulo_rad)
+    
+    # Tiempo de vuelo
+    tiempo_vuelo = (v0y + math.sqrt(v0y**2 + 2*g*altura_inicial)) / g
+    
+    # Distancia máxima
+    distancia_maxima = v0x * tiempo_vuelo
+    
+    # Altura máxima
+    altura_maxima = altura_inicial + (v0y**2) / (2*g)
+    
+    return distancia_maxima, altura_maxima
+
+# Ejemplo de uso
+velocidad = 20  # m/s
+angulo = 45     # grados
+altura = 1.5    # metros
+
+distancia, altura_max = calcular_trayectoria(velocidad, angulo, altura)
+print(f"Un proyectil lanzado a {velocidad} m/s con un ángulo de {angulo}° desde {altura} m de altura:")
+print(f"- Alcanzará una distancia máxima de {distancia:.2f} metros")
+print(f"- Llegará a una altura máxima de {altura_max:.2f} metros")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Este ejemplo muestra cómo las funciones trigonométricas y otras funciones matemáticas pueden aplicarse a problemas físicos reales.
+
+5.8 Precisión y limitaciones
+
+Es importante tener en cuenta que las funciones del módulo math trabajan con números de punto flotante (tipo float), que tienen limitaciones de precisión inherentes:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import math
+
+# Ejemplo de limitación de precisión
+print(math.sin(math.pi))  # Debería ser 0, pero obtenemos un valor muy pequeño: 1.2246467991473532e-16
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Para cálculos que requieren alta precisión, especialmente con números muy grandes o muy pequeños, 
+considera usar el módulo decimal o fractions de Python.
+
+6. Generación de números aleatorios con random.random() y random.randint()
+
+La generación de números aleatorios es fundamental en muchas aplicaciones de programación, desde simulaciones y juegos hasta algoritmos de 
+criptografía y muestreo estadístico. Python proporciona el módulo random en su biblioteca estándar para satisfacer estas necesidades.
+
+Para empezar a utilizar las funciones de generación de números aleatorios, primero debemos importar el módulo:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+- - - - - - - - - - - - - - - - - - - - - - -
+
+6.1 Números aleatorios de punto flotante con random.random()
+
+La función random.random() es la más básica del módulo y genera un número flotante aleatorio en el intervalo [0.0, 1.0) 
+(incluye el 0.0 pero excluye el 1.0):
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Generar un número aleatorio entre 0.0 y 1.0
+numero_aleatorio = random.random()
+print(f"Número aleatorio: {numero_aleatorio}")  # Por ejemplo: 0.7234529875098452
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Esta función es muy útil como base para generar valores aleatorios en diferentes rangos. Por ejemplo, si necesitamos un número 
+flotante en un rango específico, podemos aplicar una transformación lineal:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Generar un número flotante aleatorio entre 5.0 y 10.0
+inicio = 5.0
+fin = 10.0
+numero_aleatorio = random.random() * (fin - inicio) + inicio
+print(f"Número aleatorio entre {inicio} y {fin}: {numero_aleatorio}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Python también ofrece una función específica para este propósito llamada random.uniform():
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Alternativa más directa para generar un flotante en un rango específico
+numero_aleatorio = random.uniform(5.0, 10.0)
+print(f"Número aleatorio entre 5.0 y 10.0: {numero_aleatorio}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+6.2 Números enteros aleatorios con random.randint()
+
+Cuando necesitamos números enteros aleatorios, la función random.randint(a, b) es la opción ideal. Esta función devuelve un entero 
+aleatorio N tal que a <= N <= b (ambos límites están incluidos):
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Generar un entero aleatorio entre 1 y 10 (ambos inclusive)
+numero_entero = random.randint(1, 10)
+print(f"Número entero aleatorio: {numero_entero}")  # Por ejemplo: 7
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Esta función es perfecta para simular lanzamientos de dados, selección de cartas o cualquier situación donde necesitemos un número 
+entero dentro de un rango específico:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Simular el lanzamiento de un dado de 6 caras
+resultado_dado = random.randint(1, 6)
+print(f"Resultado del dado: {resultado_dado}")
+
+# Generar un número aleatorio para una lotería (entre 1 y 49)
+numero_loteria = random.randint(1, 49)
+print(f"Número de lotería: {numero_loteria}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Si necesitamos generar múltiples números aleatorios, podemos usar un bucle o una comprensión de lista:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Generar 5 números aleatorios entre 1 y 100
+numeros_aleatorios = [random.randint(1, 100) for _ in range(5)]
+print(f"Cinco números aleatorios: {numeros_aleatorios}")  # Por ejemplo: [42, 87, 13, 56, 91]
+
+# Simular 10 lanzamientos de un dado
+lanzamientos = [random.randint(1, 6) for _ in range(10)]
+print(f"Resultados de 10 lanzamientos: {lanzamientos}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+6.3 Variante: random.randrange()
+
+Una alternativa a randint() es la función random.randrange(), que permite especificar un paso entre los valores posibles:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Generar un número par aleatorio entre 0 y 100
+numero_par = random.randrange(0, 101, 2)
+print(f"Número par aleatorio: {numero_par}")
+
+# Generar un número impar aleatorio entre 1 y 99
+numero_impar = random.randrange(1, 100, 2)
+print(f"Número impar aleatorio: {numero_impar}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+La diferencia principal entre randint(a, b) y randrange(a, b+1) es que randrange excluye el límite superior, mientras que randint lo incluye.
+
+6.4 Ejemplo práctico: juego de adivinanza
+
+Veamos un ejemplo práctico que utiliza random.randint() para crear un sencillo juego de adivinanza:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+def juego_adivinanza():
+    # Generar un número aleatorio entre 1 y 100
+    numero_secreto = random.randint(1, 100)
+    intentos = 0
+    adivinado = False
+    
+    print("¡Bienvenido al juego de adivinanza!")
+    print("Estoy pensando en un número entre 1 y 100.")
+    
+    while not adivinado and intentos < 7:
+        try:
+            # Solicitar al usuario que adivine
+            intento = int(input("Tu intento: "))
+            intentos += 1
+            
+            # Comprobar el intento
+            if intento < numero_secreto:
+                print("Demasiado bajo. Intenta un número más alto.")
+            elif intento > numero_secreto:
+                print("Demasiado alto. Intenta un número más bajo.")
+            else:
+                adivinado = True
+                print(f"¡Correcto! Has adivinado el número en {intentos} intentos.")
+        except ValueError:
+            print("Por favor, introduce un número válido.")
+    
+    if not adivinado:
+        print(f"Lo siento, has agotado tus intentos. El número era {numero_secreto}.")
+
+# Ejecutar el juego
+if __name__ == "__main__":
+    juego_adivinanza()
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+6.5 Ejemplo avanzado: simulación de Monte Carlo
+
+Las funciones de generación de números aleatorios son fundamentales en las simulaciones de Monte Carlo, que utilizan el muestreo aleatorio para obtener resultados numéricos. Veamos un ejemplo simple para estimar el valor de π:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import matplotlib.pyplot as plt
+
+def estimar_pi(num_puntos):
+    """Estima el valor de π usando el método de Monte Carlo."""
+    puntos_dentro = 0
+    puntos_x = []
+    puntos_y = []
+    colores = []
+    
+    for _ in range(num_puntos):
+        # Generar coordenadas aleatorias entre -1 y 1
+        x = random.random() * 2 - 1
+        y = random.random() * 2 - 1
+        
+        puntos_x.append(x)
+        puntos_y.append(y)
+        
+        # Comprobar si el punto está dentro del círculo unitario
+        if x**2 + y**2 <= 1:
+            puntos_dentro += 1
+            colores.append('blue')
+        else:
+            colores.append('red')
+    
+    # La proporción de puntos dentro del círculo nos da π/4
+    pi_estimado = 4 * puntos_dentro / num_puntos
+    
+    # Visualización (opcional)
+    plt.figure(figsize=(6, 6))
+    plt.scatter(puntos_x, puntos_y, c=colores, alpha=0.5, s=10)
+    plt.axis('equal')
+    plt.title(f'Estimación de π: {pi_estimado:.6f}')
+    plt.show()
+    
+    return pi_estimado
+
+# Estimar π con 10,000 puntos
+estimacion = estimar_pi(10000)
+print(f"Valor estimado de π: {estimacion}")
+print(f"Valor real de π: {3.141592653589793}")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Este ejemplo muestra cómo podemos usar números aleatorios para resolver problemas complejos mediante simulación. La precisión de la estimación aumenta con el número de puntos utilizados.
+
+7. Consideraciones sobre la calidad de los números aleatorios
+
+Es importante entender que los números generados por el módulo random son pseudoaleatorios, lo que significa que siguen un algoritmo 
+determinista pero parecen aleatorios para la mayoría de las aplicaciones prácticas. Para aplicaciones que requieren aleatoriedad criptográfica 
+(como seguridad y criptografía), deberías usar el módulo secrets en su lugar:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import secrets
+
+# Generar un entero aleatorio seguro para criptografía
+numero_seguro = secrets.randbelow(100)  # Entero aleatorio entre 0 y 99
+token_bytes = secrets.token_bytes(16)   # 16 bytes aleatorios
+token_hex = secrets.token_hex(16)       # 32 caracteres hexadecimales aleatorios
+
+print(f"Número seguro: {numero_seguro}")
+print(f"Token bytes: {token_bytes}")
+print(f"Token hex: {token_hex}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Para la mayoría de las aplicaciones científicas, educativas y de entretenimiento, el módulo random proporciona suficiente aleatoriedad y es significativamente más rápido que las alternativas criptográficamente seguras.
+
+8. Muestreo y selección con random.choice() y random.sample()
+
+Además de generar números aleatorios, el módulo random de Python ofrece funciones especializadas para seleccionar elementos de secuencias. 
+Estas funciones son particularmente útiles cuando necesitamos elegir uno o varios elementos de una colección de forma aleatoria.
+
+9. Selección de un elemento con random.choice()
+
+La función random.choice() selecciona un elemento aleatorio de una secuencia no vacía:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Seleccionar un elemento aleatorio de una lista
+colores = ["rojo", "verde", "azul", "amarillo", "morado"]
+color_seleccionado = random.choice(colores)
+print(f"Color seleccionado: {color_seleccionado}")
+
+# Seleccionar un carácter aleatorio de una cadena
+palabra = "Python"
+letra = random.choice(palabra)
+print(f"Letra seleccionada: {letra}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Esta función es extremadamente versátil y puede utilizarse con cualquier tipo de secuencia iterable como listas, tuplas, cadenas o incluso rangos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ejemplos con diferentes tipos de secuencias
+numero = random.choice(range(1, 101))  # Número aleatorio entre 1 y 100
+print(f"Número seleccionado: {numero}")
+
+tupla_meses = ("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio")
+mes = random.choice(tupla_meses)
+print(f"Mes seleccionado: {mes}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+10. Selección de múltiples elementos con random.sample()
+
+Cuando necesitamos seleccionar varios elementos únicos de una secuencia, random.sample() es la herramienta ideal. Esta función toma una 
+población y un tamaño de muestra, y devuelve una lista con elementos seleccionados aleatoriamente sin repetición:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Seleccionar 3 elementos aleatorios de una lista
+frutas = ["manzana", "plátano", "naranja", "pera", "uva", "kiwi", "fresa"]
+seleccion = random.sample(frutas, 3)
+print(f"Frutas seleccionadas: {seleccion}")
+
+# Seleccionar 5 números únicos entre 1 y 50 (como en una lotería)
+numeros_loteria = random.sample(range(1, 51), 5)
+print(f"Números de lotería: {numeros_loteria}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Es importante destacar que random.sample() no modifica la secuencia original y siempre devuelve elementos únicos. El tamaño de la 
+muestra no puede ser mayor que el tamaño de la población:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Esto generaría un error:
+try:
+    # Intentar seleccionar más elementos de los disponibles
+    seleccion_imposible = random.sample(["a", "b", "c"], 5)
+except ValueError as e:
+    print(f"Error: {e}")  # Muestra: "Error: Sample larger than population or is negative"
+- - - - - - - - - - - - - - - - - - - - - - -
+
+11. Diferencia entre random.choices() y random.sample()
+
+Es importante no confundir random.sample() con random.choices(). Mientras que sample() selecciona elementos sin repetición, choices() 
+permite repeticiones:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+opciones = [1, 2, 3, 4, 5]
+
+# Sin repetición (elementos únicos)
+muestra = random.sample(opciones, k=3)
+print(f"Muestra sin repetición: {muestra}")
+
+# Con posible repetición
+seleccion = random.choices(opciones, k=3)
+print(f"Selección con posible repetición: {seleccion}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Además, random.choices() permite especificar pesos para cada elemento, lo que modifica la probabilidad de selección:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Selección con pesos (el 5 tiene más probabilidad de ser seleccionado)
+pesos = [1, 1, 1, 1, 5]  # El último elemento tiene 5 veces más probabilidad
+seleccion_ponderada = random.choices(opciones, weights=pesos, k=3)
+print(f"Selección ponderada: {seleccion_ponderada}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+12. Ejemplo práctico: generador de contraseñas
+
+Veamos un ejemplo práctico que utiliza random.choice() y random.sample() para crear un generador de contraseñas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import string
+
+def generar_contrasena(longitud=12, incluir_mayusculas=True, 
+                       incluir_numeros=True, incluir_simbolos=True):
+    """Genera una contraseña aleatoria con los criterios especificados."""
+    # Definir los conjuntos de caracteres
+    minusculas = string.ascii_lowercase
+    mayusculas = string.ascii_uppercase if incluir_mayusculas else ""
+    numeros = string.digits if incluir_numeros else ""
+    simbolos = string.punctuation if incluir_simbolos else ""
+    
+    # Combinar todos los caracteres disponibles
+    todos_caracteres = minusculas + mayusculas + numeros + simbolos
+    
+    # Asegurar que al menos un carácter de cada tipo requerido esté presente
+    caracteres_requeridos = []
+    if minusculas:
+        caracteres_requeridos.append(random.choice(minusculas))
+    if mayusculas:
+        caracteres_requeridos.append(random.choice(mayusculas))
+    if numeros:
+        caracteres_requeridos.append(random.choice(numeros))
+    if simbolos:
+        caracteres_requeridos.append(random.choice(simbolos))
+    
+    # Completar el resto de la contraseña
+    longitud_restante = longitud - len(caracteres_requeridos)
+    if longitud_restante > 0:
+        caracteres_aleatorios = [random.choice(todos_caracteres) for _ in range(longitud_restante)]
+    else:
+        caracteres_aleatorios = []
+    
+    # Combinar y mezclar todos los caracteres
+    todos_los_caracteres = caracteres_requeridos + caracteres_aleatorios
+    random.shuffle(todos_los_caracteres)
+    
+    # Convertir la lista de caracteres a una cadena
+    contrasena = ''.join(todos_los_caracteres)
+    return contrasena
+
+# Generar diferentes tipos de contraseñas
+contrasena_segura = generar_contrasena(15)
+contrasena_sin_simbolos = generar_contrasena(10, incluir_simbolos=False)
+contrasena_solo_letras = generar_contrasena(8, incluir_numeros=False, incluir_simbolos=False)
+
+print(f"Contraseña segura: {contrasena_segura}")
+print(f"Contraseña sin símbolos: {contrasena_sin_simbolos}")
+print(f"Contraseña solo con letras: {contrasena_solo_letras}")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+13. Ejemplo: simulación de barajar cartas
+
+Otro ejemplo común es la simulación de barajar cartas, donde podemos usar random.sample() para mezclar un mazo completo:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+def crear_baraja():
+    """Crea una baraja estándar de 52 cartas."""
+    palos = ["♠", "♥", "♦", "♣"]
+    valores = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+    return [f"{valor}{palo}" for palo in palos for valor in valores]
+
+def barajar(mazo):
+    """Baraja un mazo de cartas y devuelve el mazo mezclado."""
+    return random.sample(mazo, len(mazo))
+
+def repartir_mano(mazo, num_cartas):
+    """Reparte una mano de cartas del mazo."""
+    return random.sample(mazo, num_cartas)
+
+# Crear y barajar una baraja
+baraja = crear_baraja()
+baraja_barajada = barajar(baraja)
+
+# Repartir manos a dos jugadores
+mano_jugador1 = repartir_mano(baraja_barajada, 5)
+# Eliminamos las cartas ya repartidas para el segundo jugador
+baraja_restante = [carta for carta in baraja_barajada if carta not in mano_jugador1]
+mano_jugador2 = repartir_mano(baraja_restante, 5)
+
+print(f"Mano del Jugador 1: {mano_jugador1}")
+print(f"Mano del Jugador 2: {mano_jugador2}")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+14. Selección de elementos con pesos personalizados
+
+Si necesitamos seleccionar elementos con probabilidades diferentes, podemos usar random.choices() con el parámetro weights:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Simulación de lanzamiento de dado cargado
+# El 6 tiene el doble de probabilidad que los demás números
+caras_dado = [1, 2, 3, 4, 5, 6]
+pesos = [1, 1, 1, 1, 1, 2]  # El 6 tiene peso 2, los demás peso 1
+
+# Simular 20 lanzamientos del dado cargado
+lanzamientos = random.choices(caras_dado, weights=pesos, k=20)
+print(f"Resultados de 20 lanzamientos: {lanzamientos}")
+
+# Contar frecuencias
+frecuencias = {cara: lanzamientos.count(cara) for cara in caras_dado}
+print(f"Frecuencias: {frecuencias}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+También podemos usar probabilidades relativas con el parámetro cum_weights (pesos acumulativos):
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Usando pesos acumulativos
+pesos_acumulativos = [1, 2, 3, 4, 5, 7]  # Suma de pesos anteriores
+seleccion = random.choices(caras_dado, cum_weights=pesos_acumulativos, k=10)
+print(f"Selección con pesos acumulativos: {seleccion}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+15. Aplicación: generación de datos aleatorios para pruebas
+
+Las funciones de muestreo son extremadamente útiles para generar datos de prueba en desarrollo de software:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import datetime
+
+def generar_usuario_aleatorio():
+    """Genera datos de usuario aleatorios para pruebas."""
+    nombres = ["Ana", "Carlos", "Elena", "David", "Laura", "Miguel", "Sofía", "Pablo"]
+    apellidos = ["García", "Rodríguez", "López", "Martínez", "González", "Pérez", "Sánchez"]
+    dominios = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "empresa.es"]
+    
+    nombre = random.choice(nombres)
+    apellido = random.choice(apellidos)
+    edad = random.randint(18, 80)
+    
+    # Generar email
+    email = f"{nombre.lower()}.{apellido.lower()}@{random.choice(dominios)}"
+    
+    # Generar fecha de registro (en los últimos 5 años)
+    dias_atras = random.randint(1, 365 * 5)
+    fecha_registro = datetime.datetime.now() - datetime.timedelta(days=dias_atras)
+    
+    return {
+        "nombre": nombre,
+        "apellido": apellido,
+        "email": email,
+        "edad": edad,
+        "fecha_registro": fecha_registro.strftime("%Y-%m-%d")
+    }
+
+# Generar 5 usuarios aleatorios
+usuarios = [generar_usuario_aleatorio() for _ in range(5)]
+for i, usuario in enumerate(usuarios, 1):
+    print(f"Usuario {i}:")
+    for clave, valor in usuario.items():
+        print(f"  {clave}: {valor}")
+    print()
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+16. Selección aleatoria de elementos de un diccionario
+
+Para seleccionar elementos aleatorios de un diccionario, podemos convertir sus claves o valores en una lista:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Diccionario de capitales
+capitales = {
+    "España": "Madrid",
+    "Francia": "París",
+    "Italia": "Roma",
+    "Alemania": "Berlín",
+    "Reino Unido": "Londres",
+    "Portugal": "Lisboa",
+    "Grecia": "Atenas"
+}
+
+# Seleccionar un país aleatorio (clave)
+pais_aleatorio = random.choice(list(capitales.keys()))
+print(f"País seleccionado: {pais_aleatorio}, Capital: {capitales[pais_aleatorio]}")
+
+# Seleccionar 3 países aleatorios sin repetición
+paises_muestra = random.sample(list(capitales.keys()), 3)
+print("Muestra de países:")
+for pais in paises_muestra:
+    print(f"- {pais}: {capitales[pais]}")
+
+# Seleccionar una capital aleatoria (valor)
+capital_aleatoria = random.choice(list(capitales.values()))
+print(f"Capital seleccionada: {capital_aleatoria}")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Las funciones random.choice() y random.sample() son herramientas fundamentales para cualquier programador que necesite implementar selección aleatoria en sus aplicaciones. Desde juegos y simulaciones hasta generación de datos de prueba, estas funciones ofrecen una manera sencilla y eficiente de introducir aleatoriedad controlada en nuestros programas.
+
+17. Reproducibilidad con random.seed() y distribuciones aleatorias
+
+Cuando trabajamos con números aleatorios en Python, a veces necesitamos que nuestros resultados sean reproducibles, especialmente en contextos 
+científicos, pruebas automatizadas o depuración de código. El módulo random proporciona mecanismos para controlar la generación de números 
+aleatorios y crear distribuciones con características específicas.
+
+17.1 Control de la aleatoriedad con random.seed()
+
+La función random.seed() permite establecer una semilla para el generador de números aleatorios. Cuando fijamos una semilla, la secuencia 
+de números generados será siempre la misma:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Establecer una semilla específica
+random.seed(42)
+
+# Generar algunos números aleatorios
+print(random.random())  # 0.6394267984578837
+print(random.random())  # 0.025010755222666936
+print(random.random())  # 0.27502931836911926
+
+# Si reiniciamos con la misma semilla, obtendremos la misma secuencia
+random.seed(42)
+print(random.random())  # 0.6394267984578837 (igual que el primer número)
+print(random.random())  # 0.025010755222666936 (igual que el segundo número)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Esta característica es extremadamente útil para:
+
+* Pruebas unitarias: Asegurar que las pruebas que utilizan aleatoriedad sean consistentes.
+* Investigación científica: Permitir que otros investigadores reproduzcan exactamente tus resultados.
+* Depuración: Aislar problemas en código que utiliza números aleatorios.
+
+Si no especificamos una semilla, Python utilizará la hora del sistema u otras fuentes de entropía para inicializar el generador, lo que produce resultados diferentes en cada ejecución.
+
+17.2 Tipos de semillas
+
+Podemos usar diferentes tipos de valores como semilla:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Semilla con un entero
+random.seed(123)
+
+# Semilla con una cadena de texto (se convierte a un valor hash)
+random.seed("mi_experimento")
+
+# Semilla con bytes
+random.seed(b"datos_binarios")
+
+# Semilla con None (usa la hora del sistema u otra fuente de entropía)
+random.seed(None)  # Este es el comportamiento predeterminado
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.3 Ejemplo práctico: simulación reproducible
+
+Veamos un ejemplo donde la reproducibilidad es crucial - una simulación de lanzamiento de monedas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+def simular_lanzamientos(n_lanzamientos, semilla=None):
+    """Simula n lanzamientos de moneda y devuelve el número de caras."""
+    # Establecer la semilla si se proporciona
+    if semilla is not None:
+        random.seed(semilla)
+    
+    # Simular lanzamientos (1: cara, 0: cruz)
+    lanzamientos = [random.randint(0, 1) for _ in range(n_lanzamientos)]
+    
+    return sum(lanzamientos)  # Número total de caras
+
+# Ejecutar la simulación con una semilla fija
+resultado1 = simular_lanzamientos(1000, semilla=42)
+print(f"Simulación 1: {resultado1} caras en 1000 lanzamientos")
+
+# Ejecutar de nuevo con la misma semilla
+resultado2 = simular_lanzamientos(1000, semilla=42)
+print(f"Simulación 2: {resultado2} caras en 1000 lanzamientos")
+
+# Ejecutar con una semilla diferente
+resultado3 = simular_lanzamientos(1000, semilla=123)
+print(f"Simulación 3: {resultado3} caras en 1000 lanzamientos")
+
+# Ejecutar sin semilla (resultados no reproducibles)
+resultado4 = simular_lanzamientos(1000)
+print(f"Simulación 4: {resultado4} caras en 1000 lanzamientos")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.4 Semillas en entornos multihilo
+
+Es importante tener en cuenta que el generador de números aleatorios de Python no es seguro para hilos. Si estás trabajando en un entorno 
+multihilo, cada hilo debería tener su propio generador:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import threading
+
+def tarea_con_aleatorios(id_hilo):
+    # Crear un generador independiente para este hilo
+    generador_local = random.Random()
+    # Semilla única para este hilo
+    generador_local.seed(42 + id_hilo)
+    
+    # Usar el generador local
+    for _ in range(3):
+        print(f"Hilo {id_hilo}: {generador_local.random()}")
+
+# Crear y ejecutar hilos
+hilos = []
+for i in range(3):
+    hilo = threading.Thread(target=tarea_con_aleatorios, args=(i,))
+    hilos.append(hilo)
+    hilo.start()
+
+# Esperar a que todos los hilos terminen
+for hilo in hilos:
+    hilo.join()
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.5 Distribuciones aleatorias
+
+Además de los números aleatorios uniformes, el módulo random proporciona funciones para generar valores según diferentes distribuciones estadísticas. 
+Estas son especialmente útiles en simulaciones científicas, análisis estadístico y modelado de fenómenos reales.
+
+17.6 Distribución normal (gaussiana)
+
+La distribución normal es fundamental en estadística y modela muchos fenómenos naturales:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import matplotlib.pyplot as plt
+
+# Generar 1000 valores con distribución normal
+# con media 0 y desviación estándar 1
+random.seed(42)  # Para reproducibilidad
+valores_normales = [random.normalvariate(0, 1) for _ in range(1000)]
+
+# Visualizar la distribución
+plt.hist(valores_normales, bins=30, alpha=0.7)
+plt.title("Distribución Normal (μ=0, σ=1)")
+plt.xlabel("Valor")
+plt.ylabel("Frecuencia")
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Ejemplos con diferentes parámetros
+altura_hombres = random.normalvariate(175, 7)  # Media 175cm, desviación 7cm
+print(f"Altura aleatoria (hombre): {altura_hombres:.1f} cm")
+
+temperatura_ciudad = random.normalvariate(22, 3)  # Media 22°C, desviación 3°C
+print(f"Temperatura aleatoria: {temperatura_ciudad:.1f}°C")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.7 Distribución triangular
+
+Útil cuando conocemos el valor mínimo, máximo y más probable:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Distribución triangular (min, moda, max)
+# Ejemplo: tiempo para completar una tarea (entre 2 y 8 horas, más probable 4)
+tiempo_tarea = random.triangular(2, 4, 8)
+print(f"Tiempo estimado para la tarea: {tiempo_tarea:.2f} horas")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.8 Distribución exponencial
+
+Modela el tiempo entre eventos independientes que ocurren a una tasa constante:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Distribución exponencial (lambda=0.2)
+# Ejemplo: tiempo entre llegadas de clientes a una tienda
+tiempo_entre_llegadas = random.expovariate(0.2)  # Media = 1/0.2 = 5
+print(f"Tiempo hasta próximo cliente: {tiempo_entre_llegadas:.2f} minutos")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.9 Distribución de Pareto
+
+Útil para modelar muchos fenómenos naturales y sociales donde se aplica el "principio 80-20":
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Distribución de Pareto (alfa=1.5)
+# Ejemplo: tamaño de ciudades, ingresos, etc.
+valor_pareto = random.paretovariate(1.5)
+print(f"Valor con distribución de Pareto: {valor_pareto:.2f}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.10 Distribución beta
+
+Adecuada para modelar proporciones o probabilidades:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Distribución beta (alfa=2, beta=5)
+# Ejemplo: modelar la proporción de tiempo que un sistema está ocupado
+proporcion = random.betavariate(2, 5)
+print(f"Proporción (distribución beta): {proporcion:.2f}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+17.11 Ejemplo avanzado: simulación de mercado financiero
+
+Combinemos semillas y distribuciones para crear una simulación reproducible de un mercado financiero simplificado:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import matplotlib.pyplot as plt
+
+def simular_mercado(dias, precio_inicial, volatilidad, semilla=None):
+    """
+    Simula el precio de un activo financiero usando un modelo simple.
+    
+    Args:
+        dias: Número de días a simular
+        precio_inicial: Precio inicial del activo
+        volatilidad: Volatilidad diaria (desviación estándar del cambio porcentual)
+        semilla: Semilla para reproducibilidad
+    
+    Returns:
+        Lista de precios diarios
+    """
+    if semilla is not None:
+        random.seed(semilla)
+    
+    precios = [precio_inicial]
+    
+    for _ in range(dias):
+        # Cambio porcentual diario con distribución normal
+        cambio_porcentual = random.normalvariate(0.0005, volatilidad)  # Media ligeramente positiva
+        nuevo_precio = precios[-1] * (1 + cambio_porcentual)
+        precios.append(nuevo_precio)
+    
+    return precios
+
+# Parámetros de la simulación
+dias_simulacion = 252  # Aproximadamente un año de trading
+precio_inicial = 100
+volatilidad = 0.015  # 1.5% de volatilidad diaria
+
+# Ejecutar simulaciones con diferentes semillas
+simulacion1 = simular_mercado(dias_simulacion, precio_inicial, volatilidad, semilla=42)
+simulacion2 = simular_mercado(dias_simulacion, precio_inicial, volatilidad, semilla=123)
+simulacion3 = simular_mercado(dias_simulacion, precio_inicial, volatilidad, semilla=789)
+
+# Visualizar resultados
+plt.figure(figsize=(10, 6))
+plt.plot(simulacion1, label="Simulación 1 (semilla=42)")
+plt.plot(simulacion2, label="Simulación 2 (semilla=123)")
+plt.plot(simulacion3, label="Simulación 3 (semilla=789)")
+plt.title("Simulación de Precios de Activo Financiero")
+plt.xlabel("Días")
+plt.ylabel("Precio")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Estadísticas de las simulaciones
+for i, sim in enumerate([simulacion1, simulacion2, simulacion3], 1):
+    rendimiento = (sim[-1] - sim[0]) / sim[0] * 100
+    maximo = max(sim)
+    minimo = min(sim)
+    print(f"Simulación {i}: Rendimiento: {rendimiento:.2f}%, Máximo: {maximo:.2f}, Mínimo: {minimo:.2f}")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+18. Muestreo aleatorio con distribuciones personalizadas
+
+Podemos combinar random.choices() con pesos para crear distribuciones personalizadas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import matplotlib.pyplot as plt
+from collections import Counter
+
+# Definir una distribución personalizada
+valores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# Distribución que favorece valores más altos
+pesos = [x**2 for x in valores]  # Pesos proporcionales al cuadrado del valor
+
+# Establecer semilla para reproducibilidad
+random.seed(42)
+
+# Generar 1000 muestras según esta distribución
+muestras = random.choices(valores, weights=pesos, k=1000)
+
+# Contar frecuencias
+contador = Counter(muestras)
+frecuencias = [contador[v] for v in valores]
+
+# Visualizar la distribución resultante
+plt.bar(valores, frecuencias)
+plt.title("Distribución personalizada con pesos")
+plt.xlabel("Valor")
+plt.ylabel("Frecuencia")
+plt.grid(True, alpha=0.3)
+plt.show()
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+19. Generación de permutaciones aleatorias reproducibles
+
+La función random.shuffle() permite mezclar una secuencia de forma aleatoria, y también respeta la semilla establecida:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+
+# Lista original
+cartas = ["A♠", "K♠", "Q♠", "J♠", "10♠", "A♥", "K♥", "Q♥", "J♥", "10♥"]
+
+# Establecer semilla
+random.seed(42)
+
+# Mezclar la lista
+random.shuffle(cartas)
+print("Mezcla 1:", cartas)
+
+# Restaurar la lista original
+cartas = ["A♠", "K♠", "Q♠", "J♠", "10♠", "A♥", "K♥", "Q♥", "J♥", "10♥"]
+
+# Usar la misma semilla
+random.seed(42)
+
+# Mezclar de nuevo
+random.shuffle(cartas)
+print("Mezcla 2:", cartas)  # Idéntica a la primera mezcla
+- - - - - - - - - - - - - - - - - - - - - - -
+
+20. Aplicación práctica: generación de datos de prueba reproducibles
+
+La reproducibilidad es especialmente útil cuando generamos datos de prueba para algoritmos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import random
+import numpy as np
+
+def generar_dataset_prueba(n_muestras, n_caracteristicas, semilla=None):
+    """
+    Genera un conjunto de datos de prueba reproducible para machine learning.
+    
+    Returns:
+        X: Características
+        y: Etiquetas (0 o 1)
+    """
+    if semilla is not None:
+        random.seed(semilla)
+        np.random.seed(semilla)  # También establecemos la semilla para NumPy
+    
+    # Generar características con distribución normal
+    X = []
+    for _ in range(n_muestras):
+        # Cada muestra tiene n_caracteristicas valores
+        muestra = [random.normalvariate(0, 1) for _ in range(n_caracteristicas)]
+        X.append(muestra)
+    
+    # Generar etiquetas (clasificación binaria simple)
+    # La etiqueta depende de si la suma de características es positiva o negativa
+    y = [1 if sum(muestra) > 0 else 0 for muestra in X]
+    
+    return X, y
+
+# Generar conjunto de datos reproducible
+X_train, y_train = generar_dataset_prueba(100, 5, semilla=42)
+X_test, y_test = generar_dataset_prueba(20, 5, semilla=43)
+
+print(f"Conjunto de entrenamiento: {len(X_train)} muestras")
+print(f"Conjunto de prueba: {len(X_test)} muestras")
+print(f"Distribución de clases en entrenamiento: {sum(y_train)} positivas, {len(y_train) - sum(y_train)} negativas")
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+21. Consideraciones sobre la reproducibilidad
+
+Al trabajar con semillas y reproducibilidad, es importante tener en cuenta:
+
+* Versiones de Python: Diferentes versiones de Python pueden implementar los algoritmos de generación de números aleatorios de manera ligeramente distinta.
+* Bibliotecas externas: Si utilizas NumPy, TensorFlow u otras bibliotecas con sus propios generadores, debes establecer la semilla para cada una.
+* Plataformas: En raras ocasiones, diferentes sistemas operativos pueden producir secuencias ligeramente diferentes incluso con la misma semilla.
+Para máxima reproducibilidad en proyectos científicos, es recomendable documentar:
+
+* La versión exacta de Python
+* Las versiones de todas las bibliotecas utilizadas
+* El sistema operativo
+* Las semillas utilizadas para cada generador de números aleatorios
+
+21. Conclusión práctica: cuándo usar semillas
+
+* Usa semillas fijas durante el desarrollo, pruebas y depuración.
+* Elimina las semillas fijas en producción para obtener verdadera aleatoriedad.
+* Documenta las semillas utilizadas en experimentos científicos.
+* Considera múltiples ejecuciones con diferentes semillas para evaluar la robustez de tus algoritmos.
+
+Las distribuciones aleatorias y el control de semillas son herramientas poderosas que te permiten simular una amplia variedad de fenómenos con el nivel de aleatoriedad o reproducibilidad que tu aplicación requiera.
+
+Aprendizajes de esta lección
+
+Comprender y utilizar las constantes y funciones matemáticas básicas del módulo math. Aplicar funciones trigonométricas, hiperbólicas, 
+logarítmicas y exponenciales en cálculos prácticos. Generar números aleatorios de punto flotante y enteros con el módulo random. 
+Seleccionar elementos aleatorios de secuencias y colecciones usando funciones de muestreo. Controlar la reproducibilidad de la generación 
+aleatoria mediante semillas y trabajar con distribuciones estadísticas.
