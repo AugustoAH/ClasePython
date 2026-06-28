@@ -1,0 +1,1023 @@
+
+1. FUNCIONES EN PYTHON.
+
+Las funciones nos permiten encapsular un bloque de instrucciones para que podamos utilizarlo
+varias veces dentro de nuestros programas. Para hacer esto, es necesario identificar ese
+bloque de instrucciones usando la sintaxis de funciones que incluye Python.
+
+Características de las funciones en Python
+
+>/ Tienen un nombre para ser identificadas.
+>/ Ejecutan una tarea concreta.
+>/ Pueden recibir parámetros para su ejecución.
+>/ Puede devolver un resultado como acción de su ejecución.
+
+Importante: Tanto los parámetros que puede recibir, como el resultado que devuelven,
+estos dos elementos que conforman la función son opcionales, es decir se pueden
+presentar las siguientes situaciones:
+
+>/ Funciones que no reciben parametros y no devuelven resultados.
+>/ Funciones que reciben parametros y no devuelven resultados.
+>/ Funciones que no reciben parametros y devuelven resultados.
+>/ Funciones que reciben parametros y devuelven resultados.
+
+Las Funciones se definen con la palabra reservada (def)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Sintaxis de la Funcion en Python
+
+def NOMBRE_FUNCION(ARG1, ARG2, ....ARG_n):
+    sentencia1
+    sentencia2
+    ...
+    sentencia_n
+    return OBJETO_DEVUELTO
+- - - - - - - - - - - - - - - - - - - - - - -
+
+1) def : Palabra reservada que refiere a una función en Python.
+2) NOMBRE_FUNCION: identificador que se le asigna a la función para poder llamarla cuando
+   se requiera. Se recomienda utilizar nombres de funciones descriptivos que representen
+   lo que la función hace.
+3) Parametros (ARG_n): seran valores u objetos que se necesitan para ejecutar la función.
+   Estos parametros deben ser separados por comas (,) y deben estar contenidos entre los
+   parentesis, en caso de que nuestra función no necesite parametros para ejecutar su
+   acción estos se dejan vacíos.
+4) Bloque de instrucciones: bloque de código que ejecuta la función.
+5) return: palabra reservada en python y debe asociarse a un identificador (variable) para
+   que la función pueda retornar un valor ejecutado, este es opcional.
+
+Para poder utilizar la función en Python desde el código fuente se debe hacer siguiendo
+la siguiente sintaxis.
+
+variable = NOMBRE_FUNCION(ARG1, ARG2, ....ARG_n)
+
+1) variable: almacena el valor que devuelve la función. Es opcional, ya que se suprime
+   si la función no devuelve un valor.
+2) NOMBRE_FUNCION: nombre de la función que vamos a utilizar.
+3) parámetros: parámetros de entrada que tiene la función y se escriben separados por
+   comas en caso de ser mas de uno. Es opcional, por lo que si la función no recibe parámetros
+   se suprimirá.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ejemplo función para calcular el area de un triangulo
+
+def area_triangulo(base, altura):
+    area = (base*altura)/2
+    return area
+
+# Para ejecutar la función traemos su nombre desde el bloque principal
+
+area_triangulo(6,5) # Devolverá 15.0
+- - - - - - - - - - - - - - - - - - - - - - -
+
+./ Resumen: El uso de funciones simplifica el código fuente, permite una mejor organización
+del código y apoya en la reutilización de codigo.
+
+Cuando usas funciones tienes que tener en cuenta los siguientes puntos:
+
+1) La definición de las funciones suele hacerse al principio de los programas.
+2) La indentación de la función y el bloque de instrucciones que tienen dentro
+   sigue las mismas reglas de indentación que el resto del código.
+3) Tienes que tener cuidado con el nombre de las variables que utilizas dentro de las funciones
+   ya que si tu programa utiliza variables con el mismo nombre puedes obtener resultados no esperados.
+4) Por defecto, las variables que se usan dentro de la función únicamente tiene validez
+   dentro de la función, no vas a poder acceder desde afuera de la función a las variables
+   que tiene definidas dentro, es decir variables locales.
+
+
+2. PARÁMETROS
+
+En la mayoría de las ocasiones, necesitamos proporcionar información a las funciones para que ejecuten
+las acciones deseadas; para entender cómo funciona esto, es fundamental diferenciar entre dos conceptos
+clave: parámetros y argumentos. Los parámetros son las variables que definimos al crear la función,
+mientras que los argumentos son los valores reales que le pasamos a la función en el momento de su ejecución.
+
+A la hora de llamar una Función existen dos formas para introducir los argumentos de la función:
+
+>/ Argumentos por posición: los argumentos se envían en el mismo orden en el que se han definido los parámetros.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def NOMBRE_FUNCION(Parametro_Uno, Parametro_Dos):
+    sentencia1
+    ...
+
+NOMBRE_FUNCION(Parametro_Uno, Parametro_Dos) # Conservan el mismo orden.
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Argumentos por nombre: los argumentos se envían utilizando los nombres de los parámetros que se han
+   asignado en la función. Para ello, usaremos el nombre del parámetro, seguido del símbolo igual (=)
+   y del argumento.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def NOMBRE_FUNCION(Parametro_Uno, Parametro_Dos):
+    sentencia1
+    ...
+
+NOMBRE_FUNCION(Parametro_Dos=4, Parametro_Uno=5)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Importante: Cuando una función tiene definido unos parámetros, es obligatorio que, a la hora de llamarla,
+la función reciba el mismo número de argumentos. En caso de que no recibiese alguno de esos argumentos,
+Python devolvería un error de tipo.
+
+
+3. PARÁMETROS INDETERMINADOS
+
+Al programar a menudo surge la necesidad de que una función reciba un número variable de argumentos. Para
+estos casos, Python nos permite utilizar parámetros indeterminados. Esta característica nos da la flexibilidad
+de incluir tantos argumentos como queramos en el momento de ejecutar la función. Al igual que con los
+parámetros normales, existen dos maneras de asignar estos argumentos múltiples.
+
+>/ Argumentos por posición (*args): Para recibir una cantidad indefinida de argumentos posicionales, debemos
+   anteponer un asterisco (*) al nombre del parámetro en la definición de la función (por convención, se
+   suele usar *args). Al momento de la ejecución, Python agrupará dinámicamente todos los valores enviados
+   en una tupla.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def imprime_numeros(*args):
+    for numero in args:
+        print(numero)
+
+imprime_numeros(1, 7, 89, 46, 9394)
+
+
+  [ 1. Definición ]
+  def mostrar_datos(*args):       <-- El asterisco prepara la "caja"
+      print(args)
+
+  [ 2. Ejecución ]
+  mostrar_datos(10, "Hola", True) <-- Enviamos 3 tipos de datos distintos
+
+  [ 3. ¿Qué pasa internamente? ]
+  args = (10, "Hola", True)       <-- ¡Python los empaqueta en una Tupla!
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Argumentos por nombre (**kwargs): Para recibir una cantidad indefinida de argumentos nombrados (pares de
+   clave y valor), debemos anteponer dos asteriscos (**) al nombre del parámetro (por convención, se usa
+   **kwargs). Python agrupa dinámicamente todos los argumentos recibidos y construye internamente un
+   diccionario, lo que nos permite acceder a la información mediante sus claves.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def imprime_valores(**kwargs):
+    for argumento in kwargs:
+        print(argumento, '=>', kwargs[argumento])
+
+imprime_valores(arg1='Hola', arg2=[2,3,4], arg3=876.98)
+
+  [ 1. Definición ]
+  def mostrar_perfil(**kwargs):   <-- Los dos asteriscos preparan el diccionario
+      print(kwargs)
+
+  [ 2. Ejecución ]
+  mostrar_perfil(nombre="Ana", edad=25, rol="Admin") <-- Enviamos pares clave=valor
+
+  [ 3. ¿Qué pasa internamente? ]
+  kwargs = {'nombre': 'Ana', 'edad': 25, 'rol': 'Admin'} <-- ¡Se agrupa en Diccionario!
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+4. RETORNO DE VALORES
+
+El propósito principal de muchas funciones es realizar una operación y entregar un resultado útil.
+Para lograr esto, y enviar uno o varios valores de vuelta al lugar donde la función fue llamada,
+utilizamos la instrucción return.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def potencia(base, exponente):
+    resultado = base ** exponente
+    return resultado
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Comienza Temario del curso
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+5. SINTAXIS Y ESTRUCTURA BÁSICA DE DEFINICIÓN DE FUNCIONES
+
+Las funciones son bloques de código reutilizables que realizan una tarea específica. En Python, las funciones
+son una herramienta fundamental para organizar y estructurar nuestro código, permitiéndonos evitar la
+repetición y hacer nuestros programas más legibles y mantenibles.
+
+> Definición de una función
+
+Para definir una función en Python, utilizamos la palabra clave def, seguida del nombre de la función y un
+par de paréntesis que pueden contener parámetros. La definición termina con dos puntos : y el cuerpo de la
+función debe estar indentado:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def saludar():
+    print("¡Hola, mundo!")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+La estructura básica de una función consta de:
+
+>/ La palabra clave def
+>/ Un nombre de función (siguiendo las reglas de nomenclatura de variables)
+>/ Paréntesis () (pueden contener parámetros)
+>/ Dos puntos :
+>/ Un bloque de código indentado (el cuerpo de la función)
+
+Una vez definida, podemos invocar o llamar a la función utilizando su nombre seguido de paréntesis:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Definición de la función
+def saludar():
+    print("¡Hola, mundo!")
+
+# Llamada a la función
+saludar()  # Imprime: ¡Hola, mundo!
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Docstrings - Documentación de funciones
+
+Es una buena práctica documentar nuestras funciones utilizando docstrings (cadenas de documentación).
+Estas se escriben como cadenas de texto multilínea justo después de la definición de la función:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def calcular_area_rectangulo(base, altura):
+    """
+    Calcula el área de un rectángulo.
+
+    Args:
+        base: La longitud de la base del rectángulo.
+        altura: La altura del rectángulo.
+
+    Returns:
+        El área del rectángulo.
+    """
+    return base * altura
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Los docstrings son accesibles mediante el atributo __doc__ de la función o usando la función help():
+
+- - - - - - - - - - - - - - - - - - - - - - -
+print(calcular_area_rectangulo.__doc__)
+# O también:
+help(calcular_area_rectangulo)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Funciones sin contenido
+
+Si necesitamos definir una función pero aún no queremos implementar su contenido, podemos usar la
+palabra clave pass:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def funcion_pendiente():
+    pass  # Esta función no hace nada por ahora
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Convenciones de nomenclatura
+
+En Python, las funciones siguen estas convenciones de nomenclatura:
+
+>/ Usar snake_case (palabras en minúsculas separadas por guiones bajos)
+>/ Nombres descriptivos que indiquen lo que hace la función
+>/ Evitar nombres demasiado genéricos o ambiguos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Buena nomenclatura
+def calcular_promedio():
+    pass
+
+# Nomenclatura no recomendada
+def cp():  # Demasiado corto y poco descriptivo
+    pass
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Funciones anidadas
+
+Python permite definir funciones dentro de otras funciones. Estas funciones anidadas solo son accesibles
+dentro de la función que las contiene:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def operacion_matematica(x, y):
+    def sumar():
+        return x + y
+
+    def multiplicar():
+        return x * y
+
+    suma = sumar()
+    producto = multiplicar()
+
+    return f"Suma: {suma}, Producto: {producto}"
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Anotaciones de tipo (Type Hints)
+
+A partir de Python 3.5, podemos incluir anotaciones de tipo para hacer nuestro código más legible y
+facilitar herramientas de análisis estático:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def saludar_persona(nombre: str) -> str:
+    return f"Hola, {nombre}!"
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Estas anotaciones son meramente informativas y no afectan la ejecución del código, pero son útiles
+para documentación y herramientas de desarrollo.
+
+> Funciones como objetos de primera clase
+
+En Python, las funciones son objetos de primera clase, lo que significa que pueden:
+
+>/ Asignarse a variables
+>/ Pasarse como argumentos a otras funciones
+>/ Devolverse como valores de retorno de otras funciones
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def duplicar(x):
+    return x * 2
+
+# Asignar función a una variable
+mi_funcion = duplicar
+
+# Usar la variable como función
+resultado = mi_funcion(5)  # resultado = 10
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo completo
+
+Veamos un ejemplo que integra varios de estos conceptos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def crear_contador():
+    """
+    Crea y devuelve una función contador que
+    incrementa su valor en cada llamada.
+
+    Returns:
+        Una función que actúa como contador.
+    """
+    contador = 0
+
+    def incrementar():
+        """Incrementa y devuelve el valor del contador."""
+        nonlocal contador
+        contador += 1
+        return contador
+
+    return incrementar
+
+# Crear un contador
+mi_contador = crear_contador()
+
+# Usar el contador
+print(mi_contador())  # Imprime: 1
+print(mi_contador())  # Imprime: 2
+print(mi_contador())  # Imprime: 3
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Buenas prácticas
+
+Al definir funciones en Python, es recomendable:
+
+>/ Hacer que cada función realice una sola tarea bien definida
+>/ Mantener las funciones cortas y concisas (generalmente menos de 20 líneas)
+>/ Usar nombres descriptivos que indiquen lo que hace la función
+>/ Incluir docstrings para documentar el propósito, parámetros y valor de retorno
+>/ Seguir el principio DRY (Don't Repeat Yourself) para evitar duplicación de código
+
+
+6. INTRODUCCIÓN A LOS PARÁMETROS EN LAS FUNCIONES
+
+Los parámetros son una característica fundamental de las funciones en Python que permiten que estas reciban
+datos para procesarlos. Funcionan como variables especiales que capturan los valores proporcionados cuando
+se llama a la función, haciendo que nuestro código sea más flexible y reutilizable.
+
+> Parámetros posicionales
+
+La forma más básica de trabajar con parámetros es definirlos en la declaración de la función y luego
+pasar valores correspondientes al llamarla:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def saludar(nombre):
+    print(f"¡Hola, {nombre}!")
+
+saludar("Ana")  # Imprime: ¡Hola, Ana!
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Podemos definir múltiples parámetros separándolos por comas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def describir_persona(nombre, edad, profesion):
+    print(f"{nombre} tiene {edad} años y trabaja como {profesion}.")
+
+describir_persona("Carlos", 28, "desarrollador")
+# Imprime: Carlos tiene 28 años y trabaja como desarrollador.
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Diferencia entre parámetros y argumentos
+
+Es importante distinguir entre estos dos conceptos relacionados:
+
+>/ Parámetros: Son las variables definidas en la declaración de la función.
+>/ Argumentos: Son los valores reales que pasamos a la función cuando la llamamos.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# 'a' y 'b' son parámetros
+def sumar(a, b):
+    return a + b
+
+# 5 y 3 son argumentos
+resultado = sumar(5, 3)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Parámetros con valores predeterminados
+
+Python permite asignar valores predeterminados a los parámetros, que se utilizarán cuando no se proporcione
+un argumento para ese parámetro:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def saludar(nombre, mensaje="¡Hola!"):
+    print(f"{mensaje} {nombre}")
+
+saludar("Laura")               # Usa el mensaje predeterminado: ¡Hola! Laura
+saludar("Laura", "¡Bienvenida!")  # Usa el mensaje proporcionado: ¡Bienvenida! Laura
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Importante: Los parámetros con valores predeterminados deben aparecer después de los parámetros sin
+valores predeterminados:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Correcto
+def crear_perfil(nombre, edad, ciudad="Madrid"):
+    return f"Perfil: {nombre}, {edad} años, {ciudad}"
+
+# Incorrecto - generará un error de sintaxis
+# def crear_perfil(nombre, ciudad="Madrid", edad):
+#     return f"Perfil: {nombre}, {edad} años, {ciudad}"
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Argumentos posicionales y con nombre
+
+Al llamar a una función, podemos pasar argumentos de dos maneras:
+
+>/ Argumentos posicionales: Se asignan a los parámetros según su posición.
+>/ Argumentos con nombre: Se asignan explícitamente a parámetros específicos.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def dividir(dividendo, divisor):
+    return dividendo / divisor
+
+# Argumentos posicionales
+resultado1 = dividir(10, 2)  # resultado1 = 5.0
+
+# Argumentos con nombre
+resultado2 = dividir(divisor=2, dividendo=10)  # resultado2 = 5.0
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Los argumentos con nombre ofrecen mayor claridad, especialmente en funciones con muchos parámetros:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def crear_usuario(nombre, apellido, edad, email, activo=True):
+    return {"nombre": nombre, "apellido": apellido, "edad": edad, "email": email, "activo": activo}
+
+# Con argumentos posicionales puede ser difícil recordar el orden
+usuario1 = crear_usuario("Juan", "Pérez", 30, "juan@ejemplo.com")
+
+# Con argumentos con nombre es más claro
+usuario2 = crear_usuario(
+    nombre="María",
+    apellido="García",
+    edad=25,
+    email="maria@ejemplo.com",
+    activo=False
+)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Combinando diferentes tipos de parámetros
+
+Podemos combinar todos estos tipos de parámetros en una sola función, pero deben seguir este orden:
+
+1) Parámetros posicionales
+2) Parámetros con valores predeterminados
+3) *args (argumentos posicionales variables)
+4) **kwargs (argumentos con nombre variables)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def funcion_completa(param1, param2, param_default="valor", *args, **kwargs):
+    print(f"Parámetros posicionales: {param1}, {param2}")
+    print(f"Parámetro con valor predeterminado: {param_default}")
+    print(f"Args: {args}")
+    print(f"Kwargs: {kwargs}")
+
+funcion_completa(1, 2, "personalizado", 3, 4, 5, nombre="Python", version=3.13)
+# Imprime:
+# Parámetros posicionales: 1, 2
+# Parámetro con valor predeterminado: personalizado
+# Args: (3, 4, 5)
+# Kwargs: {'nombre': 'Python', 'version': 3.13}
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Desempaquetado de argumentos
+
+Python permite desempaquetar secuencias y diccionarios para pasarlos como argumentos:
+
+>/ Desempaquetado de secuencias con *
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def coordenadas(x, y, z):
+    return f"Punto en ({x}, {y}, {z})"
+
+punto = [10, 20, 30]
+
+# Desempaquetamos la lista para pasar cada elemento como argumento
+ubicacion = coordenadas(*punto)  # Equivale a coordenadas(10, 20, 30)
+print(ubicacion)  # Punto en (10, 20, 30)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Desempaquetado de diccionarios con **
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def crear_persona(nombre, edad, ciudad):
+    return f"{nombre} tiene {edad} años y vive en {ciudad}"
+
+datos = {"nombre": "Elena", "edad": 29, "ciudad": "Barcelona"}
+
+# Desempaquetamos el diccionario para pasar cada par clave-valor como argumento
+persona = crear_persona(**datos)  # Equivale a crear_persona(nombre="Elena", edad=29, ciudad="Barcelona")
+print(persona)  # Elena tiene 29 años y vive en Barcelona
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Parámetros de solo posición y solo nombre (Python 3.8+)
+
+A partir de Python 3.8, podemos definir parámetros que solo pueden recibir argumentos por posición
+o solo por nombre:
+
+>/ Parámetros de solo posición (antes de /)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def dividir(a, b, /):
+    return a / b
+
+# Correcto: argumentos posicionales
+resultado = dividir(10, 2)  # 5.0
+
+# Incorrecto: generará un error
+# resultado = dividir(a=10, b=2)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Parámetros de solo nombre (después de *)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def potencia(*, base, exponente):
+    return base ** exponente
+
+# Correcto: argumentos con nombre
+resultado = potencia(base=2, exponente=3)  # 8
+
+# Incorrecto: generará un error
+# resultado = potencia(2, 3)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Combinando ambos tipos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def funcion_mixta(pos_only, /, normal, *, kw_only):
+    return pos_only + normal + kw_only
+
+# Correcto
+resultado = funcion_mixta(1, 2, kw_only=3)  # 6
+
+# Incorrecto: generará errores
+# resultado = funcion_mixta(pos_only=1, normal=2, kw_only=3)
+# resultado = funcion_mixta(1, 2, 3)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo práctico: Función de formateo de texto
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def formatear_texto(texto, /, *, mayusculas=False, prefijo="", sufijo="", repeticiones=1):
+    """
+    Formatea un texto según las opciones especificadas.
+
+    Args:
+        texto: El texto a formatear (solo posicional)
+        mayusculas: Si es True, convierte el texto a mayúsculas
+        prefijo: Texto a añadir antes del texto principal
+        sufijo: Texto a añadir después del texto principal
+        repeticiones: Número de veces que se repite el texto
+
+    Returns:
+        El texto formateado
+    """
+    resultado = texto
+
+    if mayusculas:
+        resultado = resultado.upper()
+
+    resultado = f"{prefijo}{resultado}{sufijo}"
+    resultado = resultado * repeticiones
+
+    return resultado
+
+# Ejemplos de uso
+print(formatear_texto("hola", mayusculas=True))                           # HOLA
+print(formatear_texto("mundo", prefijo="¡", sufijo="!", repeticiones=2))  # ¡mundo!¡mundo!
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Esta función demuestra:
+
+>/ Un parámetro de solo posición (texto)
+>/ Varios parámetros de solo nombre con valores predeterminados
+>/ Documentación clara que explica cada parámetro
+
+
+7. VALOR DE RETORNO, VALORES MÚLTIPLES Y RETORNO CONDICIONAL
+
+El valor de retorno es lo que una función devuelve al código que la llamó. En Python, las funciones pueden
+devolver datos procesados, resultados de cálculos o cualquier otro tipo de información que necesitemos
+obtener después de su ejecución.
+
+> Retorno básico con return
+
+Para devolver un valor desde una función, utilizamos la palabra clave return seguida del valor a devolver:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def cuadrado(numero):
+    resultado = numero ** 2
+    return resultado
+
+valor = cuadrado(5)
+print(valor)  # Imprime: 25
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Cuando Python encuentra una instrucción return, la función termina inmediatamente y devuelve el valor:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def verificar_edad(edad):
+    if edad < 0:
+        return "La edad no puede ser negativa"
+    if edad < 18:
+        return "Menor de edad"
+    return "Mayor de edad"
+
+print(verificar_edad(15))  # Imprime: Menor de edad
+print(verificar_edad(20))  # Imprime: Mayor de edad
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Funciones sin return explícito
+
+Si una función no incluye return, Python devuelve automáticamente None:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def saludar(nombre):
+    print(f"Hola, {nombre}")
+    # No hay return explícito
+
+resultado = saludar("Ana")
+print(resultado)  # Imprime: None
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Retorno de múltiples valores
+
+Python puede devolver múltiples valores desde una función. Los empaqueta en una tupla que luego
+puede ser desempaquetada:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def estadisticas(numeros):
+    """Calcula estadísticas básicas de una lista de números."""
+    minimo = min(numeros)
+    maximo = max(numeros)
+    promedio = sum(numeros) / len(numeros)
+    return minimo, maximo, promedio
+
+# La función devuelve tres valores
+min_val, max_val, prom = estadisticas([1, 2, 3, 4, 5])
+print(f"Mínimo: {min_val}")    # Mínimo: 1
+print(f"Máximo: {max_val}")    # Máximo: 5
+print(f"Promedio: {prom}")     # Promedio: 3.0
+
+# También podemos capturar el resultado como una tupla
+resultado = estadisticas([1, 2, 3, 4, 5])
+print(resultado)  # Imprime: (1, 5, 3.0)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Retorno condicional
+
+El retorno condicional permite que una función devuelva diferentes valores según ciertas condiciones:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def calificar(puntuacion):
+    """Convierte una puntuación numérica en una calificación por letra."""
+    if puntuacion >= 90:
+        return "A"
+    elif puntuacion >= 80:
+        return "B"
+    elif puntuacion >= 70:
+        return "C"
+    elif puntuacion >= 60:
+        return "D"
+    else:
+        return "F"
+
+print(calificar(85))  # Imprime: B
+print(calificar(92))  # Imprime: A
+print(calificar(45))  # Imprime: F
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Retorno temprano para optimización
+
+El retorno temprano devuelve un valor tan pronto como sea posible, evitando cálculos innecesarios:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def encontrar_elemento(lista, elemento):
+    """Busca un elemento en una lista y devuelve su índice o -1 si no existe."""
+    for i, valor in enumerate(lista):
+        if valor == elemento:
+            return i  # Retorno temprano al encontrar el elemento
+    return -1  # Solo se ejecuta si no se encontró el elemento
+
+numeros = [10, 20, 30, 40, 50]
+print(encontrar_elemento(numeros, 30))  # Imprime: 2
+print(encontrar_elemento(numeros, 60))  # Imprime: -1
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Retorno de funciones (funciones de orden superior)
+
+Las funciones pueden ser devueltas por otras funciones:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def crear_multiplicador(factor):
+    """Crea y devuelve una función que multiplica por el factor dado."""
+    def multiplicar(x):
+        return x * factor
+    return multiplicar
+
+duplicar = crear_multiplicador(2)
+triplicar = crear_multiplicador(3)
+
+print(duplicar(5))   # Imprime: 10
+print(triplicar(5))  # Imprime: 15
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Uso de operador ternario en retornos
+
+El operador ternario permite escribir retornos condicionales simples de forma concisa:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def es_par(numero):
+    return "Par" if numero % 2 == 0 else "Impar"
+
+print(es_par(4))  # Imprime: Par
+print(es_par(7))  # Imprime: Impar
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo práctico: Función de procesamiento de datos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def procesar_datos(datos, filtrar=False, ordenar=False, limite=None):
+    """
+    Procesa una lista de datos con opciones para filtrar, ordenar y limitar.
+
+    Args:
+        datos: Lista de números a procesar
+        filtrar: Si es True, elimina números negativos
+        ordenar: Si es True, ordena los datos
+        limite: Número máximo de elementos a devolver
+
+    Returns:
+        Tupla con (datos_procesados, estadísticas)
+    """
+    if not datos:
+        return [], {"error": "No hay datos para procesar"}
+
+    resultado = datos.copy()
+
+    if filtrar:
+        resultado = [x for x in resultado if x >= 0]
+
+    if ordenar:
+        resultado.sort()
+
+    if limite is not None:
+        resultado = resultado[:limite]
+
+    estadisticas = {
+        "total": len(resultado),
+        "suma": sum(resultado),
+        "promedio": sum(resultado) / len(resultado) if resultado else 0
+    }
+
+    return resultado, estadisticas
+
+# Ejemplo de uso
+numeros = [5, -3, 10, 1, -7, 8, 3]
+datos_procesados, stats = procesar_datos(numeros, filtrar=True, ordenar=True, limite=3)
+
+print(f"Datos procesados: {datos_procesados}")  # [1, 3, 5]
+print(f"Total de elementos: {stats['total']}")  # 3
+print(f"Promedio: {stats['promedio']}")          # 3.0
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Este ejemplo muestra:
+
+>/ Retorno de múltiples valores (una lista y un diccionario)
+>/ Retorno temprano para un caso especial (lista vacía)
+>/ Procesamiento condicional basado en parámetros
+>/ Estructura de datos compleja como valor de retorno
+
+
+8. ÁMBITO DE VARIABLES: LOCAL, GLOBAL Y ENCLOSURE
+
+El ámbito (o scope) de una variable determina dónde es accesible y visible dentro de un programa Python.
+Entender cómo funcionan los diferentes ámbitos es fundamental para escribir código eficiente y evitar
+errores sutiles relacionados con el acceso a variables.
+
+> Ámbito local
+
+Las variables definidas dentro de una función tienen un ámbito local, lo que significa que solo existen
+y son accesibles dentro de esa función:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def calcular_area():
+    lado = 5  # Variable local
+    area = lado * lado
+    print(f"El área es: {area}")
+
+calcular_area()  # Imprime: El área es: 25
+
+# Intentar acceder a 'lado' fuera de la función generará un error
+# print(lado)  # NameError: name 'lado' is not defined
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Cada vez que se llama a una función, Python crea un nuevo ámbito local con sus propias variables:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def incrementar_contador():
+    contador = 0  # Variable local, se reinicia en cada llamada
+    contador += 1
+    return contador
+
+print(incrementar_contador())  # Imprime: 1
+print(incrementar_contador())  # Imprime: 1 (no 2, porque se crea una nueva variable cada vez)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ámbito global
+
+Las variables definidas en el nivel superior (fuera de cualquier función o clase) tienen un ámbito global
+y son accesibles desde cualquier parte del módulo:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Variable global
+contador_global = 0
+
+def incrementar():
+    print(f"Contador global: {contador_global}")  # Podemos leerla
+    # contador_global += 1  # Esto generaría un error (no podemos modificarla directamente)
+
+incrementar()  # Imprime: Contador global: 0
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Para modificar una variable global dentro de una función, debemos declararla con la palabra clave global:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+total = 0
+
+def agregar(valor):
+    global total  # Declaramos que usaremos la variable global
+    total += valor
+    return total
+
+print(agregar(5))  # Imprime: 5
+print(agregar(3))  # Imprime: 8
+print(total)       # Imprime: 8
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Importante: El uso excesivo de variables globales se considera una mala práctica porque:
+
+>/ Dificulta el seguimiento del flujo de datos en el programa
+>/ Puede llevar a efectos secundarios inesperados
+>/ Complica las pruebas unitarias
+>/ Reduce la modularidad y reutilización del código
+
+> Ámbito de enclosure (clausura)
+
+Este ámbito ocurre cuando una función está definida dentro de otra función. La función interna
+"recuerda" las variables de la función que la contiene:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def crear_contador():
+    contador = 0  # Variable en el ámbito envolvente
+
+    def incrementar():
+        nonlocal contador  # Permite modificar la variable del ámbito envolvente
+        contador += 1
+        return contador
+
+    return incrementar
+
+mi_contador = crear_contador()
+
+print(mi_contador())  # Imprime: 1
+print(mi_contador())  # Imprime: 2
+print(mi_contador())  # Imprime: 3
+- - - - - - - - - - - - - - - - - - - - - - -
+
+En este ejemplo:
+
+>/ contador pertenece al ámbito envolvente (ni local ni global)
+>/ nonlocal nos permite modificar variables del ámbito envolvente
+>/ La función interna "recuerda" el valor de contador incluso después de que crear_contador haya terminado
+
+> Ámbitos anidados y resolución de nombres (Regla LEGB)
+
+Python sigue una regla llamada LEGB para buscar variables:
+
+1) Local (local): Primero busca en el ámbito local (dentro de la función actual)
+2) Enclosing (envolvente): Luego en los ámbitos envolventes (funciones que contienen la función actual)
+3) Global (global): Después en el ámbito global (nivel superior del módulo)
+4) Built-in (incorporado): Finalmente en el ámbito incorporado (funciones predefinidas de Python)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+x = "global"  # Variable global
+
+def externa():
+    x = "envolvente"  # Variable en ámbito envolvente
+
+    def interna():
+        x = "local"  # Variable local
+        print(f"x en interna: {x}")
+
+    interna()
+    print(f"x en externa: {x}")
+
+externa()
+print(f"x global: {x}")
+
+# Imprime:
+# x en interna: local
+# x en externa: envolvente
+# x global: global
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Variables incorporadas (built-in)
+
+El ámbito incorporado contiene nombres predefinidos como print, len, sum, etc. Siempre están
+disponibles sin necesidad de importación. Hay que tener cuidado de no sobrescribirlos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+longitud = len([1, 2, 3])  # 3  (uso correcto)
+
+# Peligro: si definimos una variable con el mismo nombre, la ocultamos
+len = "Esto no es una función"
+# len([1, 2, 3])  # TypeError: 'str' object is not callable
+
+# Para recuperar la función original:
+del len  # Elimina nuestra variable
+longitud = len([1, 2, 3])  # Ahora funciona de nuevo
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Buenas prácticas para el manejo de ámbitos
+
+1) Limita el uso de variables globales, usa argumentos en su lugar:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# En lugar de esto (no recomendado):
+total = 0
+def agregar(valor):
+    global total
+    total += valor
+
+# Prefiere esto:
+def agregar(total, valor):
+    return total + valor
+- - - - - - - - - - - - - - - - - - - - - - -
+
+2) Agrupa variables globales relacionadas en clases o estructuras:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+class Configuracion:
+    DEBUG = True
+    MAX_USUARIOS = 100
+    RUTA_BASE = "/var/www/app"
+
+if Configuracion.DEBUG:
+    print("Modo depuración activado")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+3) Evita nombres de variables que oculten funciones incorporadas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Evita esto:
+sum = 10  # Oculta la función incorporada sum()
+
+# Mejor usar:
+suma = 10
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+- - - - - - - - - - - - - - - - - - - - - - -
+Aprendizajes de esta lección
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Comprender la sintaxis básica para definir y llamar funciones en Python.
+>/ Diferenciar entre parámetros y argumentos, y manejar distintos tipos de parámetros
+   como posicionales, con valores predeterminados, *args y **kwargs.
+>/ Aprender a utilizar valores de retorno, incluyendo retornos múltiples y condicionales.
+>/ Entender el ámbito de las variables: local, global y enclosure, y el uso de las
+   palabras clave global y nonlocal.
+>/ Aplicar buenas prácticas en la definición y documentación de funciones para mejorar
+   la legibilidad y mantenibilidad del código.

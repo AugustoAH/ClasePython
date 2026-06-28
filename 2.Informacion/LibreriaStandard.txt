@@ -1,0 +1,986 @@
+
+1. MÓDULO SYS: ACCESO A ARGUMENTOS Y SALIDA ESTÁNDAR
+
+El módulo sys es una parte fundamental de la biblioteca estándar de Python que proporciona acceso
+a variables y funciones específicas del intérprete. Este módulo resulta especialmente útil cuando
+necesitamos interactuar con el entorno del sistema donde se ejecuta nuestro programa Python.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Acceso a argumentos de línea de comandos (sys.argv)
+
+sys.argv es una lista que contiene los argumentos pasados al script cuando se ejecuta desde la
+terminal. El primer elemento (índice 0) siempre es el nombre del script.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+# Imprime todos los argumentos de línea de comandos
+print(f"Todos los argumentos: {sys.argv}")
+print(f"Nombre del script: {sys.argv[0]}")
+
+# Acceder a argumentos adicionales (si existen)
+if len(sys.argv) > 1:
+    print(f"Primer argumento: {sys.argv[1]}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Si guardamos el script como argumentos.py y lo ejecutamos con:
+
+    python argumentos.py hola mundo
+
+La salida sería:
+
+    Todos los argumentos: ['argumentos.py', 'hola', 'mundo']
+    Nombre del script: argumentos.py
+    Primer argumento: hola
+
+> Ejemplo práctico: calculadora simple
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+def calculadora():
+    if len(sys.argv) != 4:
+        print("Uso: python calculadora.py <número1> <operación> <número2>")
+        print("Operaciones disponibles: suma, resta, mult, div")
+        sys.exit(1)  # Salir con código de error
+
+    try:
+        num1      = float(sys.argv[1])
+        operacion = sys.argv[2]
+        num2      = float(sys.argv[3])
+
+        if operacion == "suma":
+            resultado = num1 + num2
+        elif operacion == "resta":
+            resultado = num1 - num2
+        elif operacion == "mult":
+            resultado = num1 * num2
+        elif operacion == "div":
+            if num2 == 0:
+                print("Error: División por cero")
+                sys.exit(1)
+            resultado = num1 / num2
+        else:
+            print(f"Operación '{operacion}' no reconocida")
+            sys.exit(1)
+
+        print(f"Resultado: {resultado}")
+
+    except ValueError:
+        print("Error: Los argumentos deben ser números válidos")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    calculadora()
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Salida estándar y error estándar
+
+El módulo sys también proporciona acceso a los flujos estándar de entrada/salida:
+
+>/ sys.stdin  : entrada estándar
+>/ sys.stdout : salida estándar
+>/ sys.stderr : error estándar
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+# Escribir en la salida estándar
+sys.stdout.write("Este es un mensaje normal\n")
+
+# Escribir en el error estándar
+sys.stderr.write("Este es un mensaje de error\n")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Importante: La diferencia entre print() y sys.stdout.write() es que print() añade automáticamente
+un salto de línea y puede manejar múltiples argumentos, mientras que sys.stdout.write() requiere
+una cadena única y no añade saltos de línea automáticamente.
+
+> Redirigiendo la salida estándar
+
+Podemos redirigir temporalmente la salida estándar a un archivo:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+# Guardar la referencia original de stdout
+stdout_original = sys.stdout
+
+# Redirigir stdout a un archivo
+with open('salida.txt', 'w') as archivo:
+    sys.stdout = archivo
+    print("Este mensaje se guardará en el archivo")
+    print("También este mensaje irá al archivo")
+
+# Restaurar stdout a su valor original
+sys.stdout = stdout_original
+print("Este mensaje aparecerá en la consola")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Control de la finalización del programa (sys.exit)
+
+El módulo sys permite controlar la finalización del programa mediante sys.exit():
+
+>/ 0 indica una terminación exitosa.
+>/ Cualquier otro valor indica un error.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+def verificar_edad(edad):
+    try:
+        edad = int(edad)
+        if edad < 0:
+            print("La edad no puede ser negativa")
+            sys.exit(1)
+        elif edad < 18:
+            print("Eres menor de edad")
+        else:
+            print("Eres mayor de edad")
+    except ValueError:
+        print("Por favor, introduce un número válido")
+        sys.exit(1)
+
+if len(sys.argv) != 2:
+    print("Uso: python verificar_edad.py <edad>")
+    sys.exit(1)
+
+verificar_edad(sys.argv[1])
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Información del intérprete de Python
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+# Versión de Python
+print(f"Versión de Python: {sys.version}")
+print(f"Información de versión: {sys.version_info}")
+
+# Plataforma
+print(f"Plataforma: {sys.platform}")
+
+# Ruta de búsqueda de módulos
+print("Rutas de búsqueda de módulos:")
+for ruta in sys.path:
+    print(f"  - {ruta}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Tamaño de objetos en memoria (sys.getsizeof)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+entero      = 42
+cadena      = "Hola mundo"
+lista       = [1, 2, 3, 4, 5]
+diccionario = {"a": 1, "b": 2, "c": 3}
+
+print(f"Tamaño de un entero:      {sys.getsizeof(entero)} bytes")
+print(f"Tamaño de una cadena:     {sys.getsizeof(cadena)} bytes")
+print(f"Tamaño de una lista:      {sys.getsizeof(lista)} bytes")
+print(f"Tamaño de un diccionario: {sys.getsizeof(diccionario)} bytes")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo completo: script con opciones de línea de comandos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import sys
+
+def mostrar_ayuda():
+    print("Uso: python script.py [opción]")
+    print("Opciones disponibles:")
+    print("  --ayuda    : Muestra este mensaje de ayuda")
+    print("  --version  : Muestra la versión del programa")
+    print("  --info     : Muestra información del sistema")
+    sys.exit(0)
+
+def mostrar_version():
+    print("Mi Aplicación v1.0")
+    sys.exit(0)
+
+def mostrar_info():
+    print(f"Python versión: {sys.version}")
+    print(f"Plataforma: {sys.platform}")
+    print(f"Codificación por defecto: {sys.getdefaultencoding()}")
+    sys.exit(0)
+
+def main():
+    if len(sys.argv) < 2:
+        print("Error: Se requiere al menos una opción", file=sys.stderr)
+        mostrar_ayuda()
+
+    opcion = sys.argv[1]
+
+    if opcion == "--ayuda":
+        mostrar_ayuda()
+    elif opcion == "--version":
+        mostrar_version()
+    elif opcion == "--info":
+        mostrar_info()
+    else:
+        print(f"Error: Opción desconocida '{opcion}'", file=sys.stderr)
+        mostrar_ayuda()
+
+if __name__ == "__main__":
+    main()
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+2. MÓDULO LOGGING: CONFIGURACIÓN Y REGISTRO DE MENSAJES
+
+El módulo logging de Python proporciona una infraestructura flexible para registrar mensajes desde
+aplicaciones. A diferencia de usar simples declaraciones print(), el sistema de logging ofrece mayor
+control sobre dónde y cómo se muestran los mensajes, permitiendo categorizar su importancia y
+configurar su formato.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import logging
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Niveles de logging
+
+El módulo logging define varios niveles de severidad, ordenados de menor a mayor importancia:
+
+1) DEBUG    (10): Información detallada para diagnóstico de problemas.
+2) INFO     (20): Confirmación de que las cosas funcionan según lo esperado.
+3) WARNING  (30): Indicación de que algo inesperado ocurrió o podría ocurrir.
+4) ERROR    (40): Error que impidió que una función específica funcionara.
+5) CRITICAL (50): Error grave que podría hacer que el programa termine.
+
+Por defecto, Python solo muestra mensajes de nivel WARNING o superior:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Configurar el nivel básico de logging a INFO
+logging.basicConfig(level=logging.INFO)
+
+logging.debug("Este es un mensaje de depuración")  # No se mostrará
+logging.info("Programa iniciado correctamente")     # Se mostrará
+logging.warning("Archivo de configuración no encontrado")
+logging.error("No se pudo procesar el archivo de datos")
+logging.critical("Error crítico: base de datos no disponible")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Configuración básica del formato
+
+Podemos personalizar el formato de los mensajes usando el parámetro format en basicConfig():
+
+- - - - - - - - - - - - - - - - - - - - - - -
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+logging.info("Aplicación iniciada")
+# Salida: 2023-07-15 14:30:45,123 - INFO - Aplicación iniciada
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Los marcadores de formato más comunes son:
+
+>/ %(asctime)s  : Fecha y hora del registro.
+>/ %(levelname)s: Nivel del mensaje (DEBUG, INFO, etc.).
+>/ %(message)s  : El mensaje registrado.
+>/ %(filename)s : Nombre del archivo donde se generó el registro.
+>/ %(lineno)d   : Número de línea donde se generó el registro.
+>/ %(name)s     : Nombre del logger.
+
+> Guardando logs en archivos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='app.log',
+    filemode='w'  # 'w' para sobrescribir, 'a' para añadir
+)
+
+logging.debug("Iniciando procesamiento de datos")
+logging.info("Procesando archivo: datos.csv")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Logs en consola y archivo simultáneamente
+
+Para registrar mensajes en ambos destinos, configuramos múltiples manejadores:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import logging
+
+# Crear un logger con nombre
+logger = logging.getLogger('mi_aplicacion')
+logger.setLevel(logging.DEBUG)
+
+# Manejador para archivo
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.DEBUG)
+
+# Manejador para consola (solo INFO o superior)
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+
+# Definir formato compartido
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+console_handler.setFormatter(formatter)
+
+# Añadir los manejadores al logger
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
+# Usar el logger
+logger.debug("Este mensaje solo aparece en el archivo")
+logger.info("Este mensaje aparece en archivo y consola")
+logger.warning("¡Cuidado! Algo no está bien")
+logger.error("Se ha producido un error")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Rotación de archivos de log (por tamaño)
+
+Para aplicaciones que funcionan durante periodos prolongados, la rotación evita que los logs
+crezcan indefinidamente:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import logging
+from logging.handlers import RotatingFileHandler
+
+logger = logging.getLogger('mi_aplicacion')
+logger.setLevel(logging.DEBUG)
+
+# Máximo 5 archivos de backup, cada uno de máximo 2MB
+handler = RotatingFileHandler(
+    'app.log',
+    maxBytes=2*1024*1024,  # 2MB
+    backupCount=5
+)
+handler.setLevel(logging.DEBUG)
+handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
+
+logger.debug("Mensaje de depuración")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Cuando app.log alcance 2MB, se renombrará a app.log.1 y se creará un nuevo app.log.
+
+> Rotación de archivos de log (por tiempo)
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import logging
+from logging.handlers import TimedRotatingFileHandler
+
+logger = logging.getLogger('mi_aplicacion')
+logger.setLevel(logging.DEBUG)
+
+# Rotar el archivo cada día a medianoche, conservando 30 días
+handler = TimedRotatingFileHandler(
+    'app.log',
+    when='midnight',
+    interval=1,
+    backupCount=30
+)
+handler.setLevel(logging.DEBUG)
+handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo práctico: logging en una aplicación real
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import logging
+import time
+
+def configurar_logging():
+    """Configura el sistema de logging para la aplicación."""
+    logger = logging.getLogger('procesador_datos')
+    logger.setLevel(logging.DEBUG)
+
+    if not logger.handlers:
+        # Handler para consola
+        console = logging.StreamHandler()
+        console.setLevel(logging.INFO)
+        console.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+
+        # Handler para archivo
+        file_handler = logging.FileHandler('procesamiento.log')
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        ))
+
+        logger.addHandler(console)
+        logger.addHandler(file_handler)
+
+    return logger
+
+def procesar_datos(datos):
+    """Procesa una lista de datos y devuelve los resultados."""
+    logger = logging.getLogger('procesador_datos')
+    logger.info(f"Iniciando procesamiento de {len(datos)} elementos")
+    resultados = []
+
+    for i, item in enumerate(datos):
+        try:
+            logger.debug(f"Procesando item {i}: {item}")
+            time.sleep(0.1)
+
+            if item < 0:
+                logger.warning(f"Valor negativo encontrado: {item}")
+
+            resultado = item * 2
+            resultados.append(resultado)
+
+        except Exception as e:
+            logger.error(f"Error procesando item {i}: {e}", exc_info=True)
+
+    logger.info("Procesamiento completado")
+    return resultados
+
+if __name__ == "__main__":
+    logger = configurar_logging()
+    logger.info("Aplicación iniciada")
+
+    try:
+        datos = [1, 2, -3, 4, "5"]
+        resultados = procesar_datos(datos)
+        logger.info(f"Resultados: {resultados}")
+    except Exception as e:
+        logger.critical(f"Error fatal en la aplicación: {e}", exc_info=True)
+
+    logger.info("Aplicación finalizada")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Mejores prácticas para el uso de logging
+
+>/ Usa el nivel adecuado: Reserva ERROR para problemas reales y DEBUG para diagnóstico.
+>/ Incluye contexto: Los mensajes deben proporcionar suficiente información para entender qué ocurrió.
+>/ Configura temprano: Configura el logging al inicio de tu aplicación.
+>/ Usa loggers con nombre: Crea loggers específicos para diferentes componentes.
+>/ Evita información sensible: No registres contraseñas, tokens o datos personales.
+
+
+3. MÓDULO OS: VARIABLES DE ENTORNO Y MANEJO DE DIRECTORIOS
+
+El módulo os de Python proporciona una interfaz portable para interactuar con el sistema operativo
+subyacente. Es esencial cuando necesitamos realizar operaciones relacionadas con el entorno del
+sistema, como acceder a variables de entorno o manipular directorios y archivos.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import os
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Acceso a variables de entorno
+
+Las variables de entorno son valores dinámicos que pueden afectar el comportamiento de los procesos
+en ejecución. Python nos permite acceder y modificar estas variables a través del módulo os.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Acceder a una variable de entorno específica
+home_directory = os.environ.get('HOME')  # En Windows sería 'USERPROFILE'
+print(f"Tu directorio home es: {home_directory}")
+
+# Acceder con valor por defecto si no existe
+python_path = os.environ.get('PYTHONPATH', 'No está definida')
+print(f"PYTHONPATH: {python_path}")
+
+# Listar todas las variables de entorno disponibles
+for key, value in os.environ.items():
+    print(f"  {key} = {value}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Importante: Los cambios en variables de entorno solo afectan al proceso actual y sus procesos hijos,
+no son permanentes en el sistema.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Establecer una nueva variable de entorno
+os.environ['MI_VARIABLE'] = 'mi_valor'
+print(f"MI_VARIABLE: {os.environ.get('MI_VARIABLE')}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo práctico: configuración basada en entorno
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def obtener_configuracion_db():
+    """Obtiene la configuración de la base de datos según el entorno."""
+    entorno = os.environ.get('APP_ENV', 'desarrollo')
+
+    if entorno == 'produccion':
+        return {
+            'host':      os.environ.get('DB_HOST', 'localhost'),
+            'puerto':    int(os.environ.get('DB_PORT', '5432')),
+            'usuario':   os.environ.get('DB_USER', 'admin'),
+            'contraseña':os.environ.get('DB_PASSWORD', ''),
+            'nombre':    os.environ.get('DB_NAME', 'app_prod')
+        }
+    else:  # desarrollo o pruebas
+        return {
+            'host':      'localhost',
+            'puerto':    5432,
+            'usuario':   'dev_user',
+            'contraseña':'dev_password',
+            'nombre':    'app_dev'
+        }
+
+config = obtener_configuracion_db()
+print(f"Configuración de BD: {config}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Manejo de directorios
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Obtener el directorio de trabajo actual
+directorio_actual = os.getcwd()
+print(f"Directorio actual: {directorio_actual}")
+
+# Cambiar el directorio de trabajo
+try:
+    os.chdir('/tmp')
+    print(f"Nuevo directorio: {os.getcwd()}")
+except FileNotFoundError:
+    print("El directorio no existe")
+except PermissionError:
+    print("No tienes permisos para acceder a ese directorio")
+
+# Listar contenidos de un directorio
+contenidos = os.listdir()
+for item in contenidos:
+    print(f"  - {item}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Crear y eliminar directorios
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Crear un directorio
+try:
+    os.mkdir('nuevo_directorio')
+    print("Directorio creado con éxito")
+except FileExistsError:
+    print("El directorio ya existe")
+
+# Crear directorios anidados (equivalente a mkdir -p)
+try:
+    os.makedirs('directorio/subdirectorio/otro_nivel', exist_ok=True)
+    print("Estructura de directorios creada")
+except PermissionError:
+    print("No tienes permisos para crear estos directorios")
+
+# Eliminar un directorio vacío
+try:
+    os.rmdir('nuevo_directorio')
+    print("Directorio eliminado")
+except FileNotFoundError:
+    print("El directorio no existe")
+except OSError:
+    print("El directorio no está vacío o no tienes permisos")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo práctico: crear estructura de directorios para un proyecto
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def crear_estructura_proyecto(nombre_proyecto):
+    """Crea una estructura básica de directorios para un proyecto Python."""
+    directorios = [
+        nombre_proyecto,
+        f"{nombre_proyecto}/src",
+        f"{nombre_proyecto}/tests",
+        f"{nombre_proyecto}/docs",
+        f"{nombre_proyecto}/data"
+    ]
+
+    for directorio in directorios:
+        try:
+            os.makedirs(directorio, exist_ok=True)
+            print(f"Creado: {directorio}")
+        except Exception as e:
+            print(f"Error al crear {directorio}: {e}")
+
+    archivos = {
+        f"{nombre_proyecto}/README.md":           "# {}\n\nDescripción del proyecto.".format(nombre_proyecto),
+        f"{nombre_proyecto}/requirements.txt":    "# Dependencias\npython>=3.8\n",
+        f"{nombre_proyecto}/src/__init__.py":     "",
+        f"{nombre_proyecto}/tests/__init__.py":   ""
+    }
+
+    for ruta, contenido in archivos.items():
+        try:
+            with open(ruta, 'w') as f:
+                f.write(contenido)
+            print(f"Creado: {ruta}")
+        except Exception as e:
+            print(f"Error al crear {ruta}: {e}")
+
+crear_estructura_proyecto("mi_proyecto_python")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Información del sistema
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Nombre del sistema operativo ('posix' para Unix/Linux/Mac, 'nt' para Windows)
+print(f"Sistema operativo: {os.name}")
+
+# Separadores del sistema
+print(f"Separador de rutas: '{os.sep}'")      # '/' o '\'
+print(f"Separador de PATH: '{os.pathsep}'")   # ':' o ';'
+print(f"Salto de línea: '{os.linesep}'")      # '\n' o '\r\n'
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejecutar comandos del sistema
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# os.system devuelve el código de salida
+codigo = os.system('echo "Hola desde el sistema"')
+print(f"Código de salida: {codigo}")
+
+# En Python moderno, se recomienda usar subprocess en lugar de os.system
+import subprocess
+resultado = subprocess.run(['echo', 'Hola desde subprocess'], capture_output=True, text=True)
+print(f"Salida: {resultado.stdout}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo completo: analizador de espacio en disco
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import os
+
+def obtener_tamaño_directorio(ruta):
+    """Calcula el tamaño total de un directorio en bytes."""
+    tamaño_total = 0
+    try:
+        for directorio_actual, subdirectorios, archivos in os.walk(ruta):
+            for archivo in archivos:
+                ruta_archivo = os.path.join(directorio_actual, archivo)
+                try:
+                    tamaño_total += os.path.getsize(ruta_archivo)
+                except (FileNotFoundError, PermissionError):
+                    pass
+    except PermissionError:
+        print(f"No se puede acceder a {ruta}")
+    return tamaño_total
+
+def formato_tamaño_legible(tamaño_bytes):
+    """Convierte un tamaño en bytes a un formato legible (KB, MB, GB)."""
+    for unidad in ['B', 'KB', 'MB', 'GB', 'TB']:
+        if tamaño_bytes < 1024 or unidad == 'TB':
+            return f"{tamaño_bytes:.2f} {unidad}"
+        tamaño_bytes /= 1024
+
+def analizar_directorio(ruta_base):
+    """Analiza el espacio utilizado por los subdirectorios de la ruta dada."""
+    print(f"Analizando espacio en disco para: {ruta_base}")
+    try:
+        subdirectorios = [d for d in os.listdir(ruta_base)
+                         if os.path.isdir(os.path.join(ruta_base, d))]
+        resultados = []
+        for directorio in subdirectorios:
+            ruta_completa = os.path.join(ruta_base, directorio)
+            tamaño = obtener_tamaño_directorio(ruta_completa)
+            resultados.append((directorio, tamaño))
+
+        resultados.sort(key=lambda x: x[1], reverse=True)
+
+        print("\nResultados (ordenados por tamaño):")
+        print("-" * 50)
+        for directorio, tamaño in resultados:
+            print(f"{directorio:.<40} {formato_tamaño_legible(tamaño)}")
+
+    except FileNotFoundError:
+        print(f"El directorio {ruta_base} no existe")
+    except PermissionError:
+        print(f"No tienes permisos para acceder a {ruta_base}")
+
+if __name__ == "__main__":
+    directorio_a_analizar = os.environ.get('HOME', os.getcwd())
+    analizar_directorio(directorio_a_analizar)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+4. MANIPULACIÓN DE RUTAS Y ARCHIVOS: OS.PATH Y PATHLIB
+
+Python ofrece dos enfoques principales para trabajar con rutas de archivos y directorios: el módulo
+tradicional os.path y el más moderno pathlib (disponible desde Python 3.4). Ambos proporcionan
+herramientas para manipular rutas de manera portable entre diferentes sistemas operativos.
+
+> El módulo os.path
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import os.path
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Construcción de rutas
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Unir componentes de ruta de forma portable
+ruta_completa = os.path.join('carpeta', 'subcarpeta', 'archivo.txt')
+print(ruta_completa)
+# Windows: 'carpeta\subcarpeta\archivo.txt'
+# Unix:    'carpeta/subcarpeta/archivo.txt'
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Normalización y resolución de rutas
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Obtener ruta absoluta
+ruta_absoluta = os.path.abspath('archivo.txt')
+print(f"Ruta absoluta: {ruta_absoluta}")
+
+# Normalizar una ruta (resolver '..' y '.')
+ruta = os.path.normpath('carpeta/../otra_carpeta/./archivo.txt')
+print(f"Ruta normalizada: {ruta}")  # 'otra_carpeta/archivo.txt'
+
+# Expandir ~ (home del usuario)
+ruta_config = os.path.expanduser('~/.config')
+print(f"Ruta de configuración: {ruta_config}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Análisis de componentes de ruta
+
+- - - - - - - - - - - - - - - - - - - - - - -
+ruta = '/home/usuario/documentos/archivo.txt'
+
+# Directorio y nombre del archivo por separado
+directorio = os.path.dirname(ruta)
+archivo    = os.path.basename(ruta)
+print(f"Directorio: {directorio}")  # '/home/usuario/documentos'
+print(f"Archivo: {archivo}")        # 'archivo.txt'
+
+# Dividir en una sola operación
+dir_path, filename = os.path.split(ruta)
+
+# Obtener la extensión del archivo
+nombre, extension = os.path.splitext(archivo)
+print(f"Nombre: {nombre}, Extensión: {extension}")  # 'archivo', '.txt'
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Verificación de archivos y directorios
+
+- - - - - - - - - - - - - - - - - - - - - - -
+if os.path.exists('/ruta/al/archivo.txt'):
+    print("El archivo o directorio existe")
+
+if os.path.isfile('/ruta/al/archivo.txt'):
+    print("Es un archivo")
+
+if os.path.isdir('/ruta/al/directorio'):
+    print("Es un directorio")
+
+if os.path.isabs('/ruta/absoluta'):
+    print("Es una ruta absoluta")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Información de archivos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import time
+
+tamaño           = os.path.getsize('archivo.txt')
+tiempo_modificado = os.path.getmtime('archivo.txt')
+tiempo_acceso    = os.path.getatime('archivo.txt')
+
+print(f"Tamaño: {tamaño} bytes")
+print(f"Última modificación: {time.ctime(tiempo_modificado)}")
+print(f"Último acceso: {time.ctime(tiempo_acceso)}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> La biblioteca pathlib
+
+La biblioteca pathlib introduce un enfoque orientado a objetos para manipular rutas, lo que resulta
+en un código más limpio y legible. Es la forma recomendada de trabajar con rutas en Python moderno.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+from pathlib import Path
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Creación de objetos Path
+
+- - - - - - - - - - - - - - - - - - - - - - -
+ruta_actual      = Path.cwd()           # Directorio actual
+ruta_home        = Path.home()          # Directorio home del usuario
+ruta_archivo     = Path('documentos/archivo.txt')
+ruta_componentes = Path('proyectos', 'python', 'script.py')
+
+print(f"Directorio actual: {ruta_actual}")
+print(f"Directorio home: {ruta_home}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Construcción de rutas con el operador /
+
+- - - - - - - - - - - - - - - - - - - - - - -
+ruta_base    = Path('/home/usuario')
+ruta_completa = ruta_base / 'documentos' / 'archivo.txt'
+
+# Directorio padre
+directorio_padre = ruta_completa.parent
+abuelo           = ruta_completa.parent.parent
+
+# Cambiar extensión o nombre
+nueva_extension = ruta_completa.with_suffix('.pdf')
+nuevo_nombre    = ruta_completa.with_name('nuevo_archivo.txt')
+
+# Resolver rutas relativas
+ruta_resuelta = Path('documentos/../proyectos/./script.py').resolve()
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Acceso a componentes de ruta
+
+- - - - - - - - - - - - - - - - - - - - - - -
+ruta = Path('/home/usuario/documentos/archivo.txt')
+
+print(f"Nombre: {ruta.name}")    # 'archivo.txt'
+print(f"Stem: {ruta.stem}")      # 'archivo'
+print(f"Sufijo: {ruta.suffix}")  # '.txt'
+print(f"Partes: {list(ruta.parts)}")
+# ['/', 'home', 'usuario', 'documentos', 'archivo.txt']
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Verificación y operaciones con archivos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+ruta = Path('archivo.txt')
+
+if ruta.exists():
+    print(f"{ruta} existe")
+
+if ruta.is_file():
+    print(f"{ruta} es un archivo")
+elif ruta.is_dir():
+    print(f"{ruta} es un directorio")
+
+if ruta.exists():
+    import datetime
+    print(f"Tamaño: {ruta.stat().st_size} bytes")
+    mtime = datetime.datetime.fromtimestamp(ruta.stat().st_mtime)
+    print(f"Última modificación: {mtime}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Lectura y escritura de archivos directamente
+
+- - - - - - - - - - - - - - - - - - - - - - -
+ruta = Path('ejemplo.txt')
+
+# Escribir texto
+ruta.write_text('Hola, este es un ejemplo de pathlib.\nEsta es otra línea.')
+
+# Leer todo el contenido como texto
+contenido = ruta.read_text()
+print(f"Contenido:\n{contenido}")
+
+# Datos binarios
+ruta_bin = Path('datos.bin')
+ruta_bin.write_bytes(b'\x00\x01\x02\x03')
+datos = ruta_bin.read_bytes()
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Operaciones con directorios
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Crear directorio (no falla si ya existe)
+Path('nuevo_directorio').mkdir(exist_ok=True)
+
+# Crear estructura de directorios anidados
+Path('padre/hijo/nieto').mkdir(parents=True, exist_ok=True)
+
+# Listar archivos en un directorio
+for archivo in Path('.').iterdir():
+    print(f"  - {archivo.name}")
+
+# Buscar archivos por patrón (glob)
+for archivo_py in Path('.').glob('*.py'):
+    print(f"  - {archivo_py.name}")
+
+# Búsqueda recursiva en subdirectorios
+for archivo_py in Path('.').glob('**/*.py'):
+    print(f"  - {archivo_py}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ejemplo práctico con pathlib: organizar imágenes por fecha
+
+- - - - - - - - - - - - - - - - - - - - - - -
+from pathlib import Path
+import shutil
+from datetime import datetime
+
+def organizar_imagenes_por_fecha(directorio_origen):
+    """Organiza imágenes por año y mes de creación."""
+    directorio = Path(directorio_origen)
+
+    if not directorio.exists() or not directorio.is_dir():
+        print(f"El directorio {directorio} no existe o no es válido")
+        return
+
+    extensiones_imagen = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
+
+    imagenes = []
+    for ext in extensiones_imagen:
+        imagenes.extend(directorio.glob(f'*{ext}'))
+        imagenes.extend(directorio.glob(f'*{ext.upper()}'))
+
+    print(f"Encontradas {len(imagenes)} imágenes")
+
+    for imagen in imagenes:
+        try:
+            timestamp = imagen.stat().st_mtime
+            fecha     = datetime.fromtimestamp(timestamp)
+            año       = str(fecha.year)
+            mes       = fecha.strftime('%m-%B')
+
+            directorio_destino = directorio / año / mes
+            directorio_destino.mkdir(parents=True, exist_ok=True)
+
+            destino = directorio_destino / imagen.name
+            shutil.copy2(imagen, destino)
+            print(f"Copiada: {imagen.name} → {año}/{mes}/")
+
+        except Exception as e:
+            print(f"Error al procesar {imagen.name}: {e}")
+
+if __name__ == "__main__":
+    organizar_imagenes_por_fecha(Path.home() / "Imágenes")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Comparación: os.path vs pathlib
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Usando os.path (enfoque tradicional)
+import os.path
+
+ruta_os = os.path.join('carpeta', 'archivo.txt')
+if os.path.exists(ruta_os) and os.path.isfile(ruta_os):
+    with open(ruta_os, 'r') as f:
+        contenido = f.read()
+    nombre_base = os.path.basename(ruta_os)
+    directorio  = os.path.dirname(ruta_os)
+
+# Usando pathlib (enfoque moderno)
+from pathlib import Path
+
+ruta_path = Path('carpeta') / 'archivo.txt'
+if ruta_path.exists() and ruta_path.is_file():
+    contenido   = ruta_path.read_text()
+    nombre_base = ruta_path.name
+    directorio  = ruta_path.parent
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Mejores prácticas
+
+>/ Usa pathlib para proyectos nuevos: Es más moderno y ofrece una API más limpia.
+>/ Considera la compatibilidad: Si necesitas compatibilidad con Python < 3.4, usa os.path.
+>/ Sé consistente: Elige un enfoque y úsalo de manera uniforme en todo el proyecto.
+>/ Evita mezclar cadenas y objetos Path: Convierte explícitamente entre ellos cuando sea necesario.
+>/ Aprovecha los métodos de Path: Usa read_text() y write_text() en lugar de abrir archivos
+   manualmente.
+
+
+- - - - - - - - - - - - - - - - - - - - - - -
+Aprendizajes de esta lección
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Comprender cómo utilizar el módulo sys para acceder a argumentos de línea de comandos,
+   controlar la salida estándar y gestionar la finalización del programa.
+>/ Aprender a configurar y utilizar el módulo logging para registrar mensajes con diferentes
+   niveles de severidad y gestionar archivos de log.
+>/ Conocer las funcionalidades del módulo os para acceder a variables de entorno, manejar
+   directorios y ejecutar comandos del sistema.
+>/ Diferenciar y aplicar las técnicas para manipular rutas y archivos usando os.path y pathlib,
+   destacando sus ventajas y casos de uso.
+>/ Implementar ejemplos prácticos que integren estas librerías para crear scripts y aplicaciones
+   robustas y portables.

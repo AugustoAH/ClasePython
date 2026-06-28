@@ -1,0 +1,11 @@
+ID_Tienda,Producto,Stock_Disponible,Fecha_Actualización
+1,Producto A,50,2023-01-05
+1,Producto B,40,2023-01-06
+2,Producto A,60,2023-01-07
+2,Producto C,45,2023-01-08
+3,Producto A,30,2023-01-09
+3,Producto B,80,2023-01-10
+4,Producto C,70,2023-01-11
+4,Producto A,50,2023-01-12
+5,Producto B,40,2023-01-13
+5,Producto C,60,2023-01-14

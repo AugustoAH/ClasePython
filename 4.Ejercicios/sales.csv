@@ -1,0 +1,11 @@
+ID_Tienda,Producto,Cantidad_Vendida,Precio_Unitario,Fecha_Venta
+1,Producto A,20,100,2023-01-05
+1,Producto B,15,200,2023-01-06
+2,Producto A,30,100,2023-01-07
+2,Producto C,25,300,2023-01-08
+3,Producto A,10,100,2023-01-09
+3,Producto B,40,200,2023-01-10
+4,Producto C,35,300,2023-01-11
+4,Producto A,25,100,2023-01-12
+5,Producto B,20,200,2023-01-13
+5,Producto C,30,300,2023-01-14

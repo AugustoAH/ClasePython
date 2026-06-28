@@ -1,0 +1,579 @@
+
+1. FUNCIONES LAMBDA - SINTAXIS BÁSICA
+
+Las funciones lambda, también conocidas como funciones anónimas, son una característica de Python que
+permite crear funciones pequeñas y de un solo uso sin necesidad de definirlas formalmente con la
+palabra clave def. Estas funciones son útiles cuando necesitamos una función simple por un breve
+periodo de tiempo.
+
+La sintaxis de una función lambda es concisa y directa:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+lambda argumentos: expresión
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Donde:
+
+1) lambda: es la palabra clave que indica que estamos creando una función anónima.
+2) argumentos: son los parámetros que recibe la función (pueden ser cero o más).
+3) expresión: es una única expresión que se evalúa y devuelve como resultado.
+
+A diferencia de las funciones normales definidas con def, las funciones lambda tienen las siguientes
+características:
+
+>/ Solo pueden contener una única expresión.
+>/ No requieren la palabra clave return (el valor se devuelve automáticamente).
+>/ No tienen nombre (son anónimas).
+
+> Lambda sin argumentos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda sin argumentos que siempre devuelve el mismo valor
+saludo = lambda: "Hola mundo"
+print(saludo())  # Imprime: Hola mundo
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Lambda con un argumento
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda que recibe un número y devuelve su cuadrado
+cuadrado = lambda x: x ** 2
+print(cuadrado(5))  # Imprime: 25
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Lambda con múltiples argumentos
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda que suma dos números
+suma = lambda a, b: a + b
+print(suma(3, 4))  # Imprime: 7
+
+# Lambda que calcula el producto de tres números
+producto = lambda x, y, z: x * y * z
+print(producto(2, 3, 4))  # Imprime: 24
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Argumentos por defecto
+
+Las funciones lambda también pueden tener argumentos con valores predeterminados:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda con un argumento por defecto
+incrementar = lambda x, incremento=1: x + incremento
+print(incrementar(5))     # Imprime: 6 (usa el valor por defecto)
+print(incrementar(5, 2))  # Imprime: 7 (usa el valor proporcionado)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Uso de expresiones condicionales
+
+Podemos usar el operador ternario dentro de una lambda para crear expresiones condicionales:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda que determina si un número es par o impar
+es_par = lambda x: "Par" if x % 2 == 0 else "Impar"
+print(es_par(4))  # Imprime: Par
+print(es_par(7))  # Imprime: Impar
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Uso con tipos de datos
+
+Las lambdas pueden trabajar con diferentes tipos de datos en Python:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda que convierte una cadena a mayúsculas
+a_mayusculas = lambda s: s.upper()
+print(a_mayusculas("python"))  # Imprime: PYTHON
+
+# Lambda que obtiene la longitud de una secuencia
+longitud = lambda seq: len(seq)
+print(longitud([1, 2, 3, 4]))  # Imprime: 4
+print(longitud("Python"))      # Imprime: 6
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Uso típico: asignación a variables
+
+Aunque las funciones lambda son anónimas, a menudo se asignan a variables para poder reutilizarlas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Asignar una lambda a una variable
+calcular_precio = lambda precio, impuesto=0.21: precio * (1 + impuesto)
+
+precio_final = calcular_precio(100)
+print(f"Precio final: {precio_final}")  # Imprime: Precio final: 121.0
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Uso típico: como argumento de otras funciones
+
+Uno de los usos más comunes de las lambdas es pasarlas como argumentos a otras funciones:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Filtrar números pares de una lista
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # Imprime: [2, 4, 6, 8, 10]
+
+# Aplicar una operación a cada elemento de una lista
+cuadrados = list(map(lambda x: x ** 2, numeros))
+print(cuadrados)  # Imprime: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Limitaciones de las funciones lambda
+
+Es importante entender las limitaciones de las funciones lambda:
+
+>/ Solo pueden contener una única expresión (no sentencias).
+>/ No pueden contener múltiples líneas de código.
+>/ No pueden incluir documentación (docstrings).
+>/ No son adecuadas para lógica compleja.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Esto NO es válido en una lambda:
+# lambda x:
+#     resultado = x * 2
+#     return resultado
+
+# En su lugar, usaríamos una función normal:
+def duplicar(x):
+    resultado = x * 2
+    return resultado
+- - - - - - - - - - - - - - - - - - - - - - -
+
+./ Resumen: Las funciones lambda son herramientas poderosas para escribir código conciso y funcional
+en Python, especialmente cuando se trabaja con funciones de orden superior como map(), filter() y
+sorted(). Sin embargo, para lógica más compleja, las funciones tradicionales definidas con def
+siguen siendo la opción más adecuada y legible.
+
+
+2. LAMBDAS COMO ARGUMENTOS DE FUNCIONES DE ORDENAMIENTO
+
+Las funciones lambda son particularmente útiles cuando necesitamos proporcionar criterios de
+ordenamiento personalizados a funciones como sorted() y al método sort() de las listas. Estas
+funciones aceptan un parámetro llamado key que determina cómo se comparan los elementos durante
+el proceso de ordenación.
+
+El parámetro key espera una función que tome un elemento de la secuencia y devuelva un valor que
+se utilizará para la comparación. Aquí es donde las funciones lambda brillan por su concisión.
+
+> Ordenamiento básico con sorted()
+
+La función sorted() devuelve una nueva lista ordenada a partir de cualquier iterable:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ordenamiento básico de una lista de números
+numeros = [5, 2, 8, 1, 9, 3]
+numeros_ordenados = sorted(numeros)
+print(numeros_ordenados)  # Imprime: [1, 2, 3, 5, 8, 9]
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ordenamiento con lambdas como criterio
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ordenar una lista de números por su valor absoluto
+numeros = [5, -2, 8, -1, 9, -3]
+ordenados_por_abs = sorted(numeros, key=lambda x: abs(x))
+print(ordenados_por_abs)  # Imprime: [-1, -2, -3, 5, 8, 9]
+- - - - - - - - - - - - - - - - - - - - - - -
+
+La lambda toma cada número y devuelve su valor absoluto, que es el valor utilizado para la
+comparación durante el ordenamiento.
+
+> Ordenamiento de cadenas
+
+Las lambdas son muy útiles para ordenar cadenas de texto según criterios específicos:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ordenar cadenas por longitud en lugar de alfabéticamente
+palabras = ["python", "es", "un", "lenguaje", "de", "programación"]
+ordenadas_por_longitud = sorted(palabras, key=lambda palabra: len(palabra))
+print(ordenadas_por_longitud)
+# Imprime: ['es', 'un', 'de', 'python', 'lenguaje', 'programación']
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ordenamiento inverso
+
+Podemos combinar lambdas con el parámetro reverse para obtener un ordenamiento inverso:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ordenar números de mayor a menor
+numeros = [5, 2, 8, 1, 9, 3]
+descendente = sorted(numeros, reverse=True)
+print(descendente)  # Imprime: [9, 8, 5, 3, 2, 1]
+
+# Ordenar palabras de la más larga a la más corta
+palabras = ["python", "es", "genial"]
+por_longitud_desc = sorted(palabras, key=lambda p: len(p), reverse=True)
+print(por_longitud_desc)  # Imprime: ['python', 'genial', 'es']
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ordenamiento de estructuras complejas
+
+Las lambdas son especialmente útiles para ordenar listas de diccionarios u otras estructuras:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lista de diccionarios que representan personas
+personas = [
+    {"nombre": "Ana",    "edad": 25},
+    {"nombre": "Carlos", "edad": 30},
+    {"nombre": "Berta",  "edad": 20},
+    {"nombre": "Daniel", "edad": 25}
+]
+
+# Ordenar por edad
+ordenadas_por_edad = sorted(personas, key=lambda persona: persona["edad"])
+print("Ordenadas por edad:")
+for p in ordenadas_por_edad:
+    print(f"{p['nombre']}: {p['edad']} años")
+# Imprime personas ordenadas por edad (Berta, Ana, Daniel, Carlos)
+
+# Ordenar por nombre
+ordenadas_por_nombre = sorted(personas, key=lambda persona: persona["nombre"])
+print("Ordenadas por nombre:")
+for p in ordenadas_por_nombre:
+    print(f"{p['nombre']}: {p['edad']} años")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ordenamiento con múltiples criterios
+
+Podemos crear lambdas que devuelvan tuplas para ordenar por múltiples criterios:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ordenar primero por edad y luego por nombre
+ordenamiento_compuesto = sorted(personas, key=lambda p: (p["edad"], p["nombre"]))
+print("Ordenadas por edad y luego por nombre:")
+for p in ordenamiento_compuesto:
+    print(f"{p['nombre']}: {p['edad']} años")
+# Primero ordena por edad y, en caso de empate, por nombre
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ordenamiento de objetos personalizados
+
+Las lambdas también son útiles para ordenar objetos de clases personalizadas:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+class Estudiante:
+    def __init__(self, nombre, nota, curso):
+        self.nombre = nombre
+        self.nota = nota
+        self.curso = curso
+
+    def __repr__(self):
+        return f"{self.nombre} ({self.curso}): {self.nota}"
+
+estudiantes = [
+    Estudiante("Ana",    8.5, "Python"),
+    Estudiante("Luis",   7.0, "JavaScript"),
+    Estudiante("Elena",  9.2, "Python"),
+    Estudiante("Carlos", 6.8, "JavaScript")
+]
+
+# Ordenar por nota (de mayor a menor)
+por_nota = sorted(estudiantes, key=lambda e: e.nota, reverse=True)
+print("Ordenados por nota:")
+for e in por_nota:
+    print(e)
+
+# Ordenar primero por curso y luego por nota descendente
+por_curso_y_nota = sorted(estudiantes, key=lambda e: (e.curso, -e.nota))
+print("Ordenados por curso y nota (descendente):")
+for e in por_curso_y_nota:
+    print(e)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Importante: Usamos -e.nota para ordenar las notas en orden descendente dentro de cada curso.
+El signo negativo invierte el orden de comparación para valores numéricos.
+
+> Uso del método sort() de las listas
+
+El método sort() funciona de manera similar a sorted(), pero modifica la lista original en lugar
+de devolver una nueva:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Ordenar la lista original (modifica la lista directamente)
+numeros = [5, 2, 8, 1, 9, 3]
+numeros.sort(key=lambda x: x % 3)  # Ordena por el resto de dividir por 3
+print(numeros)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Ordenamiento estable
+
+Un aspecto importante es que las funciones de ordenamiento en Python son estables. Esto significa
+que si dos elementos tienen el mismo valor según el criterio de ordenamiento, mantendrán su orden
+relativo original:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Demostración de ordenamiento estable
+datos = [("A", 3), ("B", 2), ("C", 3), ("D", 1), ("E", 2)]
+
+# Ordenar solo por el segundo elemento de cada tupla
+ordenados = sorted(datos, key=lambda x: x[1])
+print(ordenados)  # [('D', 1), ('B', 2), ('E', 2), ('A', 3), ('C', 3)]
+# Nota cómo ('B', 2) aparece antes que ('E', 2), y ('A', 3) antes que ('C', 3)
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Aplicación práctica: ordenar archivos por fecha de modificación
+
+- - - - - - - - - - - - - - - - - - - - - - -
+import os
+from datetime import datetime
+
+archivos = os.listdir('.')
+archivos_ordenados = sorted(
+    archivos,
+    key=lambda f: os.path.getmtime(f) if os.path.isfile(f) else 0
+)
+print("Archivos ordenados por fecha de modificación:")
+for archivo in archivos_ordenados:
+    if os.path.isfile(archivo):
+        tiempo = datetime.fromtimestamp(os.path.getmtime(archivo))
+        print(f"{archivo}: {tiempo.strftime('%Y-%m-%d %H:%M:%S')}")
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+3. VENTAJAS Y LIMITACIONES FRENTE A FUNCIONES TRADICIONALES
+
+Las funciones lambda y las funciones tradicionales (definidas con def) representan dos enfoques
+diferentes para crear funciones en Python. Comprender estas diferencias es fundamental para elegir
+la herramienta correcta según el contexto de programación.
+
+> Ventajas de las funciones lambda
+
+>/ Concisión y legibilidad: Las lambdas permiten expresar operaciones simples en una sola línea.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Función tradicional
+def cuadrado(x):
+    return x * x
+
+# Equivalente con lambda
+cuadrado_lambda = lambda x: x * x
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Funciones desechables: Son ideales para crear funciones que se utilizarán una sola vez.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Uso inmediato sin necesidad de nombrar la función
+resultado = (lambda x, y: x + y)(5, 3)
+print(resultado)  # Imprime: 8
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Funciones en línea: Permiten definir funciones directamente donde se necesitan.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Filtrar números pares sin definir una función separada
+numeros = [1, 2, 3, 4, 5, 6]
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Closures compactos: Facilitan la creación de funciones que capturan variables de su entorno.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+def multiplicador(n):
+    return lambda x: x * n
+
+duplicar  = multiplicador(2)
+triplicar = multiplicador(3)
+
+print(duplicar(5))   # Imprime: 10
+print(triplicar(5))  # Imprime: 15
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Expresividad funcional: Mejoran la legibilidad del código cuando se trabaja con programación
+   funcional.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+from functools import reduce
+
+# Sumar todos los elementos de una lista
+numeros = [1, 2, 3, 4, 5]
+suma = reduce(lambda x, y: x + y, numeros)
+print(suma)  # Imprime: 15
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Limitaciones de las funciones lambda
+
+>/ Expresiones únicas: Las lambdas solo pueden contener una única expresión.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Esto no es posible en una lambda:
+# lambda x:
+#     if x > 0:
+#         return x
+#     else:
+#         return -x
+
+# Se necesita una función tradicional:
+def valor_absoluto(x):
+    if x > 0:
+        return x
+    else:
+        return -x
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Sin documentación integrada: No pueden incluir docstrings.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Función tradicional con documentación
+def calcular_impuesto(monto, tasa=0.21):
+    """
+    Calcula el impuesto sobre un monto dado.
+
+    Args:
+        monto: Cantidad base para el cálculo
+        tasa: Porcentaje de impuesto (por defecto 0.21)
+
+    Returns:
+        El monto del impuesto calculado
+    """
+    return monto * tasa
+
+# Lambda equivalente (sin posibilidad de documentación)
+calcular_impuesto_lambda = lambda monto, tasa=0.21: monto * tasa
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Depuración más difícil: Al no tener nombre, pueden ser difíciles de identificar en los mensajes
+   de error (el traceback mostrará "<lambda>" en lugar de un nombre descriptivo).
+
+>/ Limitaciones de sintaxis: No pueden usar ciertas construcciones de Python como yield, assert
+   o raise directamente.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Esto no es posible en una lambda:
+# lambda x: assert x > 0
+
+# Se necesita una función tradicional:
+def validar_positivo(x):
+    assert x > 0
+    return x
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Legibilidad reducida para operaciones complejas: Las lambdas complejas son difíciles de mantener.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda compleja difícil de leer
+procesar = lambda datos: [x['valor'] for x in filter(lambda d: d['activo'] and d['valor'] > 10, datos)]
+
+# Equivalente con función tradicional (más legible)
+def procesar_datos(datos):
+    resultados = []
+    for d in datos:
+        if d['activo'] and d['valor'] > 10:
+            resultados.append(d['valor'])
+    return resultados
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Cuándo usar cada tipo de función
+
+>/ Usa funciones lambda cuando:
+   - Necesites una función simple de una sola expresión.
+   - La función se use solo una vez (como argumento de map, filter, sorted).
+   - Quieras mejorar la legibilidad de código funcional.
+   - Necesites crear funciones sobre la marcha.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Buen uso de lambda
+nombres = ['Ana', 'Carlos', 'Berta', 'Daniel']
+nombres_ordenados = sorted(nombres, key=lambda nombre: len(nombre))
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Usa funciones tradicionales cuando:
+   - La lógica requiera múltiples líneas o expresiones.
+   - Necesites documentar la función.
+   - La función se reutilizará en varias partes del código.
+   - Necesites características como recursión o generadores.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Mejor con función tradicional
+def procesar_datos(datos, umbral):
+    """
+    Procesa una lista de datos según un umbral específico.
+
+    Args:
+        datos: Lista de valores numéricos
+        umbral: Valor mínimo para incluir un dato
+
+    Returns:
+        Lista de datos procesados
+    """
+    resultado = []
+    for valor in datos:
+        if valor > umbral:
+            resultado.append(valor * 2)
+        else:
+            resultado.append(0)
+    return resultado
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Rendimiento y consideraciones técnicas
+
+Desde el punto de vista del rendimiento, no hay diferencias significativas entre lambdas y
+funciones tradicionales en Python moderno:
+
+>/ Las funciones lambda se compilan en el mismo tipo de objeto función que las funciones tradicionales.
+>/ En versiones modernas de Python, ambas tienen prácticamente el mismo rendimiento.
+>/ Las lambdas pueden ser ligeramente menos eficientes en memoria cuando capturan muchas variables
+   del entorno.
+
+> Alternativas modernas a las lambdas
+
+>/ El operador walrus (:=) permite asignaciones dentro de expresiones (Python 3.8+):
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Uso del operador walrus en una lambda (Python 3.8+)
+procesar = lambda x: (temp := x * 2) if temp > 10 else temp
+print(procesar(6))  # Imprime: 12
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Las funciones parciales de functools ofrecen una alternativa a las lambdas para crear variantes
+   de funciones:
+
+- - - - - - - - - - - - - - - - - - - - - - -
+from functools import partial
+
+# En lugar de lambda
+multiplicar_por_dos = lambda x: x * 2
+
+# Alternativa con partial
+def multiplicar(x, factor):
+    return x * factor
+
+multiplicar_por_dos = partial(multiplicar, factor=2)
+print(multiplicar_por_dos(5))  # Imprime: 10
+- - - - - - - - - - - - - - - - - - - - - - -
+
+> Consideraciones de estilo y legibilidad
+
+Importante:
+
+>/ La guía de estilo PEP 8 de Python recomienda usar funciones tradicionales cuando la expresión
+   lambda se vuelve compleja.
+>/ Muchos equipos de desarrollo establecen convenciones sobre cuándo usar cada tipo de función.
+>/ El uso excesivo de lambdas puede dificultar la comprensión del código para desarrolladores
+   menos familiarizados con la programación funcional.
+
+- - - - - - - - - - - - - - - - - - - - - - -
+# Lambda demasiado compleja (difícil de leer)
+transformar = lambda datos: {k: [i*2 if i > 0 else 0 for i in v] for k, v in datos.items() if len(v) > 2}
+
+# Mejor como función tradicional
+def transformar_datos(datos):
+    resultado = {}
+    for k, v in datos.items():
+        if len(v) > 2:
+            resultado[k] = [i*2 if i > 0 else 0 for i in v]
+    return resultado
+- - - - - - - - - - - - - - - - - - - - - - -
+
+
+- - - - - - - - - - - - - - - - - - - - - - -
+Aprendizajes de esta lección
+- - - - - - - - - - - - - - - - - - - - - - -
+
+>/ Comprender la sintaxis y características básicas de las funciones lambda en Python.
+>/ Aprender a utilizar funciones lambda como argumentos en funciones de ordenamiento
+   como sorted() y sort().
+>/ Identificar las ventajas y limitaciones de las funciones lambda frente a las funciones
+   tradicionales definidas con def.
+>/ Aplicar funciones lambda para ordenar estructuras de datos simples y complejas, incluyendo
+   listas, diccionarios y objetos.
+>/ Evaluar cuándo es apropiado usar funciones lambda o funciones tradicionales según la
+   complejidad y legibilidad del código.

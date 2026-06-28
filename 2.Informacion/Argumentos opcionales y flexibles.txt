@@ -1,0 +1,991 @@
+Parámetros con valores por defecto y argumentos opcionales
+
+En Python, una de las características más útiles al definir funciones es la capacidad de establecer valores predeterminados para los parámetros. Esta funcionalidad permite crear interfaces de función flexibles donde algunos argumentos son opcionales, lo que facilita el uso de la función en diferentes contextos sin necesidad de proporcionar todos los argumentos cada vez.
+
+Definición de parámetros con valores por defecto
+
+Para definir un parámetro con un valor por defecto, simplemente asignamos un valor al parámetro en la definición de la función:
+
+def saludar(nombre, mensaje="Hola"):
+    return f"{mensaje}, {nombre}!"
+Copy
+En este ejemplo, mensaje tiene un valor por defecto de "Hola", lo que significa que es opcional al llamar a la función:
+
+# Usando el valor por defecto para 'mensaje'
+print(saludar("Ana"))  # Salida: Hola, Ana!
+
+# Proporcionando un valor personalizado para 'mensaje'
+print(saludar("Ana", "Buenos días"))  # Salida: Buenos días, Ana!
+Copy
+Reglas para parámetros con valores por defecto
+
+Existen algunas reglas importantes que debemos seguir al trabajar con parámetros opcionales:
+
+1. Los parámetros con valores por defecto deben ir después de los parámetros sin valores por defecto:
+# Correcto
+def configurar(usuario_id, nombre=None, activo=True):
+    # Código de la función
+    pass
+
+# Incorrecto - generará un error de sintaxis
+def configurar(nombre=None, usuario_id, activo=True):
+    # Código de la función
+    pass
+Copy
+2. Los valores por defecto se evalúan una sola vez cuando se define la función:
+from datetime import datetime
+
+# Cuidado con este patrón
+def registrar_evento(evento, tiempo=datetime.now()):
+    print(f"{evento} registrado a las {tiempo}")
+
+# Primera llamada
+registrar_evento("Inicio")
+# Esperar 5 segundos...
+registrar_evento("Fin")  # ¡Usará el mismo tiempo que la primera llamada!
+Copy
+Para evitar este problema, es mejor usar None como valor por defecto y asignar el valor dinámico dentro de la función:
+
+def registrar_evento(evento, tiempo=None):
+    if tiempo is None:
+        tiempo = datetime.now()
+    print(f"{evento} registrado a las {tiempo}")
+Copy
+3. Evitar usar tipos mutables como valores por defecto:
+# Problemático
+def agregar_tarea(tarea, lista=[]):
+    lista.append(tarea)
+    return lista
+
+print(agregar_tarea("Estudiar"))  # ['Estudiar']
+print(agregar_tarea("Trabajar"))  # ['Estudiar', 'Trabajar'] - ¡La lista persiste!
+Copy
+La solución correcta:
+
+def agregar_tarea(tarea, lista=None):
+    if lista is None:
+        lista = []
+    lista.append(tarea)
+    return lista
+
+print(agregar_tarea("Estudiar"))  # ['Estudiar']
+print(agregar_tarea("Trabajar"))  # ['Trabajar'] - Ahora cada llamada tiene su propia lista
+Copy
+Casos de uso prácticos
+
+Los parámetros con valores por defecto son especialmente útiles en varios escenarios:
+
+Configuración de opciones con valores sensatos por defecto:
+def conectar_bd(host="localhost", puerto=3306, usuario="admin", timeout=30):
+    # Código para conectar a la base de datos
+    print(f"Conectando a {host}:{puerto} como {usuario} (timeout: {timeout}s)")
+    # Resto del código...
+
+# Podemos usar la configuración por defecto
+conectar_bd()
+
+# O personalizar solo lo que necesitamos
+conectar_bd(puerto=5432, usuario="postgres")
+Copy
+Funciones con comportamiento configurable:
+def calcular_precio(precio_base, descuento=0, impuesto=0.21):
+    precio_con_descuento = precio_base * (1 - descuento)
+    precio_final = precio_con_descuento * (1 + impuesto)
+    return round(precio_final, 2)
+
+# Precio sin descuento
+print(calcular_precio(100))  # 121.0
+
+# Precio con 10% de descuento
+print(calcular_precio(100, 0.1))  # 108.9
+
+# Precio con 10% de descuento e impuesto del 10%
+print(calcular_precio(100, 0.1, 0.1))  # 99.0
+Copy
+Funciones con parámetros opcionales para casos avanzados:
+def buscar_usuarios(nombre=None, edad=None, ciudad=None, activo=True):
+    # Construimos la consulta basada en los parámetros proporcionados
+    consulta = "SELECT * FROM usuarios WHERE activo = " + str(activo)
+    
+    if nombre:
+        consulta += f" AND nombre LIKE '%{nombre}%'"
+    if edad:
+        consulta += f" AND edad = {edad}"
+    if ciudad:
+        consulta += f" AND ciudad = '{ciudad}'"
+    
+    print(f"Ejecutando consulta: {consulta}")
+    # Aquí iría el código para ejecutar la consulta...
+
+# Diferentes formas de llamar a la función
+buscar_usuarios()  # Todos los usuarios activos
+buscar_usuarios(nombre="Ana")  # Usuarios activos con nombre Ana
+buscar_usuarios(ciudad="Madrid", activo=False)  # Usuarios inactivos de Madrid
+Copy
+Argumentos con nombre vs. posicionales
+
+Al llamar a funciones con parámetros opcionales, podemos usar argumentos posicionales o argumentos con nombre:
+
+def formatear_texto(texto, mayusculas=False, prefijo="", sufijo=""):
+    if mayusculas:
+        texto = texto.upper()
+    return f"{prefijo}{texto}{sufijo}"
+
+# Argumentos posicionales (siguiendo el orden de los parámetros)
+print(formatear_texto("hola", True, ">> ", " <<"))  # >> HOLA <<
+
+# Argumentos con nombre (más legible y flexible)
+print(formatear_texto(
+    texto="hola",
+    sufijo=" <<",
+    prefijo=">> ",
+    mayusculas=True
+))  # >> HOLA <<
+Copy
+Los argumentos con nombre ofrecen mayor claridad y flexibilidad, especialmente cuando la función tiene muchos parámetros opcionales.
+
+Parámetros opcionales en Python 3.13
+
+En Python 3.13, se mantienen todas las características mencionadas y se han mejorado los mensajes de error relacionados con los parámetros. Por ejemplo, si intentamos definir una función con parámetros posicionales después de parámetros con valores por defecto, obtendremos un mensaje de error más claro:
+
+# En Python 3.13 el mensaje de error es más descriptivo
+def funcion_incorrecta(a=1, b):
+    pass
+# SyntaxError: non-default argument follows default argument
+Copy
+Los parámetros con valores por defecto son la base para crear funciones con argumentos opcionales en Python, proporcionando una forma elegante de hacer que nuestras funciones sean más flexibles y fáciles de usar.
+
+Uso de *args para número variable de argumentos posicionales
+
+Cuando diseñamos funciones en Python, a veces necesitamos manejar un número indeterminado de argumentos. Imagina que quieres crear una función para calcular la suma de varios números, pero no sabes de antemano cuántos valores recibirás. Para estos casos, Python ofrece una sintaxis especial mediante el parámetro *args.
+
+El parámetro *args permite a una función aceptar cualquier cantidad de argumentos posicionales adicionales. El nombre "args" es una convención, pero lo importante es el asterisco (*) que precede al nombre del parámetro.
+
+Sintaxis básica de *args
+
+Para definir una función que acepte un número variable de argumentos posicionales, usamos la siguiente sintaxis:
+
+def funcion(param_normal, *args):
+    # Código de la función
+    pass
+Copy
+Dentro de la función, args se comporta como una tupla que contiene todos los argumentos posicionales adicionales:
+
+def sumar(*args):
+    total = 0
+    for numero in args:
+        total += numero
+    return total
+
+# Podemos llamar a la función con cualquier cantidad de argumentos
+print(sumar(1, 2))           # 3
+print(sumar(1, 2, 3, 4, 5))  # 15
+print(sumar())               # 0 (no hay argumentos)
+Copy
+Combinando parámetros regulares con *args
+
+Podemos combinar parámetros regulares con *args. Los parámetros regulares se asignan primero, y los argumentos adicionales se recogen en *args:
+
+def describir_persona(nombre, edad, *habilidades):
+    mensaje = f"{nombre} tiene {edad} años y sus habilidades son:"
+    
+    if not habilidades:
+        return mensaje + " ninguna habilidad registrada."
+    
+    lista_habilidades = ", ".join(habilidades)
+    return mensaje + f" {lista_habilidades}."
+
+# Usando la función con diferentes cantidades de argumentos
+print(describir_persona("Ana", 28, "Python", "SQL", "JavaScript"))
+# Ana tiene 28 años y sus habilidades son: Python, SQL, JavaScript.
+
+print(describir_persona("Carlos", 35))
+# Carlos tiene 35 años y sus habilidades son: ninguna habilidad registrada.
+Copy
+En este ejemplo, nombre y edad son parámetros obligatorios, mientras que *habilidades captura cualquier argumento adicional como una tupla.
+
+Desempaquetando secuencias en *args
+
+También podemos desempaquetar una secuencia (como una lista o tupla) para pasarla como argumentos separados a una función usando el operador *:
+
+def multiplicar(*numeros):
+    resultado = 1
+    for num in numeros:
+        resultado *= num
+    return resultado
+
+# Lista de números
+valores = [2, 3, 4, 5]
+
+# Desempaquetando la lista como argumentos individuales
+print(multiplicar(*valores))  # 120 (2*3*4*5)
+
+# También funciona con tuplas
+mas_valores = (10, 20)
+print(multiplicar(*mas_valores))  # 200 (10*20)
+Copy
+Este mecanismo de desempaquetado es muy útil cuando tenemos datos en una estructura y queremos pasarlos como argumentos individuales a una función.
+
+Casos de uso prácticos
+
+El uso de *args es especialmente valioso en varios escenarios:
+
+1. Funciones matemáticas que operan con múltiples valores:
+def promedio(*valores):
+    if not valores:
+        return 0
+    return sum(valores) / len(valores)
+
+print(promedio(4, 7, 9, 2))  # 5.5
+print(promedio(10, 10))      # 10.0
+Copy
+2. Funciones de concatenación o unión de elementos:
+def concatenar(*textos, separador=" "):
+    return separador.join(textos)
+
+print(concatenar("Hola", "mundo", "Python"))  # Hola mundo Python
+print(concatenar("Python", "es", "genial", separador="-"))  # Python-es-genial
+Copy
+3. Delegación de argumentos a otras funciones:
+def registrar_y_procesar(usuario, *datos):
+    print(f"Registrando operación para usuario: {usuario}")
+    return procesar_datos(*datos)
+
+def procesar_datos(*valores):
+    return sum(valores) / len(valores) if valores else 0
+
+# La función principal delega el procesamiento
+print(registrar_y_procesar("admin", 10, 20, 30, 40))
+# Registrando operación para usuario: admin
+# 25.0
+Copy
+4. Funciones wrapper que extienden la funcionalidad:
+def log_llamada(funcion):
+    def wrapper(*args):
+        print(f"Llamando a {funcion.__name__} con {len(args)} argumentos")
+        resultado = funcion(*args)
+        print(f"Resultado: {resultado}")
+        return resultado
+    return wrapper
+
+@log_llamada
+def sumar_cuadrados(*numeros):
+    return sum(x**2 for x in numeros)
+
+sumar_cuadrados(1, 2, 3)
+# Llamando a sumar_cuadrados con 3 argumentos
+# Resultado: 14
+Copy
+Consideraciones importantes
+
+Al trabajar con *args, hay algunas consideraciones que debemos tener en cuenta:
+
+Posición en la definición de parámetros: *args debe aparecer después de los parámetros posicionales regulares, pero antes de los parámetros con valores por defecto y **kwargs:
+# Orden correcto de parámetros
+def funcion(posicional, *args, por_defecto=10, **kwargs):
+    # Código de la función
+    pass
+Copy
+Validación de tipos: Como *args puede recibir cualquier tipo de datos, es recomendable validar los tipos si la función espera un tipo específico:
+def sumar_numeros(*args):
+    for arg in args:
+        if not isinstance(arg, (int, float)):
+            raise TypeError(f"Se esperaba un número, pero se recibió {type(arg).__name__}")
+    return sum(args)
+
+try:
+    print(sumar_numeros(1, 2, "tres"))
+except TypeError as e:
+    print(f"Error: {e}")  # Error: Se esperaba un número, pero se recibió str
+Copy
+Rendimiento: Para operaciones con grandes cantidades de datos, considera alternativas más eficientes como generadores o funciones especializadas de bibliotecas como NumPy:
+import numpy as np
+
+# Más eficiente para grandes conjuntos de datos
+def varianza(*numeros):
+    return np.var(numeros)
+
+# Con 10,000 números, numpy es significativamente más rápido
+grandes_datos = range(10000)
+print(varianza(*grandes_datos))  # Cálculo eficiente
+Copy
+Mejoras en Python 3.13
+
+En Python 3.13, el manejo de *args mantiene la misma sintaxis y comportamiento que en versiones anteriores, pero con mejoras en los mensajes de error y optimizaciones internas. Por ejemplo, ahora se proporcionan mensajes más claros cuando se intenta desempaquetar objetos no iterables:
+
+def ejemplo(*args):
+    pass
+
+# En Python 3.13, el mensaje de error es más descriptivo
+try:
+    ejemplo(*123)  # Intentando desempaquetar un entero
+except TypeError as e:
+    print(f"Error: {e}")  # Error: 'int' object is not iterable
+Copy
+El uso de *args proporciona una flexibilidad extraordinaria al diseñar funciones en Python, permitiéndonos crear interfaces que se adaptan a diferentes cantidades de datos de entrada sin tener que definir múltiples versiones de la misma función.
+
+Implementación de kwargs para argumentos con nombre flexibles
+
+Así como Python nos permite manejar un número variable de argumentos posicionales con *args, también nos ofrece una forma elegante de trabajar con un número indeterminado de argumentos con nombre mediante el parámetro **kwargs. Esta característica resulta fundamental cuando necesitamos crear funciones con interfaces altamente flexibles que puedan adaptarse a diferentes contextos de uso.
+
+El nombre "kwargs" es una convención que significa "keyword arguments" (argumentos con nombre), pero lo importante es el doble asterisco (**) que precede al nombre del parámetro. Dentro de la función, kwargs se comporta como un diccionario que contiene todos los argumentos con nombre adicionales.
+
+Sintaxis básica de **kwargs
+
+Para definir una función que acepte argumentos con nombre flexibles, utilizamos la siguiente estructura:
+
+def funcion(**kwargs):
+    # Código de la función
+    pass
+Copy
+Veamos un ejemplo sencillo:
+
+def mostrar_informacion(**kwargs):
+    for clave, valor in kwargs.items():
+        print(f"{clave}: {valor}")
+
+# Podemos pasar cualquier cantidad de argumentos con nombre
+mostrar_informacion(nombre="Ana", edad=28, ciudad="Madrid")
+# nombre: Ana
+# edad: 28
+# ciudad: Madrid
+
+# O incluso ninguno
+mostrar_informacion()
+# (no muestra nada)
+Copy
+En este ejemplo, kwargs captura todos los argumentos con nombre que pasamos a la función como un diccionario, donde las claves son los nombres de los argumentos y los valores son los valores proporcionados.
+
+Accediendo a los valores de kwargs
+
+Como kwargs es un diccionario, podemos acceder a sus valores utilizando las operaciones habituales de los diccionarios:
+
+def configurar_aplicacion(**kwargs):
+    # Valores por defecto
+    config = {
+        "debug": False,
+        "puerto": 8000,
+        "host": "localhost",
+        "timeout": 30
+    }
+    
+    # Actualizar con los valores proporcionados
+    config.update(kwargs)
+    
+    print(f"Configuración: {config}")
+    return config
+
+# Usando la función con diferentes argumentos
+configurar_aplicacion(puerto=5000, debug=True)
+# Configuración: {'debug': True, 'puerto': 5000, 'host': 'localhost', 'timeout': 30}
+Copy
+También podemos verificar si se proporcionó un argumento específico:
+
+def procesar_usuario(**datos):
+    if "nombre" in datos:
+        print(f"Procesando usuario: {datos['nombre']}")
+    else:
+        print("Error: Se requiere un nombre de usuario")
+    
+    # Procesar datos adicionales si existen
+    if "email" in datos:
+        print(f"Email: {datos['email']}")
+
+procesar_usuario(nombre="Carlos", email="carlos@ejemplo.com")
+# Procesando usuario: Carlos
+# Email: carlos@ejemplo.com
+
+procesar_usuario(usuario_id=123)
+# Error: Se requiere un nombre de usuario
+Copy
+Desempaquetando diccionarios en **kwargs
+
+De manera similar a *args, podemos desempaquetar un diccionario para pasarlo como argumentos con nombre a una función usando el operador **:
+
+def crear_perfil(nombre, edad, **datos_adicionales):
+    perfil = {
+        "nombre": nombre,
+        "edad": edad
+    }
+    perfil.update(datos_adicionales)
+    return perfil
+
+# Diccionario con datos adicionales
+datos_usuario = {
+    "ciudad": "Barcelona",
+    "profesion": "Ingeniera",
+    "lenguajes": ["Python", "JavaScript"]
+}
+
+# Desempaquetando el diccionario como argumentos con nombre
+perfil = crear_perfil("Laura", 32, **datos_usuario)
+print(perfil)
+# {'nombre': 'Laura', 'edad': 32, 'ciudad': 'Barcelona', 
+#  'profesion': 'Ingeniera', 'lenguajes': ['Python', 'JavaScript']}
+Copy
+Esta técnica es especialmente útil cuando tenemos datos almacenados en diccionarios y queremos utilizarlos como argumentos con nombre en llamadas a funciones.
+
+Casos de uso prácticos
+
+El uso de **kwargs resulta particularmente valioso en varios escenarios:
+
+1. Configuración flexible de componentes:
+def crear_conexion_bd(**opciones):
+    # Valores por defecto
+    config = {
+        "host": "localhost",
+        "puerto": 3306,
+        "usuario": "admin",
+        "contraseña": "",
+        "base_datos": "app",
+        "timeout": 30,
+        "autocommit": True
+    }
+    
+    # Actualizar con opciones proporcionadas
+    config.update(opciones)
+    
+    print(f"Conectando a {config['base_datos']} en {config['host']}:{config['puerto']}")
+    # Aquí iría el código real de conexión...
+    
+    return f"Conexión establecida con {config['base_datos']}"
+
+# Diferentes formas de usar la función
+crear_conexion_bd(host="db.servidor.com", usuario="root", contraseña="secreto")
+# Conectando a app en db.servidor.com:3306
+
+Ver menos
+Copy
+2. Funciones de formato con opciones personalizables:
+def formatear_datos(datos, **opciones_formato):
+    formato = {
+        "precision": 2,
+        "separador": ",",
+        "prefijo": "",
+        "sufijo": "",
+        "mostrar_unidades": False
+    }
+    formato.update(opciones_formato)
+    
+    resultado = formato["prefijo"]
+    
+    if isinstance(datos, (int, float)):
+        resultado += f"{datos:.{formato['precision']}f}"
+    elif isinstance(datos, list):
+        resultado += formato["separador"].join(str(item) for item in datos)
+    else:
+        resultado += str(datos)
+    
+    if formato["mostrar_unidades"] and "unidades" in opciones_formato:
+        resultado += f" {opciones_formato['unidades']}"
+    
+    resultado += formato["sufijo"]
+    return resultado
+
+# Ejemplos de uso
+print(formatear_datos(123.456789))  # 123.46
+print(formatear_datos(123.456789, precision=4, prefijo="$"))  # $123.4568
+print(formatear_datos([1, 2, 3], separador=" | "))  # 1 | 2 | 3
+print(formatear_datos(42.5, mostrar_unidades=True, unidades="kg", precision=1))  # 42.5 kg
+
+Ver menos
+Copy
+3. Delegación de argumentos a otras funciones:
+def crear_usuario(nombre, email, **opciones_perfil):
+    usuario_id = registrar_usuario(nombre, email)
+    
+    if usuario_id:
+        # Pasar todas las opciones adicionales a la función de perfil
+        perfil_creado = crear_perfil_usuario(usuario_id, **opciones_perfil)
+        return f"Usuario {nombre} creado con perfil: {perfil_creado}"
+    return "Error al crear usuario"
+
+def registrar_usuario(nombre, email):
+    # Simulación de registro en base de datos
+    print(f"Registrando usuario: {nombre} ({email})")
+    return 12345  # ID simulado
+
+def crear_perfil_usuario(usuario_id, **datos_perfil):
+    print(f"Creando perfil para usuario {usuario_id} con datos: {datos_perfil}")
+    return "Perfil básico" if not datos_perfil else "Perfil completo"
+
+# Usando la función con argumentos adicionales
+resultado = crear_usuario(
+    "Elena", 
+    "elena@ejemplo.com", 
+    biografia="Desarrolladora Python",
+    ubicacion="Madrid",
+    habilidades=["Python", "Django", "SQL"]
+)
+print(resultado)
+# Registrando usuario: Elena (elena@ejemplo.com)
+# Creando perfil para usuario 12345 con datos: {'biografia': 'Desarrolladora Python', 
+# 'ubicacion': 'Madrid', 'habilidades': ['Python', 'Django', 'SQL']}
+# Usuario Elena creado con perfil: Perfil completo
+
+Ver menos
+Copy
+4. Funciones de filtrado con criterios dinámicos:
+def filtrar_productos(productos, **filtros):
+    resultado = []
+    
+    for producto in productos:
+        cumple_filtros = True
+        
+        for campo, valor in filtros.items():
+            if campo not in producto or producto[campo] != valor:
+                cumple_filtros = False
+                break
+        
+        if cumple_filtros:
+            resultado.append(producto)
+    
+    return resultado
+
+# Lista de productos
+inventario = [
+    {"id": 1, "nombre": "Laptop", "categoria": "Electrónica", "precio": 1200, "stock": 10},
+    {"id": 2, "nombre": "Teléfono", "categoria": "Electrónica", "precio": 800, "stock": 15},
+    {"id": 3, "nombre": "Mesa", "categoria": "Muebles", "precio": 300, "stock": 5},
+    {"id": 4, "nombre": "Silla", "categoria": "Muebles", "precio": 150, "stock": 20}
+]
+
+# Filtrar con diferentes criterios
+electronicos = filtrar_productos(inventario, categoria="Electrónica")
+print(f"Productos electrónicos: {len(electronicos)}")  # Productos electrónicos: 2
+
+sillas_disponibles = filtrar_productos(inventario, nombre="Silla", stock=20)
+print(f"Sillas disponibles: {len(sillas_disponibles)}")  # Sillas disponibles: 1
+
+Ver menos
+Copy
+Consideraciones importantes
+
+Al trabajar con **kwargs, hay algunas consideraciones que debemos tener en cuenta:
+
+Posición en la definición de parámetros: **kwargs debe ser el último parámetro en la definición de la función:
+# Orden correcto de parámetros
+def funcion(posicional, *args, por_defecto=10, **kwargs):
+    # Código de la función
+    pass
+Copy
+Nombres de argumentos válidos: Los nombres de los argumentos deben ser identificadores válidos en Python (no pueden comenzar con números ni contener caracteres especiales):
+# Esto funcionará
+funcion(nombre_usuario="admin", max_intentos=3)
+
+# Esto generará un error de sintaxis
+funcion(2nombre="valor", nombre-con-guiones="valor")
+Copy
+Colisiones de nombres: Si un argumento con nombre coincide con un parámetro posicional o con valor por defecto, Python lo asignará al parámetro correspondiente, no a kwargs:
+def procesar(a, b=10, **kwargs):
+    print(f"a={a}, b={b}, kwargs={kwargs}")
+
+procesar(1, b=20, c=30, d=40)
+# a=1, b=20, kwargs={'c': 30, 'd': 40}
+# 'b' no está en kwargs porque coincide con un parámetro nombrado
+Copy
+Validación de argumentos: Es recomendable validar los argumentos recibidos en kwargs si la función espera ciertos argumentos específicos:
+def configurar_app(**kwargs):
+    # Opciones permitidas
+    opciones_validas = {"debug", "log_level", "timeout", "max_users"}
+    
+    # Verificar opciones no reconocidas
+    opciones_desconocidas = set(kwargs.keys()) - opciones_validas
+    if opciones_desconocidas:
+        print(f"Advertencia: Opciones no reconocidas: {opciones_desconocidas}")
+    
+    # Procesar opciones válidas
+    for opcion, valor in kwargs.items():
+        if opcion in opciones_validas:
+            print(f"Configurando {opcion} = {valor}")
+
+configurar_app(debug=True, log_level="INFO", color_tema="azul")
+# Advertencia: Opciones no reconocidas: {'color_tema'}
+# Configurando debug = True
+# Configurando log_level = INFO
+Copy
+Mejoras en Python 3.13
+
+En Python 3.13, el manejo de **kwargs mantiene la misma sintaxis y comportamiento que en versiones anteriores, pero con algunas mejoras en los mensajes de error y optimizaciones internas. Por ejemplo, ahora se proporcionan mensajes más claros cuando se intenta desempaquetar objetos que no son diccionarios:
+
+def ejemplo(**kwargs):
+    pass
+
+# En Python 3.13, el mensaje de error es más descriptivo
+try:
+    ejemplo(**[1, 2, 3])  # Intentando desempaquetar una lista
+except TypeError as e:
+    print(f"Error: {e}")  # Error: '**' argument after ** must be a mapping, not list
+Copy
+El uso de **kwargs proporciona una flexibilidad extraordinaria al diseñar funciones en Python, permitiéndonos crear interfaces que pueden adaptarse a diferentes necesidades sin tener que definir todos los parámetros de antemano. Esta característica es especialmente valiosa en bibliotecas y frameworks donde la extensibilidad y la configuración flexible son requisitos clave.
+
+Orden de parámetros y combinación de diferentes tipos de argumentos
+
+Cuando trabajamos con funciones en Python que utilizan diferentes tipos de parámetros, es fundamental entender el orden correcto en que deben definirse. Un orden incorrecto provocará errores de sintaxis y hará que nuestro código no funcione. Además, conocer cómo combinar estos diferentes tipos de parámetros nos permite crear interfaces de función potentes y flexibles.
+
+Orden correcto de parámetros
+
+En Python, los parámetros de una función deben seguir un orden específico:
+
+def funcion(
+    # 1. Parámetros posicionales obligatorios
+    param_obligatorio,
+    
+    # 2. Parámetros posicionales variables (*args)
+    *args,
+    
+    # 3. Parámetros con nombre obligatorios (solo Python 3.8+)
+    param_solo_nombre,
+    
+    # 4. Parámetros con valores por defecto
+    param_opcional=valor_defecto,
+    
+    # 5. Parámetros con nombre variables (**kwargs)
+    **kwargs
+):
+    # Cuerpo de la función
+    pass
+Copy
+Este orden no es arbitrario, sino que está diseñado para garantizar que Python pueda asignar correctamente los valores a cada parámetro durante la llamada a la función.
+
+Veamos un ejemplo completo que utiliza todos estos tipos de parámetros:
+
+def procesar_datos(
+    identificador,           # Parámetro posicional obligatorio
+    *valores,                # Parámetros posicionales variables
+    formato,                 # Parámetro con nombre obligatorio (Python 3.8+)
+    precision=2,             # Parámetro con valor por defecto
+    **metadatos              # Parámetros con nombre variables
+):
+    resultado = {
+        "id": identificador,
+        "valores": valores,
+        "formato": formato,
+        "precision": precision,
+        "metadatos": metadatos
+    }
+    return resultado
+
+# Llamada a la función con diferentes tipos de argumentos
+resultado = procesar_datos(
+    100,                        # identificador (posicional obligatorio)
+    10, 20, 30,                 # valores (posicionales variables)
+    formato="json",             # formato (con nombre obligatorio)
+    precision=4,                # precision (con valor por defecto)
+    autor="Ana",                # metadatos (con nombre variables)
+    fecha="2023-10-15"          # metadatos (con nombre variables)
+)
+
+print(resultado)
+
+Ver menos
+Copy
+La salida sería:
+
+{
+    'id': 100, 
+    'valores': (10, 20, 30), 
+    'formato': 'json', 
+    'precision': 4, 
+    'metadatos': {'autor': 'Ana', 'fecha': '2023-10-15'}
+}
+Copy
+Parámetros solo con nombre (keyword-only)
+
+A partir de Python 3.0, podemos definir parámetros que solo pueden ser pasados por nombre utilizando un asterisco solo (*) en la lista de parámetros:
+
+def configurar(nombre, *, debug=False, timeout=30):
+    print(f"Configurando {nombre} con debug={debug}, timeout={timeout}")
+
+# Forma correcta: parámetros después de * deben ser nombrados
+configurar("app", debug=True, timeout=60)
+
+# Esto generará un error
+try:
+    configurar("app", True, 60)
+except TypeError as e:
+    print(f"Error: {e}")
+Copy
+Este mecanismo es útil cuando queremos forzar que ciertos parámetros sean explícitamente nombrados para mejorar la legibilidad del código.
+
+Parámetros solo posicionales (positional-only)
+
+A partir de Python 3.8, también podemos definir parámetros que solo pueden ser pasados por posición utilizando una barra (/) en la lista de parámetros:
+
+def dividir(a, b, /, redondear=False):
+    resultado = a / b
+    if redondear:
+        return round(resultado)
+    return resultado
+
+# Los parámetros antes de / deben ser posicionales
+print(dividir(10, 3))  # 3.3333333333333335
+print(dividir(10, 3, redondear=True))  # 3
+
+# Esto generará un error
+try:
+    dividir(a=10, b=3)
+except TypeError as e:
+    print(f"Error: {e}")
+Copy
+Esta característica es útil cuando el nombre de los parámetros no es relevante o podría cambiar en el futuro.
+
+Combinando todos los tipos de parámetros
+
+Podemos combinar todos estos tipos de parámetros en una sola función, siguiendo el orden correcto:
+
+def funcion_completa(
+    a, b, /,                # Parámetros solo posicionales
+    c, d,                   # Parámetros posicionales o con nombre
+    *args,                  # Parámetros posicionales variables
+    e, f=None,              # Parámetros solo con nombre (e obligatorio, f opcional)
+    **kwargs                # Parámetros con nombre variables
+):
+    return {
+        "posicionales_solo": (a, b),
+        "posicionales_o_nombre": (c, d),
+        "args": args,
+        "solo_nombre": {"e": e, "f": f},
+        "kwargs": kwargs
+    }
+
+# Llamada a la función con diferentes tipos de argumentos
+resultado = funcion_completa(
+    1, 2,                   # a, b (solo posicionales)
+    3, d=4,                 # c, d (posicionales o con nombre)
+    5, 6, 7,                # args (posicionales variables)
+    e="obligatorio",        # e (solo con nombre, obligatorio)
+    f="opcional",           # f (solo con nombre, opcional)
+    extra1="valor1",        # kwargs (con nombre variables)
+    extra2="valor2"         # kwargs (con nombre variables)
+)
+
+print(resultado)
+
+Ver menos
+Copy
+La salida sería:
+
+{
+    'posicionales_solo': (1, 2), 
+    'posicionales_o_nombre': (3, 4), 
+    'args': (5, 6, 7), 
+    'solo_nombre': {'e': 'obligatorio', 'f': 'opcional'}, 
+    'kwargs': {'extra1': 'valor1', 'extra2': 'valor2'}
+}
+Copy
+Casos prácticos de combinación de argumentos
+
+Veamos algunos ejemplos prácticos de cómo combinar diferentes tipos de argumentos:
+
+1. Función de registro con niveles de detalle variables:
+def log(mensaje, *detalles, nivel="INFO", **contexto):
+    timestamp = contexto.pop("timestamp", None) or "ahora"
+    
+    print(f"[{timestamp}] [{nivel}] {mensaje}")
+    
+    if detalles:
+        print(f"  Detalles: {', '.join(str(d) for d in detalles)}")
+    
+    if contexto:
+        for clave, valor in contexto.items():
+            print(f"  {clave}: {valor}")
+
+# Diferentes formas de usar la función
+log("Aplicación iniciada")
+# [ahora] [INFO] Aplicación iniciada
+
+log("Error en la base de datos", "Conexión rechazada", "Timeout", 
+    nivel="ERROR", usuario="admin", ip="192.168.1.1")
+# [ahora] [ERROR] Error en la base de datos
+#   Detalles: Conexión rechazada, Timeout
+#   usuario: admin
+#   ip: 192.168.1.1
+
+Ver menos
+Copy
+2. Función de creación de objetos con configuración flexible:
+def crear_producto(nombre, precio, /, *categorias, disponible=True, **atributos):
+    producto = {
+        "nombre": nombre,
+        "precio": precio,
+        "categorias": categorias,
+        "disponible": disponible
+    }
+    
+    # Añadir atributos adicionales
+    producto.update(atributos)
+    
+    return producto
+
+# Crear diferentes tipos de productos
+laptop = crear_producto(
+    "Laptop Pro", 1299.99,              # Parámetros posicionales obligatorios
+    "Electrónica", "Computadoras",      # Categorías (args)
+    disponible=True,                    # Parámetro con valor por defecto
+    marca="TechBrand",                  # Atributos adicionales (kwargs)
+    memoria="16GB",
+    almacenamiento="512GB SSD"
+)
+
+print(laptop)
+
+Ver menos
+Copy
+3. Función de filtrado con criterios flexibles:
+def filtrar_datos(datos, /, *campos_incluir, ordenar_por=None, **filtros):
+    resultado = []
+    
+    for item in datos:
+        # Aplicar filtros
+        cumple_filtros = True
+        for campo, valor in filtros.items():
+            if campo not in item or item[campo] != valor:
+                cumple_filtros = False
+                break
+        
+        if not cumple_filtros:
+            continue
+        
+        # Seleccionar campos si se especificaron
+        if campos_incluir:
+            item_filtrado = {campo: item[campo] for campo in campos_incluir if campo in item}
+        else:
+            item_filtrado = item.copy()
+        
+        resultado.append(item_filtrado)
+    
+    # Ordenar si se especificó
+    if ordenar_por and resultado and ordenar_por in resultado[0]:
+        resultado.sort(key=lambda x: x[ordenar_por])
+    
+    return resultado
+
+# Datos de ejemplo
+usuarios = [
+    {"id": 1, "nombre": "Ana", "edad": 28, "ciudad": "Madrid", "activo": True},
+    {"id": 2, "nombre": "Carlos", "edad": 35, "ciudad": "Barcelona", "activo": False},
+    {"id": 3, "nombre": "Elena", "edad": 42, "ciudad": "Madrid", "activo": True},
+    {"id": 4, "nombre": "David", "edad": 31, "ciudad": "Valencia", "activo": True}
+]
+
+# Filtrar usuarios activos de Madrid, mostrar solo id y nombre, ordenados por nombre
+resultado = filtrar_datos(
+    usuarios,                # datos (posicional obligatorio)
+    "id", "nombre",          # campos_incluir (args)
+    ordenar_por="nombre",    # ordenar_por (con valor por defecto)
+    ciudad="Madrid",         # filtros (kwargs)
+    activo=True
+)
+
+print(resultado)
+# [{'id': 1, 'nombre': 'Ana'}, {'id': 3, 'nombre': 'Elena'}]
+
+Ver menos
+Copy
+Consejos para combinar argumentos
+
+Al diseñar funciones que combinan diferentes tipos de argumentos, considera estos consejos prácticos:
+
+1. Prioriza la legibilidad: No abuses de todos los tipos de parámetros en una sola función. A veces, es mejor dividir la funcionalidad en varias funciones más simples.
+# En lugar de una función compleja con muchos tipos de parámetros
+def procesar_todo(a, b, /, c, *args, d=10, **kwargs):
+    # Código complejo...
+    pass
+
+# Considera dividirla en funciones más específicas
+def validar_entrada(a, b, /):
+    # Validación...
+    return a, b
+
+def procesar_datos(datos_validados, c, *args):
+    # Procesamiento...
+    return resultado_intermedio
+
+def aplicar_opciones(resultado, d=10, **opciones):
+    # Aplicar opciones...
+    return resultado_final
+Copy
+2. Documenta claramente los tipos de parámetros y su propósito:
+def analizar_datos(dataset, *métricas, normalizar=False, **opciones_grafico):
+    """
+    Analiza un conjunto de datos y genera gráficos.
+    
+    Args:
+        dataset: El conjunto de datos a analizar (obligatorio).
+        *métricas: Métricas a calcular (ej: "media", "mediana", "desviacion").
+        normalizar: Si es True, normaliza los datos antes del análisis.
+        **opciones_grafico: Opciones para personalizar los gráficos generados.
+    
+    Returns:
+        Un diccionario con los resultados del análisis.
+    """
+    # Implementación...
+Copy
+3. Válida los argumentos según su tipo:
+def procesar_pedido(id_cliente, *productos, envio="estandar", **detalles):
+    # Validar id_cliente
+    if not isinstance(id_cliente, int) or id_cliente <= 0:
+        raise ValueError("ID de cliente debe ser un entero positivo")
+    
+    # Validar productos
+    if not productos:
+        raise ValueError("Debe especificar al menos un producto")
+    
+    # Validar tipo de envío
+    tipos_envio_validos = ["estandar", "express", "prioritario"]
+    if envio not in tipos_envio_validos:
+        raise ValueError(f"Tipo de envío debe ser uno de: {tipos_envio_validos}")
+    
+    # Validar detalles adicionales
+    campos_permitidos = {"direccion", "telefono", "notas", "descuento"}
+    campos_desconocidos = set(detalles.keys()) - campos_permitidos
+    if campos_desconocidos:
+        print(f"Advertencia: Campos no reconocidos: {campos_desconocidos}")
+    
+    # Procesar el pedido...
+
+Ver menos
+Copy
+4. Usa parámetros solo con nombre para opciones importantes que no deben confundirse:
+def transferir_fondos(origen, destino, cantidad, *, confirmar=True):
+    """
+    Al hacer obligatorio que 'confirmar' sea un parámetro con nombre,
+    evitamos errores como: transferir_fondos(cuenta1, cuenta2, True)
+    donde True podría confundirse con la cantidad.
+    """
+    if confirmar:
+        print(f"Transfiriendo {cantidad} de {origen} a {destino}")
+        # Realizar transferencia...
+    else:
+        print("Transferencia no confirmada")
+
+# Uso correcto
+transferir_fondos("Cuenta1", "Cuenta2", 1000, confirmar=True)
+
+# Esto generaría un error, evitando confusiones
+try:
+    transferir_fondos("Cuenta1", "Cuenta2", True)
+except TypeError as e:
+    print(f"Error: {e}")
+
+Ver menos
+Copy
+Mejoras en Python 3.13
+
+Python 3.13 mantiene todas las características de combinación de argumentos de versiones anteriores, con algunas mejoras en los mensajes de error y optimizaciones internas. Por ejemplo, ahora se proporcionan mensajes más descriptivos cuando se intenta pasar un argumento con nombre a un parámetro que está definido como solo posicional:
+
+def funcion(a, b, /, c):
+    pass
+
+# En Python 3.13, el mensaje de error es más claro
+try:
+    funcion(a=1, b=2, c=3)
+except TypeError as e:
+    print(f"Error: {e}")
+    # Error: funcion() got some positional-only arguments passed as keyword arguments: 'a, b'
+Copy
+La combinación adecuada de diferentes tipos de argumentos nos permite crear interfaces de función flexibles y potentes que se adaptan a diversos casos de uso, manteniendo al mismo tiempo la claridad y la facilidad de uso. Dominar esta característica de Python es fundamental para diseñar APIs de calidad profesional en nuestras aplicaciones.
+
+Aprendizajes de esta lección
+Comprender cómo definir parámetros con valores por defecto para crear argumentos opcionales. Aprender a utilizar *args para manejar un número variable de argumentos posicionales. Entender el uso de **kwargs para aceptar argumentos con nombre flexibles. Conocer el orden correcto y la combinación de diferentes tipos de parámetros en funciones Python. Aplicar buenas prácticas y evitar errores comunes al trabajar con argumentos flexibles en funciones.

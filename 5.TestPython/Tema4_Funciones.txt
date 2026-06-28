@@ -1,0 +1,179 @@
+1. En Python, para definir una función se utiliza la palabra clave ____.
+
+a) def
+b) func
+c) function
+d) define
+
+Respuesta: a) 
+
+2. El siguiente código: def saludar(): print("Hola mundo") define una función que ____.
+
+a) retorna None explícitamente
+b) genera un error de sintaxis
+c) no retorna ningún valor explícito
+d) retorna "Hola mundo"
+
+Respuesta: c) 
+
+3. Para llamar a una función en Python, se utiliza ____.
+
+a) el nombre de la función seguido de paréntesis
+b) la palabra clave invoke seguida del nombre de la función
+c) la palabra clave call seguida del nombre de la función
+d) el nombre de la función precedido por @
+
+Respuesta: a) 
+
+4. En la siguiente función: def suma(a, b=5): return a + b, el parámetro b es ____.
+
+a) un parámetro obligatorio
+b) un parámetro con valor predeterminado
+c) un parámetro de solo lectura
+d) un parámetro de tipo entero
+
+Respuesta: b) 
+
+5. Si definimos def multiplicar(x, y): return x * y, entonces multiplicar(3, 4) devolverá ____.
+
+a) 7
+b) None
+c) 12
+d) 3 * 4
+
+Respuesta: c) 
+
+6. La siguiente función: def misterio(*args): return sum(args) utiliza ____ para aceptar un número variable de argumentos.
+
+a) *args
+b) args[]
+c) **kwargs
+d) *params
+
+Respuesta: a) 
+
+7. En Python, las variables definidas dentro de una función son de ámbito ____ por defecto.
+
+a) local
+b) nonlocal
+c) module
+d) global
+
+Respuesta: a) 
+
+8. Para modificar una variable global dentro de una función, debemos usar la palabra clave ____.
+
+a) public
+b) nonlocal
+c) global
+d) extern
+
+Respuesta: c) 
+
+9. La siguiente función: def crear_incrementador(n): return lambda x: x + n es un ejemplo de ____.
+
+a) una función que retorna otra función
+b) una función decoradora
+c) una función recursiva
+d) una función generadora
+
+Respuesta: a) 
+
+10. En la función def procesar(a, b, *, c, d): return a + b + c + d, los parámetros c y d son ____.
+
+a) parámetros de tipo keyword
+b) parámetros de solo nombre
+c) parámetros posicionales
+d) parámetros opcionales
+
+Respuesta: b) 
+
+11. La diferencia entre *args y **kwargs es que ____.
+
+a) *args es obligatorio y **kwargs es opcional
+b) *args permite un solo argumento y **kwargs permite múltiples
+c) *args es para strings y **kwargs es para números
+d) *args recibe argumentos posicionales y **kwargs recibe argumentos con nombre
+
+Respuesta: d) 
+
+12. Si tenemos def funcion(a, b, c=10): return a + b + c, entonces funcion(1, 2) devolverá ____.
+
+a) 13
+b) None
+c) Error, faltan argumentos
+d) 3
+
+Respuesta: a) 
+
+13. La siguiente función: def dividir(a, b): if b == 0: return "Error" else: return a / b es un ejemplo de ____.
+
+a) sobrecarga de funciones
+b) función generadora
+c) función recursiva
+d) retorno condicional
+
+Respuesta: d) 
+
+14. Para documentar una función en Python, se utiliza ____.
+
+a) anotaciones de tipo
+b) docstrings (cadenas de documentación)
+c) comentarios con #
+d) la función help()
+
+Respuesta: b) 
+
+15. En la función def calcular(x, y, operacion="suma"): if operacion == "suma": return x + y else: return x * y, el parámetro operacion es ____.
+
+a) un parámetro con valor predeterminado "suma"
+b) un parámetro de tipo string
+c) un parámetro obligatorio
+d) un parámetro posicional variable
+
+Respuesta: a) 
+
+16. Si definimos def incrementar(x): return x + 1, entonces resultado = incrementar asigna a resultado ____.
+
+a) un error, falta el paréntesis
+b) la función incrementar (sin ejecutarla)
+c) None
+d) el valor de retorno de incrementar(x)
+
+Respuesta: b) 
+
+17. La siguiente función: def contar_vocales(texto): return sum(1 for letra in texto if letra.lower() in "aeiou") es un ejemplo de ____.
+
+a) una función decoradora
+b) una función que utiliza una expresión generadora
+c) una función recursiva
+d) una función lambda
+
+Respuesta: b) 
+
+18. En Python, cuando una función no tiene una instrucción return explícita, implícitamente retorna ____.
+
+a) False
+b) ""
+c) 0
+d) None
+
+Respuesta: d) 
+
+19. La palabra clave nonlocal se utiliza para ____.
+
+a) definir variables que no son ni locales ni globales
+b) modificar variables en el ámbito envolvente (pero no global)
+c) declarar variables constantes
+d) importar variables de otros módulos
+
+Respuesta: b) 
+
+20. En la función def f(x, y, z=None, *args, **kwargs): pass, el orden correcto de los parámetros es ____.
+
+a) parámetros con valor predeterminado, parámetros posicionales, **kwargs, *args
+b) parámetros posicionales, parámetros con valor predeterminado, *args, **kwargs
+c) parámetros posicionales, *args, parámetros con valor predeterminado, **kwargs
+d) *args, **kwargs, parámetros posicionales, parámetros con valor predeterminado
+
+Respuesta: b) 
