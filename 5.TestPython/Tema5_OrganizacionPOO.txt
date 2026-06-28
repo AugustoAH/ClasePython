@@ -1,0 +1,249 @@
+1. ¿Qué representa el parámetro self en los métodos de una clase en Python?
+
+a) Un parámetro obligatorio que debe ser pasado explícitamente al llamar a cualquier método
+b) La clase misma, permitiendo acceder a sus atributos y métodos estáticos
+c) La instancia específica de la clase desde la cual se está llamando al método
+d) Una variable global que almacena información sobre todas las instancias de la clase
+
+Respuesta: c)
+
+2. ¿Cuál de las siguientes afirmaciones sobre self en Python es CORRECTA?
+
+a) El parámetro self es opcional en los métodos de instancia
+b) El nombre self es una convención, podría usarse cualquier otro nombre válido como primer parámetro
+c) El parámetro self debe ser pasado explícitamente al llamar a un método desde fuera de la clase
+d) La palabra self es una palabra reservada en Python
+
+Respuesta: b)
+
+3. ¿Qué sucede internamente cuando llamamos a un método de instancia como objeto.metodo()?
+
+a) Python lo transforma en algo equivalente a Clase.metodo(objeto)
+b) Python verifica primero si el método existe en la clase padre antes de ejecutarlo
+c) Python crea una copia temporal del método para evitar modificar el objeto original
+d) Python convierte automáticamente todos los parámetros del método a sus tipos esperados
+
+Respuesta: a)
+
+4. ¿Cuál es la principal diferencia entre self en Python y this en lenguajes como Java o C++?
+
+a) En Python, self es obligatorio, mientras que this es opcional en Java y C++
+b) En Python, self debe declararse explícitamente como parámetro, mientras que this es implícito
+c) En Python, self puede referirse a cualquier objeto, mientras que this solo puede referirse al objeto actual
+d) En Python, self solo puede usarse en el método __init__, mientras que this puede usarse en cualquier método
+
+Respuesta: b)
+
+5. ¿Cómo se define correctamente un atributo de instancia en Python?
+
+a) @nombre = valor
+b) self.nombre = valor
+c) nombre = valor
+d) this.nombre = valor
+
+Respuesta: b)
+
+6. Dado el siguiente código, ¿qué imprimirá?
+
+class Contador:
+    def __init__(self, valor):
+        self.valor = valor
+
+    def incrementar(self):
+        self.valor += 1
+        return self.valor
+
+c = Contador(5)
+print(c.incrementar())
+
+
+a) 6
+b) 5
+c) None
+d) Error, falta pasar el parámetro self al llamar a incrementar()
+
+Respuesta: a)
+
+7. ¿Qué sucede si no incluimos el parámetro self en la definición de un método de instancia?
+
+a) Python añadirá automáticamente el parámetro self durante la ejecución
+b) El método solo podrá acceder a atributos de clase, no a atributos de instancia
+c) El método se convertirá automáticamente en un método estático
+d) Se producirá un error cuando intentemos acceder a atributos del objeto dentro del método
+
+Respuesta: d)
+
+8. ¿Cuál es la forma correcta de llamar a un método de instancia desde otro método dentro de la misma clase?
+
+a) Clase.otro_metodo()
+b) self.otro_metodo()
+c) otro_metodo()
+d) self.otro_metodo(self)
+
+Respuesta: b)
+
+9. ¿Qué tipo de métodos NO requieren el parámetro self?
+
+a) Métodos que no acceden a atributos de instancia
+b) El método __init__
+c) Métodos estáticos decorados con @staticmethod
+d) Métodos que solo retornan valores sin modificar el objeto
+
+Respuesta: c)
+
+10. ¿Qué ocurre cuando se ejecuta el siguiente código?
+
+class Persona:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def saludar():
+        print(f"Hola, soy {self.nombre}")
+
+p = Persona("Ana")
+p.saludar()
+
+
+a) Se produce un error porque saludar debe ser llamado como Persona.saludar(p)
+b) Se produce un error porque el método saludar no tiene el parámetro self
+c) Imprime "Hola, soy Ana"
+d) Imprime "Hola, soy None"
+
+Respuesta: b)
+
+11. ¿Cuál es la diferencia entre un atributo de clase y un atributo de instancia en Python?
+
+a) Los atributos de instancia solo pueden ser modificados dentro de la clase, mientras que los atributos de clase pueden ser modificados desde cualquier parte
+b) Los atributos de instancia se definen con self. y son únicos para cada objeto, mientras que los atributos de clase son compartidos por todas las instancias
+c) Los atributos de instancia son siempre privados, mientras que los atributos de clase son siempre públicos
+d) Los atributos de instancia se definen con @property, mientras que los atributos de clase se definen con @classmethod
+
+Respuesta: b)
+
+12. ¿Qué código es equivalente a objeto.metodo(arg1, arg2)?
+
+a) objeto.Clase.metodo(arg1, arg2)
+b) Clase.metodo(arg1, arg2, objeto)
+c) metodo(objeto, arg1, arg2)
+d) Clase.metodo(objeto, arg1, arg2)
+
+Respuesta: d)
+
+13. ¿Qué sucede si intentamos acceder a un atributo que no existe usando self?
+
+a) Python busca el atributo en la clase padre y lo utiliza si existe
+b) Se crea automáticamente el atributo con valor None
+c) Se lanza una excepción AttributeError
+d) Se devuelve el valor False sin generar error
+
+Respuesta: c)
+
+14. ¿Cuál es la forma correcta de verificar si un objeto tiene un atributo específico?
+
+a) self.has_attribute('nombre_atributo')
+b) hasattr(self, 'nombre_atributo')
+c) 'nombre_atributo' in self
+d) self.contains('nombre_atributo')
+
+Respuesta: b)
+
+15. ¿Qué imprimirá el siguiente código?
+
+class Ejemplo:
+    valor = 10
+
+    def __init__(self):
+        self.valor = 5
+
+    def mostrar(self):
+        print(self.valor, Ejemplo.valor)
+
+e = Ejemplo()
+e.mostrar()
+
+
+a) 10 10
+b) 10 5
+c) 5 5
+d) 5 10
+
+Respuesta: d)
+
+16. ¿Cuál es la principal ventaja de usar self de forma explícita en Python?
+
+a) Evita conflictos de nombres entre variables locales y atributos de clase
+b) Mejora el rendimiento de la aplicación al optimizar el acceso a los atributos
+c) Hace evidente que los métodos de instancia operan sobre un objeto específico, mejorando la claridad del código
+d) Permite que los métodos sean llamados sin crear instancias de la clase
+
+Respuesta: c)
+
+17. ¿Qué sucede cuando ejecutamos el siguiente código?
+
+class A:
+    def metodo(self):
+        return "A"
+
+class B(A):
+    def metodo(self):
+        return "B" + super().metodo()
+
+b = B()
+print(b.metodo())
+
+
+a) Imprime "B"
+b) Imprime "A"
+c) Imprime "BA"
+d) Se produce un error porque super() no puede acceder al método de la clase padre
+
+Respuesta: c)
+
+18. ¿Qué método especial se ejecuta automáticamente cuando creamos una nueva instancia de una clase?
+
+a) __init__
+b) __create__
+c) __new__
+d) __call__
+
+Respuesta: a)
+
+19. ¿Qué imprimirá el siguiente código?
+
+class Test:
+    x = 0
+
+    def __init__(self):
+        Test.x += 1
+        self.y = Test.x
+
+t1 = Test()
+t2 = Test()
+print(t1.y, t2.y, Test.x)
+
+
+a) 1 1 2
+b) 0 0 2
+c) 2 2 2
+d) 1 2 2
+
+Respuesta: d)
+
+20. ¿Cuál es la forma correcta de crear un método de clase en Python?
+
+a) def metodo(self, parametro):
+    # código
+
+b) @classmethod
+def metodo(self, parametro):
+    # código
+
+c) @staticmethod
+def metodo(parametro):
+    # código
+
+d) @classmethod
+def metodo(cls, parametro):
+    # código
+
+Respuesta: d)
