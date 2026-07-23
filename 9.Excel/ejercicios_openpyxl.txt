@@ -1,0 +1,247 @@
+================================================================================
+  EJERCICIOS DE PRÁCTICA — openpyxl (Creación y Lectura de Archivos Excel)
+================================================================================
+
+Habilidades que se practican en todos los ejercicios:
+  ✔ openpyxl.Workbook()          → crear un libro desde cero
+  ✔ wb.active / wb.create_sheet  → seleccionar / crear hojas
+  ✔ ws.append()                  → insertar filas de datos
+  ✔ wb.save()                    → guardar en disco
+  ✔ openpyxl.load_workbook()     → abrir un archivo guardado
+  ✔ ws.iter_rows(values_only)    → recorrer filas con valores directos
+  ✔ ws.max_row / ws.max_column   → conocer el tamaño de la hoja
+  ✔ Diccionario de frecuencias   → contar y acumular valores por categoría
+  ✔ Dos hojas en el mismo libro  → organizar información relacionada
+
+================================================================================
+EJERCICIO 1 — GIMNASIO "FITLIFE"
+================================================================================
+
+SITUACIÓN PROBLEMA:
+  El gimnasio "FitLife" quiere digitalizar el registro de asistencia mensual
+  de sus miembros. Cada miembro asiste a una disciplina (Yoga, Spinning o
+  Crossfit) y tiene registradas las sesiones que asistió en las cuatro semanas
+  del mes.
+
+  El sistema debe:
+    1. Crear un archivo Excel con los datos de asistencia en bruto.
+    2. Leer ese archivo y calcular el total de sesiones de cada miembro
+       sumando las cuatro semanas.
+    3. Agregar una columna "Total" y una columna "Constancia":
+         - "Alta"  → si asistió 12 o más sesiones en el mes
+         - "Media" → si asistió entre 8 y 11 sesiones
+         - "Baja"  → si asistió menos de 8 sesiones
+    4. Contar cuántos miembros hay en cada nivel de constancia por disciplina.
+    5. Guardar el resultado en un nuevo archivo Excel con dos hojas:
+         - "asistencia"   → tabla completa con totales y constancia
+         - "resumen"      → cantidad de miembros por disciplina y nivel
+
+DATOS DE LOS MIEMBROS:
+  (Nombre, Disciplina, Semana1, Semana2, Semana3, Semana4)
+
+  ("Laura Sánchez",   "Yoga",      3, 3, 2, 3)
+  ("Diego Fuentes",   "Spinning",  2, 1, 2, 2)
+  ("Paola Medina",    "Crossfit",  4, 4, 3, 4)
+  ("Tomás Ríos",      "Yoga",      1, 2, 1, 1)
+  ("Natalia Ortega",  "Spinning",  3, 3, 3, 3)
+  ("Sebastián Gil",   "Crossfit",  2, 2, 1, 2)
+  ("Isabela Castro",  "Yoga",      4, 3, 4, 4)
+  ("Felipe Rojas",    "Spinning",  1, 0, 1, 2)
+  ("Valeria Pino",    "Crossfit",  3, 3, 2, 3)
+  ("Mateo Salinas",   "Yoga",      2, 2, 3, 2)
+
+PISTAS:
+  - Suma Semana1 + Semana2 + Semana3 + Semana4 para obtener el total.
+  - Usa encadenamiento de condiciones (if / elif / else) para asignar la constancia.
+  - Para el resumen, el diccionario puede tener la forma:
+      { "Yoga": {"Alta": 0, "Media": 0, "Baja": 0}, ... }
+
+
+================================================================================
+EJERCICIO 2 — EMPRESA DE DELIVERY "RÁPIDOYA"
+================================================================================
+
+SITUACIÓN PROBLEMA:
+  La empresa de mensajería "RápidoYa" necesita un sistema que gestione el
+  estado de sus paquetes. Cada paquete tiene una ciudad destino, un peso en
+  kilogramos y un valor declarado. El costo de envío se calcula así:
+    - Hasta 5 kg  → $ 8.000 fijos
+    - De 6 a 15 kg → $ 8.000 + $ 1.200 por cada kg que supere los 5
+    - Más de 15 kg  → $ 8.000 + $ 12.000 (exceso 6-15) + $ 900 por cada kg
+                      que supere los 15
+
+  El sistema debe:
+    1. Crear un archivo Excel con los datos de los paquetes en bruto.
+    2. Leer ese archivo y calcular el costo de envío de cada paquete según
+       las reglas anteriores.
+    3. Agregar una columna "Costo Envío" y una columna "Estado":
+         - "Entregado"  → si el valor declarado es mayor a $ 50.000
+         - "En tránsito" → en cualquier otro caso
+    4. Calcular por ciudad: total de paquetes, costo total acumulado y
+       cuántos están entregados.
+    5. Guardar el resultado en un nuevo archivo Excel con dos hojas:
+         - "paquetes" → tabla completa con costo y estado
+         - "ciudades" → resumen por ciudad
+
+DATOS DE LOS PAQUETES:
+  (ID, Ciudad, PesoKg, ValorDeclarado)
+
+  ("PKG-001", "Bogotá",    3,  35000)
+  ("PKG-002", "Medellín", 12,  80000)
+  ("PKG-003", "Cali",      7,  45000)
+  ("PKG-004", "Bogotá",   20, 120000)
+  ("PKG-005", "Cartagena", 2,  15000)
+  ("PKG-006", "Medellín",  5,  55000)
+  ("PKG-007", "Cali",     18,  90000)
+  ("PKG-008", "Bogotá",    9,  30000)
+  ("PKG-009", "Cartagena",14,  70000)
+  ("PKG-010", "Medellín",  1,  20000)
+
+PISTAS:
+  - Implementa una función calcularCosto(peso) con las reglas descritas.
+  - El diccionario de ciudades puede tener la forma:
+      { "Bogotá": {"paquetes": 0, "costo_total": 0, "entregados": 0}, ... }
+  - Recuerda acumular el costo con += al recorrer los resultados.
+
+
+================================================================================
+EJERCICIO 3 — CAFETERÍA UNIVERSITARIA "CAMPUS BITES"
+================================================================================
+
+SITUACIÓN PROBLEMA:
+  La cafetería "Campus Bites" quiere analizar sus ventas de la semana. Cada
+  producto vendido pertenece a una categoría (Bebida, Comida o Snack) y se
+  registra cuántas unidades se vendieron cada día (lunes a viernes) junto con
+  su precio unitario.
+
+  El sistema debe:
+    1. Crear un archivo Excel con el catálogo de productos y ventas diarias.
+    2. Leer ese archivo y calcular:
+         - "Unidades Totales" → suma de ventas de lunes a viernes
+         - "Ingresos"         → unidades totales × precio unitario
+    3. Agregar ambas columnas calculadas a cada fila.
+    4. Por categoría, calcular: total de unidades vendidas e ingresos totales.
+    5. Guardar el resultado en un nuevo archivo Excel con dos hojas:
+         - "ventas"      → tabla completa con unidades totales e ingresos
+         - "categorias"  → resumen de ventas e ingresos por categoría
+
+DATOS DE LOS PRODUCTOS:
+  (Producto, Categoría, PrecioUnit, Lunes, Martes, Miércoles, Jueves, Viernes)
+
+  ("Café",          "Bebida",  2500,  45, 50, 48, 52, 60)
+  ("Jugo Natural",  "Bebida",  3000,  30, 28, 35, 29, 40)
+  ("Agua",          "Bebida",  1500,  20, 22, 18, 25, 20)
+  ("Almuerzo",      "Comida",  9000,  80, 75, 90, 70, 65)
+  ("Sándwich",      "Comida",  6500,  55, 60, 50, 58, 62)
+  ("Empanada",      "Comida",  2000,  90, 85, 88, 92, 78)
+  ("Maní",          "Snack",   1200,  40, 35, 42, 38, 45)
+  ("Galletas",      "Snack",   1800,  25, 28, 22, 30, 27)
+  ("Chocolatina",   "Snack",   2200,  35, 33, 37, 40, 36)
+  ("Fruta",         "Snack",   1500,  50, 45, 55, 48, 52)
+
+PISTAS:
+  - Desempaqueta la fila así: producto, categoria, precio, l, m, mi, j, v = fila
+  - El total de unidades es la suma de los 5 valores diarios.
+  - Los ingresos se calculan multiplicando total_unidades * precio.
+  - El diccionario puede tener la forma:
+      { "Bebida": {"unidades": 0, "ingresos": 0}, ... }
+
+
+================================================================================
+EJERCICIO 4 — VIVERO "VERDE VIDA"
+================================================================================
+
+SITUACIÓN PROBLEMA:
+  El vivero "Verde Vida" necesita un sistema para gestionar su inventario de
+  plantas. Cada planta pertenece a una categoría (Interior, Exterior o
+  Suculenta) y tiene registrado cuántas unidades hay en stock, su precio de
+  compra y su precio de venta al público.
+
+  El sistema debe:
+    1. Crear un archivo Excel con el inventario de plantas en bruto.
+    2. Leer ese archivo y calcular:
+         - "Ganancia Unitaria" → precio de venta − precio de compra
+         - "% Margen"          → (ganancia unitaria / precio de compra) × 100,
+                                  redondeado a 1 decimal
+         - "Alerta Stock"      → "Reponer" si el stock es menor a 10,
+                                  "OK" en cualquier otro caso
+    3. Agregar las tres columnas calculadas.
+    4. Por categoría, calcular: total de plantas (suma de stock) y
+       promedio del margen porcentual (redondeado a 1 decimal).
+    5. Guardar el resultado en un nuevo archivo Excel con dos hojas:
+         - "inventario"  → tabla completa con ganancias, márgenes y alertas
+         - "categorias"  → resumen de stock total y margen promedio
+
+DATOS DEL INVENTARIO:
+  (Planta, Categoría, Stock, PrecioCompra, PrecioVenta)
+
+  ("Pothos",        "Interior",  25,  8000,  15000)
+  ("Cactus Bola",   "Suculenta",  6,  4500,   9000)
+  ("Helecho",       "Interior",  12, 12000,  22000)
+  ("Rosa",          "Exterior",   8, 10000,  18000)
+  ("Aloe Vera",     "Suculenta", 30,  5000,  11000)
+  ("Orquídea",      "Interior",   4, 25000,  48000)
+  ("Girasol",       "Exterior",  15,  6000,  12000)
+  ("Lavanda",       "Exterior",   9,  8500,  16000)
+  ("Echeveria",     "Suculenta", 20,  3500,   7500)
+  ("Monstera",      "Interior",   7, 35000,  65000)
+
+PISTAS:
+  - Para el promedio del margen por categoría, acumula la suma de márgenes y
+    el conteo, luego divide al final (no dividas en cada iteración).
+  - El diccionario puede tener la forma:
+      { "Interior": {"stock": 0, "suma_margen": 0, "conteo": 0}, ... }
+  - Al escribir el resumen, calcula el promedio como:
+      round(datos["suma_margen"] / datos["conteo"], 1)
+
+
+================================================================================
+EJERCICIO 5 — LIGA DE VIDEOJUEGOS "GAMEON"
+================================================================================
+
+SITUACIÓN PROBLEMA:
+  La liga de videojuegos "GameOn" organiza un torneo por equipos. Cada
+  jugador pertenece a un equipo (TeamRed, TeamBlue o TeamGreen) y tiene
+  registradas sus puntuaciones en tres rondas del torneo.
+
+  El sistema debe:
+    1. Crear un archivo Excel con los datos de los jugadores y sus puntajes.
+    2. Leer ese archivo y calcular:
+         - "Puntaje Total"   → suma de las tres rondas
+         - "Promedio"        → puntaje total / 3, redondeado a 1 decimal
+         - "Clasificación"   → "Pro"     si el promedio >= 80
+                               "Amateur" si el promedio está entre 50 y 79
+                               "Novato"  si el promedio < 50
+    3. Agregar las tres columnas calculadas.
+    4. Por equipo, calcular: total de jugadores, puntaje total acumulado del
+       equipo y cuántos jugadores alcanzaron la categoría "Pro".
+    5. Guardar el resultado en un nuevo archivo Excel con dos hojas:
+         - "jugadores" → tabla completa con totales, promedios y clasificación
+         - "equipos"   → resumen por equipo con total jugadores, puntaje y pros
+
+DATOS DE LOS JUGADORES:
+  (Jugador, Equipo, Ronda1, Ronda2, Ronda3)
+
+  ("ShadowX",    "TeamRed",   95, 88, 92)
+  ("IceQueen",   "TeamBlue",  60, 55, 70)
+  ("NightWolf",  "TeamGreen", 40, 45, 38)
+  ("Blaze99",    "TeamRed",   72, 78, 75)
+  ("StarFire",   "TeamBlue",  85, 90, 88)
+  ("GhostByte",  "TeamGreen", 50, 48, 55)
+  ("TurboKid",   "TeamRed",   30, 35, 42)
+  ("VoidMaster", "TeamBlue",  78, 82, 80)
+  ("LunarEdge",  "TeamGreen", 91, 87, 94)
+  ("PixelNova",  "TeamRed",   65, 70, 68)
+  ("CyberPunk",  "TeamBlue",  45, 50, 43)
+  ("DataDragon", "TeamGreen", 88, 85, 90)
+
+PISTAS:
+  - La clasificación usa tres niveles; aplica if / elif / else.
+  - Para el resumen por equipo, el diccionario puede tener la forma:
+      { "TeamRed": {"jugadores": 0, "puntaje_total": 0, "pros": 0}, ... }
+  - Acumula el puntaje total del equipo con += total (no con el promedio).
+  - Al final, verifica cuál equipo tiene mayor puntaje total acumulado.
+
+================================================================================
+  FIN DE LOS EJERCICIOS
+================================================================================
